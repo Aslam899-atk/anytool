@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PDF - AnyTool.io</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-indigo-600">AnyTool.io</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-lg w-full text-center">
+            <h1 class="text-3xl font-bold mb-4 text-red-500">Merge PDF Files</h1>
+            <p class="text-gray-600 mb-8">Select two or more PDF files to combine them into a single file.</p>
+            
+            <form id="mergeForm">
+                <div class="border-4 border-dashed border-gray-300 rounded-lg p-10 mb-6 bg-gray-50 hover:bg-gray-100 transition cursor-pointer" onclick="document.getElementById('pdfFiles').click()">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <p class="mt-1 text-sm text-gray-600">Click here to select PDF files</p>
+                    <input type="file" id="pdfFiles" name="pdfs" accept="application/pdf" multiple class="hidden" required onchange="updateFileList()">
+                </div>
+                
+                <div id="fileList" class="text-left text-sm text-gray-700 mb-6 font-semibold"></div>
+
+                <button type="submit" id="mergeBtn" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded transition duration-300">
+                    Merge PDFs
+                </button>
+                <div id="status" class="mt-4 text-sm font-semibold text-indigo-600"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function updateFileList() {
+            const input = document.getElementById('pdfFiles');
+            const list = document.getElementById('fileList');
+            if(input.files.length === 0) {
+                list.innerHTML = '';
+                return;
+            }
+            let html = '<p>Selected Files:</p><ul class="list-disc pl-5 font-normal">';
+            for(let i=0; i<input.files.length; i++) {
+                html += `<li>${input.files[i].name}</li>`;
+            }
+            html += '</ul>';
+            list.innerHTML = html;
+        }
+
+        document.getElementById('mergeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const files = document.getElementById('pdfFiles').files;
+            const status = document.getElementById('status');
+            const btn = document.getElementById('mergeBtn');
+            
+            if (files.length < 2) {
+                alert('Please select at least 2 PDF files to merge.');
+                return;
+            }
+
+            status.innerText = 'Uploading and merging... Please wait.';
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+
+            const formData = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                formData.append('pdfs', files[i]);
+            }
+
+            try {
+                const response = await fetch('/api/merge-pdf', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = 'merged.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    status.innerText = 'Success! File downloaded.';
+                    status.classList.remove('text-indigo-600');
+                    status.classList.add('text-green-600');
+                } else {
+                    const err = await response.text();
+                    status.innerText = 'Error: ' + err;
+                    status.classList.add('text-red-600');
+                }
+            } catch (err) {
+                status.innerText = 'Error: ' + err.message;
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+            }
+        });
+    </script>
+</body>
+</html>
