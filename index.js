@@ -60,27 +60,44 @@ app.post('/api/merge-pdf', upload.array('pdfs', 20), async (req, res) => {
     }
 });
 
-// Video Downloader API (YouTube)
+const youtubedl = require('youtube-dl-exec');
+
+// Video Downloader API (Background Process)
 app.get('/api/download', async (req, res) => {
     try {
         const { url, format } = req.query;
-        if (!url || !ytdl.validateURL(url)) {
-            return res.status(400).send('Invalid YouTube URL');
+        if (!url) {
+            return res.status(400).send('Invalid URL');
         }
 
-        const info = await ytdl.getInfo(url);
-        const title = info.videoDetails.title.replace(/[^\w\s]/gi, ''); // clean title
+        const output = await youtubedl(url, {
+            dumpJson: true,
+            noCheckCertificates: true,
+            noWarnings: true,
+            addHeader: ['referer:youtube.com', 'user-agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64)']
+        });
 
+        const title = output.title.replace(/[^\w\s]/gi, ''); // clean title
+
+        let downloadUrl = output.url; // fallback
         if (format === 'audio') {
-            res.header('Content-Disposition', `attachment; filename="${title}.mp3"`);
-            ytdl(url, { filter: 'audioonly' }).pipe(res);
+            const audioFormat = output.formats.reverse().find(f => f.vcodec === 'none' && f.acodec !== 'none');
+            if (audioFormat) downloadUrl = audioFormat.url;
         } else {
-            res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
-            ytdl(url, { format: 'mp4' }).pipe(res);
+            // Find MP4 with both video and audio, or just highest quality
+            const videoFormat = output.formats.reverse().find(f => f.ext === 'mp4' && f.acodec !== 'none' && f.vcodec !== 'none');
+            if (videoFormat) downloadUrl = videoFormat.url;
+        }
+
+        if (downloadUrl) {
+            // Redirect to the direct media link to trigger download natively
+            res.redirect(downloadUrl);
+        } else {
+            res.status(500).send('Could not extract video link.');
         }
     } catch (error) {
         console.error('Error downloading video:', error);
-        res.status(500).send('Failed to download video.');
+        res.status(500).send('Failed to download video. YouTube may be blocking the request.');
     }
 });
 
