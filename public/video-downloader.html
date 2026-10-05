@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader - AnyTool.io</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-indigo-600">AnyTool.io</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-xl w-full text-center border-t-4 border-blue-500">
+            <h1 class="text-3xl font-bold mb-4 text-blue-500">Video & Audio Downloader</h1>
+            <p class="text-gray-600 mb-8">Download videos or audio from YouTube easily.</p>
+            
+            <form id="downloadForm" class="space-y-4">
+                <div>
+                    <input type="url" id="videoUrl" name="url" placeholder="Paste YouTube link here..." required
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition">
+                </div>
+                
+                <div class="flex space-x-4">
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="format" value="video" class="peer hidden" checked>
+                        <div class="peer-checked:bg-blue-500 peer-checked:text-white bg-gray-100 text-gray-700 py-3 rounded-lg font-semibold transition border-2 border-transparent peer-checked:border-blue-600">
+                            MP4 (Video)
+                        </div>
+                    </label>
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="format" value="audio" class="peer hidden">
+                        <div class="peer-checked:bg-blue-500 peer-checked:text-white bg-gray-100 text-gray-700 py-3 rounded-lg font-semibold transition border-2 border-transparent peer-checked:border-blue-600">
+                            MP3 (Audio)
+                        </div>
+                    </label>
+                </div>
+
+                <button type="submit" id="downloadBtn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mt-4">
+                    Download
+                </button>
+                <div id="status" class="mt-4 text-sm font-semibold text-indigo-600"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('downloadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const url = document.getElementById('videoUrl').value;
+            const format = document.querySelector('input[name="format"]:checked').value;
+            const status = document.getElementById('status');
+            const btn = document.getElementById('downloadBtn');
+            
+            if (!url) {
+                alert('Please enter a valid URL.');
+                return;
+            }
+
+            status.innerText = 'Processing your request... Please wait.';
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+
+            try {
+                // Redirecting to download API
+                const apiUrl = `/api/download?url=${encodeURIComponent(url)}&format=${format}`;
+                window.location.href = apiUrl;
+                
+                setTimeout(() => {
+                    status.innerText = 'Download started!';
+                    status.classList.remove('text-indigo-600', 'text-red-600');
+                    status.classList.add('text-green-600');
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50');
+                }, 3000);
+            } catch (err) {
+                status.innerText = 'Error: ' + err.message;
+                status.classList.add('text-red-600');
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+            }
+        });
+    </script>
+</body>
+</html>

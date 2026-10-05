@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const { PDFDocument } = require('pdf-lib');
+const ytdl = require('@distube/ytdl-core');
 const path = require('path');
 
 const app = express();
@@ -56,6 +57,30 @@ app.post('/api/merge-pdf', upload.array('pdfs', 20), async (req, res) => {
     } catch (error) {
         console.error('Error merging PDF:', error);
         res.status(500).send('An error occurred while merging PDFs.');
+    }
+});
+
+// Video Downloader API (YouTube)
+app.get('/api/download', async (req, res) => {
+    try {
+        const { url, format } = req.query;
+        if (!url || !ytdl.validateURL(url)) {
+            return res.status(400).send('Invalid YouTube URL');
+        }
+
+        const info = await ytdl.getInfo(url);
+        const title = info.videoDetails.title.replace(/[^\w\s]/gi, ''); // clean title
+
+        if (format === 'audio') {
+            res.header('Content-Disposition', `attachment; filename="${title}.mp3"`);
+            ytdl(url, { filter: 'audioonly' }).pipe(res);
+        } else {
+            res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
+            ytdl(url, { format: 'mp4' }).pipe(res);
+        }
+    } catch (error) {
+        console.error('Error downloading video:', error);
+        res.status(500).send('Failed to download video.');
     }
 });
 
