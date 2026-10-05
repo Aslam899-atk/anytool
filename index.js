@@ -64,6 +64,12 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error('Unhandled error:', err);
+    res.status(500).send('An unexpected error occurred.');
+});
+
 // Start Server
 app.listen(port, () => {
     console.log(`Backend Server listening on port ${port}`);
