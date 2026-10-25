@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free QR Code Reader & Scanner - AnyTool.io</title>
+    <meta name="description" content="Scan and decode QR codes from images or camera directly in your browser. 100% free, fast, and secure.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-2 text-indigo-600 hover:text-indigo-700">
+                    <span class="text-2xl font-black tracking-tight">AnyTool<span class="text-pink-500">.io</span></span>
+                </a>
+                <div class="flex space-x-4">
+                    <a href="/qr-generator.html" class="text-sm font-semibold text-indigo-600 hover:text-indigo-800">
+                        Generate QR Code →
+                    </a>
+                    <a href="/" class="text-sm font-semibold text-gray-600 hover:text-indigo-600">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-10 px-4 text-center">
+        <h1 class="text-3xl sm:text-4xl font-extrabold mb-3">QR Code Scanner & Reader</h1>
+        <p class="text-emerald-100 max-w-xl mx-auto text-sm sm:text-base">
+            Upload an image containing a QR code or scan with your device camera to instantly decode text and links.
+        </p>
+    </header>
+
+    <!-- Main Tool Container -->
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 flex-grow w-full">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-10 space-y-8">
+            <!-- Tabs: File Upload vs Camera -->
+            <div class="flex border-b border-gray-200">
+                <button id="tabFileBtn" class="flex-1 py-3 text-center font-bold text-sm border-b-2 border-emerald-600 text-emerald-600 focus:outline-none">
+                    📁 Upload Image File
+                </button>
+                <button id="tabCamBtn" class="flex-1 py-3 text-center font-bold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 focus:outline-none">
+                    📷 Live Camera Scan
+                </button>
+            </div>
+
+            <!-- Upload File Section -->
+            <div id="fileSection" class="space-y-4">
+                <div class="border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center hover:border-emerald-500 transition cursor-pointer bg-gray-50" onclick="document.getElementById('qrFileInput').click()">
+                    <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <p class="text-sm font-semibold text-gray-700">Click to upload QR image or drag & drop</p>
+                    <p class="text-xs text-gray-400 mt-1">PNG, JPG, JPEG, WEBP accepted</p>
+                    <input type="file" id="qrFileInput" accept="image/*" class="hidden">
+                </div>
+            </div>
+
+            <!-- Camera Scanner Section -->
+            <div id="camSection" class="hidden space-y-4">
+                <div id="reader" class="w-full max-w-sm mx-auto overflow-hidden rounded-xl border border-gray-200"></div>
+                <div class="text-center">
+                    <button id="startCamBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-lg text-sm shadow transition">
+                        Start Camera
+                    </button>
+                    <button id="stopCamBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm shadow transition hidden">
+                        Stop Camera
+                    </button>
+                </div>
+            </div>
+
+            <!-- Decoded Result Box -->
+            <div id="resultBox" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-5 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-800">Decoded Result</span>
+                    <button id="copyBtn" class="text-xs font-bold text-emerald-700 hover:underline">Copy Text</button>
+                </div>
+                <p id="resultText" class="text-sm font-mono text-gray-800 break-all bg-white p-3 rounded-lg border border-emerald-100"></p>
+                <div id="linkActionContainer" class="hidden pt-1">
+                    <a id="resultLink" href="#" target="_blank" class="inline-flex items-center text-xs font-bold text-emerald-600 hover:underline">
+                        Open URL in new tab →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500 mt-12">
+        <p>© 2026 AnyTool.io • Zero Data Retention • 100% Free</p>
+    </footer>
+
+    <script>
+        const tabFileBtn = document.getElementById("tabFileBtn");
+        const tabCamBtn = document.getElementById("tabCamBtn");
+        const fileSection = document.getElementById("fileSection");
+        const camSection = document.getElementById("camSection");
+        const qrFileInput = document.getElementById("qrFileInput");
+        const resultBox = document.getElementById("resultBox");
+        const resultText = document.getElementById("resultText");
+        const resultLink = document.getElementById("resultLink");
+        const linkActionContainer = document.getElementById("linkActionContainer");
+        const copyBtn = document.getElementById("copyBtn");
+
+        const html5QrCode = new Html5Qrcode("reader");
+        let isCamRunning = false;
+
+        tabFileBtn.addEventListener("click", () => {
+            tabFileBtn.className = "flex-1 py-3 text-center font-bold text-sm border-b-2 border-emerald-600 text-emerald-600";
+            tabCamBtn.className = "flex-1 py-3 text-center font-bold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700";
+            fileSection.classList.remove("hidden");
+            camSection.classList.add("hidden");
+            stopCamera();
+        });
+
+        tabCamBtn.addEventListener("click", () => {
+            tabCamBtn.className = "flex-1 py-3 text-center font-bold text-sm border-b-2 border-emerald-600 text-emerald-600";
+            tabFileBtn.className = "flex-1 py-3 text-center font-bold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700";
+            camSection.classList.remove("hidden");
+            fileSection.classList.add("hidden");
+        });
+
+        function displayResult(decodedText) {
+            resultBox.classList.remove("hidden");
+            resultText.innerText = decodedText;
+
+            if (decodedText.startsWith("http://") || decodedText.startsWith("https://")) {
+                resultLink.href = decodedText;
+                linkActionContainer.classList.remove("hidden");
+            } else {
+                linkActionContainer.classList.add("hidden");
+            }
+        }
+
+        qrFileInput.addEventListener("change", (e) => {
+            if (e.target.files.length === 0) return;
+            const imageFile = e.target.files[0];
+            html5QrCode.scanFile(imageFile, true)
+                .then(decodedText => {
+                    displayResult(decodedText);
+                })
+                .catch(err => {
+                    alert("No QR code found in this image. Please try a clearer image.");
+                });
+        });
+
+        const startCamBtn = document.getElementById("startCamBtn");
+        const stopCamBtn = document.getElementById("stopCamBtn");
+
+        startCamBtn.addEventListener("click", () => {
+            Html5Qrcode.getCameras().then(cameras => {
+                if (cameras && cameras.length) {
+                    const cameraId = cameras[cameras.length - 1].id; // Back camera on phones
+                    html5QrCode.start(
+                        cameraId,
+                        { fps: 10, qrbox: { width: 250, height: 250 } },
+                        (decodedText) => {
+                            displayResult(decodedText);
+                            stopCamera();
+                        },
+                        (errorMessage) => {}
+                    ).then(() => {
+                        isCamRunning = true;
+                        startCamBtn.classList.add("hidden");
+                        stopCamBtn.classList.remove("hidden");
+                    });
+                }
+            }).catch(err => alert("Camera permission denied or camera not found."));
+        });
+
+        function stopCamera() {
+            if (isCamRunning) {
+                html5QrCode.stop().then(() => {
+                    isCamRunning = false;
+                    startCamBtn.classList.remove("hidden");
+                    stopCamBtn.classList.add("hidden");
+                }).catch(err => {});
+            }
+        }
+
+        stopCamBtn.addEventListener("click", stopCamera);
+
+        copyBtn.addEventListener("click", () => {
+            navigator.clipboard.writeText(resultText.innerText);
+            copyBtn.innerText = "Copied! ✓";
+            setTimeout(() => copyBtn.innerText = "Copy Text", 2000);
+        });
+    </script>
+</body>
+</html>

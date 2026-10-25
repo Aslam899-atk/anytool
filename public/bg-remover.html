@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Background Remover - AnyTool.io</title>
+    <meta name="description" content="Remove image background for free directly in your browser. Download high-resolution transparent PNGs.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .checkerboard {
+            background-color: #f0f0f0;
+            background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%),
+                              linear-gradient(-45deg, #e0e0e0 25%, transparent 25%),
+                              linear-gradient(45deg, transparent 75%, #e0e0e0 75%),
+                              linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-2 text-indigo-600 hover:text-indigo-700">
+                    <span class="text-2xl font-black tracking-tight">AnyTool<span class="text-pink-500">.io</span></span>
+                </a>
+                <a href="/" class="text-sm font-semibold text-gray-600 hover:text-indigo-600">
+                    ← Back to All Tools
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-10 px-4 text-center">
+        <h1 class="text-3xl sm:text-4xl font-extrabold mb-3">Instant Image Background Remover</h1>
+        <p class="text-purple-100 max-w-xl mx-auto text-sm sm:text-base">
+            Make image backgrounds transparent in seconds. Processed 100% inside your browser for full privacy.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-10 flex-grow w-full">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-10 space-y-6">
+            <!-- Dropzone -->
+            <div id="dropzone" class="border-2 border-dashed border-purple-300 rounded-2xl p-8 text-center hover:border-purple-500 transition cursor-pointer bg-purple-50/50" onclick="document.getElementById('imageInput').click()">
+                <svg class="w-12 h-12 text-purple-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <p class="text-base font-bold text-gray-800">Upload Image to Remove Background</p>
+                <p class="text-xs text-gray-500 mt-1">PNG, JPG, JPEG, WEBP accepted (Zero server uploads)</p>
+                <input type="file" id="imageInput" accept="image/*" class="hidden">
+            </div>
+
+            <!-- Editor Workspace (Hidden until image loaded) -->
+            <div id="editorArea" class="hidden space-y-6">
+                <!-- Controls Bar -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 mb-1">Color to Remove</label>
+                        <div class="flex items-center space-x-2">
+                            <input id="targetColor" type="color" value="#ffffff" class="w-12 h-9 p-0.5 border border-gray-300 rounded cursor-pointer">
+                            <span class="text-xs text-gray-500">Pick color or click on image</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 mb-1">Color Tolerance: <span id="toleranceVal" class="text-purple-600">30</span></label>
+                        <input id="toleranceSlider" type="range" min="5" max="100" value="30" class="w-full h-2 bg-gray-200 rounded-lg cursor-pointer accent-purple-600">
+                    </div>
+                    <div class="flex items-end">
+                        <button id="applyBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg text-sm shadow transition">
+                            Apply Transparency
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview Area -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="border border-gray-200 rounded-xl p-3 bg-gray-100 flex flex-col items-center">
+                        <span class="text-xs font-bold text-gray-500 mb-2">Original Image (Click to sample color)</span>
+                        <canvas id="origCanvas" class="max-w-full h-auto max-h-80 rounded shadow cursor-crosshair"></canvas>
+                    </div>
+                    <div class="border border-gray-200 rounded-xl p-3 checkerboard flex flex-col items-center">
+                        <span class="text-xs font-bold text-gray-700 mb-2">Transparent Result Preview</span>
+                        <canvas id="resultCanvas" class="max-w-full h-auto max-h-80 rounded shadow"></canvas>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <div class="text-center pt-2">
+                    <button id="downloadBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 px-8 rounded-xl text-base shadow-lg transition inline-flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download Transparent PNG
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500 mt-12">
+        <p>© 2026 AnyTool.io • Zero Data Retention • 100% Free</p>
+    </footer>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const editorArea = document.getElementById('editorArea');
+        const origCanvas = document.getElementById('origCanvas');
+        const resultCanvas = document.getElementById('resultCanvas');
+        const origCtx = origCanvas.getContext('2d');
+        const resultCtx = resultCanvas.getContext('2d');
+        const targetColorInput = document.getElementById('targetColor');
+        const toleranceSlider = document.getElementById('toleranceSlider');
+        const toleranceVal = document.getElementById('toleranceVal');
+        const applyBtn = document.getElementById('applyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let originalImg = new Image();
+
+        toleranceSlider.addEventListener('input', (e) => {
+            toleranceVal.innerText = e.target.value;
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length === 0) return;
+            const file = e.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                originalImg.onload = () => {
+                    origCanvas.width = originalImg.width;
+                    origCanvas.height = originalImg.height;
+                    resultCanvas.width = originalImg.width;
+                    resultCanvas.height = originalImg.height;
+
+                    origCtx.drawImage(originalImg, 0, 0);
+                    resultCtx.drawImage(originalImg, 0, 0);
+
+                    // Auto sample top-left pixel as default background color
+                    const pixel = origCtx.getImageData(0, 0, 1, 1).data;
+                    const hex = "#" + ((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1);
+                    targetColorInput.value = hex;
+
+                    editorArea.classList.remove('hidden');
+                    removeBackground();
+                };
+                originalImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Click on original image to sample color
+        origCanvas.addEventListener('click', (e) => {
+            const rect = origCanvas.getBoundingClientRect();
+            const scaleX = origCanvas.width / rect.width;
+            const scaleY = origCanvas.height / rect.height;
+            const x = Math.floor((e.clientX - rect.left) * scaleX);
+            const y = Math.floor((e.clientY - rect.top) * scaleY);
+
+            const pixel = origCtx.getImageData(x, y, 1, 1).data;
+            const hex = "#" + ((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1);
+            targetColorInput.value = hex;
+            removeBackground();
+        });
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 255, g: 255, b: 255 };
+        }
+
+        function removeBackground() {
+            if (!originalImg.src) return;
+            origCtx.drawImage(originalImg, 0, 0);
+            const imgData = origCtx.getImageData(0, 0, origCanvas.width, origCanvas.height);
+            const data = imgData.data;
+
+            const target = hexToRgb(targetColorInput.value);
+            const tolerance = parseInt(toleranceSlider.value);
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+
+                // Calculate Euclidean distance in RGB color space
+                const diff = Math.sqrt(
+                    Math.pow(r - target.r, 2) +
+                    Math.pow(g - target.g, 2) +
+                    Math.pow(b - target.b, 2)
+                );
+
+                if (diff < tolerance * 2.2) {
+                    data[i + 3] = 0; // Transparent
+                }
+            }
+
+            resultCtx.putImageData(imgData, 0, 0);
+        }
+
+        applyBtn.addEventListener('click', removeBackground);
+
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'anytool-transparent.png';
+            link.href = resultCanvas.toDataURL('image/png');
+            link.click();
+        });
+    </script>
+</body>
+</html>
