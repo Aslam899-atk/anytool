@@ -6,23 +6,17 @@
     <title>Merge PDF Files Online for Free - Fast & Private PDF Joiner | AnyTool</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Combine multiple PDF files into one single document for free. 100% private in-memory processing. No file retention, no sign-up required.">
+    <meta name="description" content="Combine multiple PDF files into one single document for free. 100% private in-memory processing. Reorder pages, no file retention, no sign-up required.">
     <meta name="keywords" content="merge PDF, combine PDF, free PDF merger, merge PDF online, join PDF files, ilovepdf alternative free">
     <meta name="author" content="AnyTool.io">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://anytool.io/merge-pdf" />
 
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://anytool.io/merge-pdf">
     <meta property="og:title" content="Merge PDF Files Online for Free - AnyTool.io">
     <meta property="og:description" content="Combine multiple PDF files into one easily and securely. 100% free online PDF merger tool.">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://anytool.io/merge-pdf">
-    <meta property="twitter:title" content="Merge PDF Files Online for Free">
-    <meta property="twitter:description" content="Combine multiple PDF files into one easily and securely. 100% free online PDF merger tool.">
 
     <!-- Schema.org WebApplication Structured Data -->
     <script type="application/ld+json">
@@ -53,7 +47,7 @@
           "name": "How do I merge multiple PDF files into one?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Click or drag your PDF files into the upload box, arrange them in your preferred order, and click 'Merge PDFs Now'. Your combined PDF will download automatically."
+            "text": "Select your PDF files, reorder them using the Up/Down buttons to set your desired page sequence, and click 'Merge PDFs Now'. Your unified PDF will download immediately."
           }
         },
         {
@@ -102,116 +96,192 @@
             Merge <span class="bg-gradient-to-r from-red-600 to-rose-600 bg-clip-text text-transparent">PDF Files Online</span>
         </h1>
         <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
-            Combine multiple PDF files into one single document in seconds. 100% free, highly secure, and works directly in memory.
+            Combine multiple PDF files into one single document in seconds. Reorder documents, customized output, 100% free and secure.
         </p>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full">
-        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 text-center">
-            
-            <form id="mergeForm">
-                <div class="border-2 border-dashed border-red-300 rounded-2xl p-8 sm:p-12 mb-6 bg-red-50/40 hover:bg-red-50 hover:border-red-500 transition cursor-pointer" onclick="document.getElementById('pdfFiles').click()">
-                    <svg class="mx-auto h-14 w-14 text-red-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    </svg>
-                    <p class="text-base font-bold text-slate-800">Click to select PDF files or drag & drop</p>
-                    <p class="text-xs text-slate-500 mt-1">Select 2 or more PDF documents</p>
-                    <input type="file" id="pdfFiles" name="pdfs" accept="application/pdf" multiple class="hidden" required onchange="updateFileList()">
+    <!-- 3-Step Wizard Layout (like me-qr.com) -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full space-y-8">
+        
+        <!-- STEP 1: Upload Files -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center space-x-3">
+                    <span class="w-8 h-8 rounded-full bg-red-600 text-white font-extrabold flex items-center justify-center text-sm shadow">1</span>
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Upload PDF Documents</h2>
                 </div>
-                
-                <div id="fileList" class="text-left text-xs font-mono text-slate-700 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 hidden"></div>
+                <span class="text-xs font-semibold text-slate-400">Select 2 or more files</span>
+            </div>
 
-                <button type="submit" id="mergeBtn" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-extrabold py-4 px-6 rounded-2xl shadow-lg shadow-red-500/25 transition duration-200 text-base flex items-center justify-center space-x-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                    <span>Merge PDFs Now</span>
+            <div id="dropzone" class="border-2 border-dashed border-red-300 rounded-2xl p-8 sm:p-12 text-center hover:border-red-500 hover:bg-red-50/30 transition cursor-pointer bg-red-50/20" onclick="document.getElementById('pdfInput').click()">
+                <div class="w-14 h-14 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-3 shadow-sm">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                </div>
+                <h3 class="text-base font-bold text-slate-800 mb-1">Click to browse or drag & drop PDF files</h3>
+                <p class="text-xs text-slate-500">Supports multiple PDF files up to 50 MB total</p>
+                <input type="file" id="pdfInput" accept="application/pdf" multiple class="hidden">
+            </div>
+        </div>
+
+        <!-- STEP 2: Reorder & Organize Documents (Appears once files selected) -->
+        <div id="step2Area" class="hidden bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div class="flex items-center space-x-3">
+                    <span class="w-8 h-8 rounded-full bg-red-600 text-white font-extrabold flex items-center justify-center text-sm shadow">2</span>
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Reorder & Organize Documents</h2>
+                </div>
+                <button type="button" onclick="document.getElementById('pdfInput').click()" class="text-xs font-bold text-red-600 hover:text-red-800 bg-red-50 px-3 py-1.5 rounded-lg border border-red-200 transition">
+                    + Add More Files
                 </button>
-            </form>
+            </div>
+            
+            <p class="text-xs text-slate-500">Use the arrows (↑ ↓) to arrange the order in which files will be merged:</p>
+            <div id="fileCardsContainer" class="space-y-2.5"></div>
+        </div>
 
-            <div id="loading" class="hidden mt-6 text-slate-600 flex items-center justify-center space-x-2">
-                <svg class="animate-spin h-5 w-5 text-red-500" viewBox="0 0 24 24" fill="none">
+        <!-- STEP 3: Process & Download -->
+        <div id="step3Area" class="hidden bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-6">
+            <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                <span class="w-8 h-8 rounded-full bg-emerald-600 text-white font-extrabold flex items-center justify-center text-sm shadow">3</span>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Merge & Download</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Merged Document Name</label>
+                    <input id="outputFileName" type="text" value="merged_document.pdf" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none font-medium">
+                </div>
+                <div class="flex items-end">
+                    <button id="mergeBtn" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-extrabold py-3.5 px-6 rounded-xl shadow-lg shadow-red-500/25 transition duration-200 flex items-center justify-center space-x-2 text-base">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+                        <span>Merge PDFs Now</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="loading" class="hidden text-center text-slate-600 space-y-2 py-4">
+                <svg class="animate-spin h-6 w-6 text-red-500 mx-auto" viewBox="0 0 24 24" fill="none">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                 </svg>
-                <span class="text-sm font-semibold">Combining your documents securely...</span>
+                <p class="text-xs font-semibold">Combining documents in memory...</p>
             </div>
 
-            <div id="message" class="hidden mt-4 p-3 rounded-xl text-sm font-semibold"></div>
+            <div id="message" class="hidden p-4 rounded-2xl text-sm font-semibold"></div>
         </div>
 
-        <!-- SEO Content Section -->
-        <section class="mt-16 pt-10 border-t border-slate-200 max-w-3xl mx-auto space-y-8">
-            <h2 class="text-2xl font-bold text-slate-900 text-center">How to Merge PDF Files Free</h2>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center">
-                    <div class="w-8 h-8 mx-auto rounded-full bg-red-100 text-red-600 font-bold flex items-center justify-center text-sm mb-2">1</div>
-                    <h3 class="font-bold text-slate-900 text-sm mb-1">Upload Files</h3>
-                    <p class="text-xs text-slate-600">Select two or more PDF files from your computer or phone.</p>
+        <!-- SEO Editorial Content -->
+        <section class="mt-20 pt-12 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
+            <h2 class="text-2xl font-black text-slate-900 text-center">Free Online PDF Merger - Fast, Easy & Secure</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🔀</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Visual Page Ordering</h3>
+                    <p class="text-xs text-slate-600">Easily rearrange file sequence before merging with quick up and down arrows.</p>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center">
-                    <div class="w-8 h-8 mx-auto rounded-full bg-red-100 text-red-600 font-bold flex items-center justify-center text-sm mb-2">2</div>
-                    <h3 class="font-bold text-slate-900 text-sm mb-1">Process In-Memory</h3>
-                    <p class="text-xs text-slate-600">Our engine merges your pages together with zero disk retention.</p>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🛡️</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Zero Data Retention</h3>
+                    <p class="text-xs text-slate-600">Files are held only in RAM during processing and immediately discarded. Never stored on disk.</p>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center">
-                    <div class="w-8 h-8 mx-auto rounded-full bg-red-100 text-red-600 font-bold flex items-center justify-center text-sm mb-2">3</div>
-                    <h3 class="font-bold text-slate-900 text-sm mb-1">Download</h3>
-                    <p class="text-xs text-slate-600">Download your unified, high-quality PDF document instantly.</p>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">💯</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Unlimited & Free</h3>
+                    <p class="text-xs text-slate-600">No daily upload limits, no watermarks, and no sign-up required.</p>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-16 text-slate-500 text-xs sm:text-sm">
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-20 text-slate-500 text-xs sm:text-sm">
         <p>© 2026 AnyTool.io • Zero File Storage • Free Forever</p>
     </footer>
 
     <script>
-        function updateFileList() {
-            const input = document.getElementById('pdfFiles');
-            const fileList = document.getElementById('fileList');
-            fileList.innerHTML = '';
-            
-            if (input.files.length > 0) {
-                fileList.classList.remove('hidden');
-                const title = document.createElement('p');
-                title.className = "text-xs font-bold uppercase text-slate-500 mb-2";
-                title.textContent = `Selected Files (${input.files.length}):`;
-                fileList.appendChild(title);
+        let selectedFiles = [];
+        const pdfInput = document.getElementById('pdfInput');
+        const step2Area = document.getElementById('step2Area');
+        const step3Area = document.getElementById('step3Area');
+        const fileCardsContainer = document.getElementById('fileCardsContainer');
+        const mergeBtn = document.getElementById('mergeBtn');
+        const loading = document.getElementById('loading');
+        const message = document.getElementById('message');
+        const outputFileName = document.getElementById('outputFileName');
 
-                const ul = document.createElement('ul');
-                ul.className = "space-y-1";
-                for (let i = 0; i < input.files.length; i++) {
-                    const li = document.createElement('li');
-                    li.className = "flex items-center text-slate-700";
-                    li.innerHTML = `<span class="mr-2 text-red-500">📄</span> ${input.files[i].name} <span class="ml-2 text-slate-400 text-[10px]">(${(input.files[i].size / 1024 / 1024).toFixed(2)} MB)</span>`;
-                    ul.appendChild(li);
-                }
-                fileList.appendChild(ul);
-            } else {
-                fileList.classList.add('hidden');
+        pdfInput.addEventListener('change', (e) => {
+            if (e.target.files.length === 0) return;
+            for (let f of e.target.files) {
+                selectedFiles.push(f);
             }
+            renderFileList();
+            pdfInput.value = '';
+        });
+
+        function renderFileList() {
+            fileCardsContainer.innerHTML = '';
+            if (selectedFiles.length >= 1) {
+                step2Area.classList.remove('hidden');
+                if (selectedFiles.length >= 2) {
+                    step3Area.classList.remove('hidden');
+                } else {
+                    step3Area.classList.add('hidden');
+                }
+            } else {
+                step2Area.classList.add('hidden');
+                step3Area.classList.add('hidden');
+            }
+
+            selectedFiles.forEach((file, index) => {
+                const card = document.createElement('div');
+                card.className = "flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200 hover:border-red-300 transition";
+                card.innerHTML = `
+                    <div class="flex items-center space-x-3 overflow-hidden">
+                        <span class="w-7 h-7 rounded-lg bg-red-100 text-red-700 font-bold flex items-center justify-center text-xs flex-shrink-0">${index + 1}</span>
+                        <div class="truncate">
+                            <p class="text-xs sm:text-sm font-bold text-slate-800 truncate">${file.name}</p>
+                            <p class="text-[10px] text-slate-500">${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-1.5 flex-shrink-0">
+                        <button type="button" onclick="moveFile(${index}, -1)" ${index === 0 ? 'disabled class="opacity-30 p-1.5"' : 'class="p-1.5 hover:bg-slate-200 rounded-lg text-slate-600 transition"'} title="Move Up">
+                            ↑
+                        </button>
+                        <button type="button" onclick="moveFile(${index}, 1)" ${index === selectedFiles.length - 1 ? 'disabled class="opacity-30 p-1.5"' : 'class="p-1.5 hover:bg-slate-200 rounded-lg text-slate-600 transition"'} title="Move Down">
+                            ↓
+                        </button>
+                        <button type="button" onclick="removeFile(${index})" class="p-1.5 hover:bg-red-100 text-red-600 rounded-lg transition" title="Remove">
+                            ✕
+                        </button>
+                    </div>
+                `;
+                fileCardsContainer.appendChild(card);
+            });
         }
 
-        document.getElementById('mergeForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const input = document.getElementById('pdfFiles');
-            const mergeBtn = document.getElementById('mergeBtn');
-            const loading = document.getElementById('loading');
-            const message = document.getElementById('message');
+        window.moveFile = function(index, direction) {
+            const targetIndex = index + direction;
+            if (targetIndex < 0 || targetIndex >= selectedFiles.length) return;
+            const temp = selectedFiles[index];
+            selectedFiles[index] = selectedFiles[targetIndex];
+            selectedFiles[targetIndex] = temp;
+            renderFileList();
+        };
 
-            if (input.files.length < 2) {
-                message.className = "mt-4 p-3 bg-red-50 text-red-700 border border-red-200 rounded-xl text-sm font-semibold";
-                message.textContent = "Please select at least 2 PDF files to merge.";
-                message.classList.remove('hidden');
+        window.removeFile = function(index) {
+            selectedFiles.splice(index, 1);
+            renderFileList();
+        };
+
+        mergeBtn.addEventListener('click', async () => {
+            if (selectedFiles.length < 2) {
+                alert("Please add at least 2 PDF files to merge.");
                 return;
             }
 
             const formData = new FormData();
-            for (let i = 0; i < input.files.length; i++) {
-                formData.append('pdfs', input.files[i]);
+            for (let file of selectedFiles) {
+                formData.append('pdfs', file);
             }
 
             mergeBtn.disabled = true;
@@ -229,24 +299,23 @@
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'merged_anytool.pdf';
+                    a.download = outputFileName.value.trim() || 'merged_document.pdf';
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
 
-                    message.className = "mt-4 p-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-sm font-semibold";
-                    message.textContent = "Merged successfully! Your download has started.";
+                    message.className = "p-4 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-2xl text-sm font-bold text-center";
+                    message.textContent = "✓ Merged successfully! Download started.";
                     message.classList.remove('hidden');
                 } else {
                     const errText = await response.text();
-                    message.className = "mt-4 p-3 bg-red-50 text-red-700 border border-red-200 rounded-xl text-sm font-semibold";
-                    message.textContent = errText || "Failed to merge PDF files. Please try again.";
+                    message.className = "p-4 bg-red-50 text-red-700 border border-red-200 rounded-2xl text-sm font-semibold text-center";
+                    message.textContent = errText || "Failed to merge PDF files.";
                     message.classList.remove('hidden');
                 }
             } catch (err) {
-                console.error(err);
-                message.className = "mt-4 p-3 bg-red-50 text-red-700 border border-red-200 rounded-xl text-sm font-semibold";
-                message.textContent = "A network error occurred. Please try again.";
+                message.className = "p-4 bg-red-50 text-red-700 border border-red-200 rounded-2xl text-sm font-semibold text-center";
+                message.textContent = "Network error. Please try again.";
                 message.classList.remove('hidden');
             } finally {
                 mergeBtn.disabled = false;

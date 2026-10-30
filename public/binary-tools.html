@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Code Translator - Encode & Decode Binary Online Free | AnyTool</title>
+    <meta name="description" content="Translate Text to Binary, Binary to Text, Base64, and Hex online. 100% free developer converter with instant live translation, copy, and download.">
+    <meta name="keywords" content="binary code translator, text to binary, binary to text, base64 encode decode, hex to text, binary converter online">
+    <link rel="canonical" href="https://anytool.io/binary-tools">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Binary Code Translator",
+      "url": "https://anytool.io/binary-tools",
+      "description": "Free online developer tool to translate Text to Binary, Binary to Text, Base64, and Hexadecimal.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .mode-tab.active {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="/python-runner.html" class="text-xs sm:text-sm font-bold text-green-600 hover:text-green-700 bg-green-50 px-3 py-1.5 rounded-lg border border-green-200 transition">
+                        🐍 Python Runner →
+                    </a>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold mb-3 border border-blue-200">
+            <span>⚡ Fast, Live & Free Binary Translator</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Binary <span class="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Encode & Decode</span>
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
+            Convert text to binary code (0s and 1s) and decode binary back to English text. Also supports Base64 and Hexadecimal encoding!
+        </p>
+    </header>
+
+    <!-- Main Tool Container -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-6">
+            
+            <!-- Mode Switcher Tabs -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 border-b border-slate-100 pb-4">
+                <button data-mode="text-to-bin" class="mode-tab active px-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm transition flex items-center justify-center space-x-2">
+                    <span>📝 ➔ 01</span>
+                    <span>Text to Binary</span>
+                </button>
+                <button data-mode="bin-to-text" class="mode-tab px-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-2">
+                    <span>01 ➔ 📝</span>
+                    <span>Binary to Text</span>
+                </button>
+                <button data-mode="base64" class="mode-tab px-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-2">
+                    <span>🔐 Base64</span>
+                    <span>Encode/Decode</span>
+                </button>
+                <button data-mode="hex" class="mode-tab px-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-2">
+                    <span>#️⃣ Hexadecimal</span>
+                    <span>Encode/Decode</span>
+                </button>
+            </div>
+
+            <!-- Workspace: Inputs & Outputs -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                
+                <!-- Left: Input Area -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label id="inputLabel" class="text-xs font-bold uppercase tracking-wider text-slate-700">Input Text</label>
+                        <button id="clearBtn" class="text-xs text-slate-400 hover:text-red-500 font-semibold transition">Clear</button>
+                    </div>
+                    <textarea id="inputText" rows="8" class="w-full bg-slate-50 border border-slate-300 rounded-2xl p-4 text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Type or paste your text here...">Hello World</textarea>
+                    <div class="flex justify-between text-[11px] text-slate-400">
+                        <span id="charCount">11 characters</span>
+                        <span>Auto-updates in real time</span>
+                    </div>
+                </div>
+
+                <!-- Right: Output Area -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label id="outputLabel" class="text-xs font-bold uppercase tracking-wider text-slate-700">Binary Output (8-bit)</label>
+                        <div class="flex space-x-2">
+                            <button id="copyBtn" class="text-xs text-blue-600 hover:text-blue-800 font-bold bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200 transition">
+                                Copy Result
+                            </button>
+                            <button id="downloadBtn" class="text-xs text-slate-600 hover:text-slate-800 font-semibold bg-slate-100 px-2.5 py-1 rounded-lg transition">
+                                ⬇ Save .txt
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="outputText" rows="8" readonly class="w-full bg-slate-100 border border-slate-300 rounded-2xl p-4 text-sm font-mono text-blue-900 focus:outline-none cursor-text select-all"></textarea>
+                    <div class="flex justify-between items-center text-[11px] text-slate-400">
+                        <span id="outputInfo">Ready</span>
+                        <button id="swapBtn" class="text-blue-600 hover:underline font-bold">⇄ Swap Input & Output</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SEO Editorial Content -->
+        <section class="mt-20 pt-12 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
+            <h2 class="text-2xl font-black text-slate-900 text-center">How Binary Encoding & Decoding Works</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">💻</span>
+                    <h3 class="font-bold text-slate-900 text-sm">ASCII to Binary</h3>
+                    <p class="text-xs text-slate-600">Every keyboard character corresponds to an 8-bit byte composed of 0s and 1s representing digital electrical signals.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🔐</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Base64 & Hex</h3>
+                    <p class="text-xs text-slate-600">Easily convert between raw binary and standard encoding formats like Base64 and Hexadecimal for programming and networking.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">⚡</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Instant Client-Side</h3>
+                    <p class="text-xs text-slate-600">No network latency. All conversions happen directly in your browser memory with zero delay.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-20 text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free Developer Utilities • Zero Data Storage</p>
+    </footer>
+
+    <script>
+        let currentMode = 'text-to-bin';
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const inputLabel = document.getElementById('inputLabel');
+        const outputLabel = document.getElementById('outputLabel');
+        const charCount = document.getElementById('charCount');
+        const outputInfo = document.getElementById('outputInfo');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const swapBtn = document.getElementById('swapBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const modeTabs = document.querySelectorAll('.mode-tab');
+
+        function textToBinary(str) {
+            return str.split('').map(char => {
+                return char.charCodeAt(0).toString(2).padStart(8, '0');
+            }).join(' ');
+        }
+
+        function binaryToText(bin) {
+            const clean = bin.trim().replace(/[^01\s]/g, '');
+            const parts = clean.split(/\s+/).filter(Boolean);
+            try {
+                return parts.map(b => String.fromCharCode(parseInt(b, 2))).join('');
+            } catch (e) {
+                return "Invalid Binary String";
+            }
+        }
+
+        function textToBase64(str) {
+            try {
+                return btoa(unescape(encodeURIComponent(str)));
+            } catch (e) {
+                return "Base64 Encoding Error";
+            }
+        }
+
+        function base64ToText(str) {
+            try {
+                return decodeURIComponent(escape(atob(str.trim())));
+            } catch (e) {
+                return "Invalid Base64 format";
+            }
+        }
+
+        function textToHex(str) {
+            return str.split('').map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join(' ');
+        }
+
+        function hexToText(hex) {
+            const clean = hex.trim().replace(/[^0-9a-fA-F\s]/g, '');
+            const parts = clean.split(/\s+/).filter(Boolean);
+            try {
+                return parts.map(h => String.fromCharCode(parseInt(h, 16))).join('');
+            } catch (e) {
+                return "Invalid Hex String";
+            }
+        }
+
+        function convert() {
+            const input = inputText.value;
+            charCount.innerText = `${input.length} characters`;
+
+            let result = '';
+            if (currentMode === 'text-to-bin') {
+                result = textToBinary(input);
+            } else if (currentMode === 'bin-to-text') {
+                result = binaryToText(input);
+            } else if (currentMode === 'base64') {
+                result = textToBase64(input);
+            } else if (currentMode === 'hex') {
+                result = textToHex(input);
+            }
+
+            outputText.value = result;
+            outputInfo.innerText = `${result.length} output characters`;
+        }
+
+        inputText.addEventListener('input', convert);
+
+        modeTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                modeTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentMode = tab.getAttribute('data-mode');
+
+                if (currentMode === 'text-to-bin') {
+                    inputLabel.innerText = "Input Text";
+                    outputLabel.innerText = "Binary Output (8-bit)";
+                } else if (currentMode === 'bin-to-text') {
+                    inputLabel.innerText = "Input Binary (0s and 1s)";
+                    outputLabel.innerText = "Decoded English Text";
+                } else if (currentMode === 'base64') {
+                    inputLabel.innerText = "Input Text";
+                    outputLabel.innerText = "Base64 Encoded Output";
+                } else if (currentMode === 'hex') {
+                    inputLabel.innerText = "Input Text";
+                    outputLabel.innerText = "Hexadecimal Output";
+                }
+
+                convert();
+            });
+        });
+
+        clearBtn.addEventListener('click', () => {
+            inputText.value = '';
+            outputText.value = '';
+            charCount.innerText = '0 characters';
+            outputInfo.innerText = '0 output characters';
+            inputText.focus();
+        });
+
+        copyBtn.addEventListener('click', () => {
+            if (!outputText.value) return;
+            navigator.clipboard.writeText(outputText.value);
+            copyBtn.innerText = "Copied! ✓";
+            copyBtn.className = "text-xs text-emerald-700 hover:text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-300 transition";
+            setTimeout(() => {
+                copyBtn.innerText = "Copy Result";
+                copyBtn.className = "text-xs text-blue-600 hover:text-blue-800 font-bold bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200 transition";
+            }, 2000);
+        });
+
+        swapBtn.addEventListener('click', () => {
+            const temp = outputText.value;
+            inputText.value = temp;
+            if (currentMode === 'text-to-bin') {
+                document.querySelector('[data-mode="bin-to-text"]').click();
+            } else if (currentMode === 'bin-to-text') {
+                document.querySelector('[data-mode="text-to-bin"]').click();
+            } else {
+                convert();
+            }
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (!outputText.value) return;
+            const blob = new Blob([outputText.value], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `anytool_${currentMode}.txt`;
+            a.click();
+        });
+
+        convert();
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free AI Background Remover Online - Remove BG in 5 Seconds | AnyTool</title>
-    <meta name="description" content="Remove image background automatically in 5 seconds with 1 click. 100% free AI background remover like remove.bg. High resolution transparent PNG download.">
+    <meta name="description" content="Remove image background automatically in 5 seconds with 1 click. 100% free AI background remover like remove.bg with edge smoothing and manual erase/restore brush.">
     <meta name="keywords" content="remove background, remove.bg free alternative, ai background remover, transparent background maker, cutout image free, remove bg online">
     <link rel="canonical" href="https://anytool.io/background-remover">
 
@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://anytool.io/background-remover">
     <meta property="og:title" content="Free AI Background Remover Online - Remove BG in 5 Seconds | AnyTool">
-    <meta property="og:description" content="100% Free AI-powered background remover. No sign-up, zero file uploads, instant transparent PNG.">
+    <meta property="og:description" content="100% Free AI-powered background remover. No sign-up, zero file uploads, instant transparent PNG with brush editor.">
 
     <!-- Schema.org WebApplication -->
     <script type="application/ld+json">
@@ -21,7 +21,7 @@
       "@type": "WebApplication",
       "name": "AnyTool AI Background Remover",
       "url": "https://anytool.io/background-remover",
-      "description": "Free in-browser AI tool to automatically remove backgrounds from photos and download transparent PNGs without saving or uploading images to servers.",
+      "description": "Free in-browser AI tool to automatically remove backgrounds from photos with edge refinement and manual touch-up brush.",
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "All",
       "offers": {
@@ -32,35 +32,9 @@
     }
     </script>
 
-    <!-- Schema.org FAQPage -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Is this background remover really 100% free?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes! Unlike remove.bg which charges credits for full-resolution downloads, AnyTool is 100% free and allows unlimited high-resolution downloads."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does the AI background removal technology work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Our engine runs Google MediaPipe Neural Network Semantic Segmentation natively inside your browser using WebAssembly. It detects subjects, hair strands, and edges automatically without sending photos to a server."
-          }
-        }
-      ]
-    }
-    </script>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Google MediaPipe Selfie & Subject Segmentation -->
+    <!-- Google MediaPipe Neural Network Segmentation -->
     <script src="https://unpkg.com/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
 
     <style>
@@ -74,7 +48,7 @@
             background-size: 16px 16px;
             background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
         }
-        .mode-btn.active {
+        .mode-btn.active, .tool-btn.active {
             border-color: #8b5cf6;
             background-color: #f5f3ff;
             color: #7c3aed;
@@ -108,13 +82,13 @@
     <!-- Header -->
     <header class="py-10 px-4 text-center max-w-4xl mx-auto">
         <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-bold mb-3 border border-purple-200">
-            <span>✨ AI-Powered • Remove.bg Alternative • 100% Free Full HD</span>
+            <span>✨ AI-Powered • Studio Edge Matting • Touch-up Brush</span>
         </div>
         <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
             Remove Image <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Background Free</span>
         </h1>
         <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
-            100% automatically in 5 seconds. Neural Network AI cleanly cuts out people and subjects with soft hair matting. No image limits, no signup!
+            100% automatic AI background removal with edge smoothing and manual touch-up brush. Erase or restore any spot easily for 100% perfection!
         </p>
     </header>
 
@@ -122,7 +96,7 @@
     <main class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full">
         <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-6">
             
-            <!-- Upload Dropzone (Visible when no image) -->
+            <!-- Upload Dropzone -->
             <div id="dropzone" class="border-2 border-dashed border-purple-300 rounded-3xl p-10 sm:p-16 text-center hover:border-purple-500 hover:bg-purple-50/40 transition cursor-pointer bg-purple-50/20" onclick="document.getElementById('imageInput').click()">
                 <div class="w-16 h-16 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mx-auto mb-4 shadow-sm">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -132,7 +106,7 @@
                 <button type="button" class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-2xl shadow-md text-sm transition">
                     Upload Image
                 </button>
-                <p class="text-[11px] text-slate-400 mt-4">100% Private: Processed in your browser via AI WASM • Never uploaded to a server</p>
+                <p class="text-[11px] text-slate-400 mt-4">100% Private: Neural Network runs in your browser memory • Zero server uploads</p>
                 <input type="file" id="imageInput" accept="image/*" class="hidden">
             </div>
 
@@ -141,11 +115,11 @@
                 <div class="relative w-16 h-16 mx-auto">
                     <div class="animate-spin rounded-full h-16 w-16 border-4 border-purple-200 border-t-purple-600"></div>
                 </div>
-                <h4 class="text-base font-bold text-slate-800">AI is isolating the subject...</h4>
-                <p class="text-xs text-slate-500">Executing Neural Network semantic segmentation in your browser</p>
+                <h4 class="text-base font-bold text-slate-800">Isolating subject & smoothing edges...</h4>
+                <p class="text-xs text-slate-500">Neural Network semantic segmentation with sub-pixel alpha matting</p>
             </div>
 
-            <!-- Workspace Area (Hidden until processed) -->
+            <!-- Workspace Area -->
             <div id="workspaceArea" class="hidden space-y-6">
                 
                 <!-- Action Bar & Mode Switcher -->
@@ -153,11 +127,11 @@
                     <div class="flex items-center space-x-2">
                         <button id="modeAiBtn" class="mode-btn active px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold transition flex items-center space-x-1.5">
                             <span>🤖</span>
-                            <span>AI Auto-Cutout (remove.bg)</span>
+                            <span>AI Auto-Cutout</span>
                         </button>
                         <button id="modeMagicBtn" class="mode-btn px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 transition flex items-center space-x-1.5">
                             <span>🪄</span>
-                            <span>Magic Color Wand</span>
+                            <span>Magic Wand</span>
                         </button>
                     </div>
 
@@ -166,13 +140,38 @@
                     </button>
                 </div>
 
+                <!-- Touch-up Brush Tools (Erase & Restore like remove.bg) -->
+                <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-900 mr-2">Touch-up Brush:</span>
+                        <button id="brushEraseBtn" class="tool-btn px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-700 flex items-center space-x-1">
+                            <span>🧹</span>
+                            <span>Erase Spot</span>
+                        </button>
+                        <button id="brushRestoreBtn" class="tool-btn px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-700 flex items-center space-x-1">
+                            <span>🖌️</span>
+                            <span>Restore Spot</span>
+                        </button>
+                        <button id="brushResetBtn" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 hover:text-red-600">
+                            Reset Brush
+                        </button>
+                    </div>
+
+                    <!-- Brush Size Slider -->
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-semibold text-slate-600">Brush Size:</span>
+                        <input id="brushSizeSlider" type="range" min="10" max="80" value="30" class="w-28 h-1.5 bg-slate-200 rounded cursor-pointer accent-indigo-600">
+                        <span id="brushSizeVal" class="text-xs font-bold text-indigo-600">30px</span>
+                    </div>
+                </div>
+
                 <!-- Magic Wand Controls (Shown only in Magic mode) -->
                 <div id="magicControls" class="hidden bg-slate-50 p-4 rounded-2xl border border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                         <span class="block text-xs font-bold text-slate-700 mb-1">Color to Erase</span>
                         <div class="flex items-center space-x-2">
                             <input id="colorPicker" type="color" value="#ffffff" class="w-10 h-8 p-0.5 border border-slate-300 rounded cursor-pointer">
-                            <span class="text-xs text-slate-500">Click image to sample color</span>
+                            <span class="text-xs text-slate-500">Pick color or click image</span>
                         </div>
                     </div>
                     <div>
@@ -189,7 +188,7 @@
                     </div>
                 </div>
 
-                <!-- Background Replacement Options (iconic remove.bg feature) -->
+                <!-- Background Replacement Options -->
                 <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-3">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Replace Background:</span>
                     <div class="flex flex-wrap items-center gap-2" id="bgChips">
@@ -220,7 +219,7 @@
                     </div>
                 </div>
 
-                <!-- Preview Area: Side-by-side comparison -->
+                <!-- Preview Area: Side-by-side with Interactive Touch-up Canvas -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                     <!-- Original -->
                     <div class="border border-slate-200 rounded-2xl p-3 bg-slate-100 flex flex-col items-center">
@@ -228,10 +227,13 @@
                         <img id="origImgPreview" class="max-w-full h-auto max-h-80 rounded-xl shadow-sm cursor-crosshair">
                     </div>
 
-                    <!-- Cutout Result -->
-                    <div class="border border-slate-200 rounded-2xl p-3 checkerboard flex flex-col items-center" id="resultCard">
-                        <span class="text-xs font-bold text-slate-700 mb-2">Cutout Result (Transparent)</span>
-                        <canvas id="resultCanvas" class="max-w-full h-auto max-h-80 rounded-xl shadow-sm"></canvas>
+                    <!-- Cutout Result with Live Brush Support -->
+                    <div class="border border-slate-200 rounded-2xl p-3 checkerboard flex flex-col items-center relative" id="resultCard">
+                        <div class="flex items-center justify-between w-full mb-2 px-1">
+                            <span class="text-xs font-bold text-slate-700">Cutout Result (Transparent)</span>
+                            <span id="brushStatus" class="text-[10px] text-indigo-600 font-bold hidden">● Brush Active: Click & drag to paint</span>
+                        </div>
+                        <canvas id="resultCanvas" class="max-w-full h-auto max-h-80 rounded-xl shadow-sm cursor-crosshair"></canvas>
                     </div>
                 </div>
 
@@ -249,22 +251,22 @@
 
         <!-- SEO Editorial Content -->
         <section class="mt-20 pt-12 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
-            <h2 class="text-2xl font-black text-slate-900 text-center">Free Online Background Remover like Remove.bg</h2>
+            <h2 class="text-2xl font-black text-slate-900 text-center">Studio-Quality Background Remover Free</h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-                    <span class="text-3xl">⚡</span>
-                    <h3 class="font-bold text-slate-900 text-sm">Automatic In 5 Seconds</h3>
-                    <p class="text-xs text-slate-600">Upload your image and watch the background disappear automatically with zero clicks.</p>
+                    <span class="text-3xl">🧹</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Erase & Restore Brush</h3>
+                    <p class="text-xs text-slate-600">Manual touch-up brush lets you refine tricky hair, clothing edges, or background spots with 100% precision.</p>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-                    <span class="text-3xl">💎</span>
-                    <h3 class="font-bold text-slate-900 text-sm">Full Resolution Free</h3>
-                    <p class="text-xs text-slate-600">Never pay for HD downloads. Get full original quality transparent PNGs without credit systems.</p>
+                    <span class="text-3xl">🎨</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Solid Color Backdrops</h3>
+                    <p class="text-xs text-slate-600">Instantly generate passport and ID photos with standard Blue, White, or Red background fills.</p>
                 </div>
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
                     <span class="text-3xl">🔒</span>
-                    <h3 class="font-bold text-slate-900 text-sm">100% Private</h3>
-                    <p class="text-xs text-slate-600">The AI model runs directly inside your device's browser memory. Your personal photos are never stored.</p>
+                    <h3 class="font-bold text-slate-900 text-sm">Zero Data Retention</h3>
+                    <p class="text-xs text-slate-600">The AI model executes inside your browser memory. Your personal photos are never uploaded or saved.</p>
                 </div>
             </div>
         </section>
@@ -275,7 +277,7 @@
         <p>© 2026 AnyTool.io • Zero File Storage • Free Forever</p>
     </footer>
 
-    <!-- Interactive AI Script -->
+    <!-- Interactive AI & Brush Script -->
     <script>
         const dropzone = document.getElementById('dropzone');
         const imageInput = document.getElementById('imageInput');
@@ -295,11 +297,25 @@
         const toleranceVal = document.getElementById('toleranceVal');
         const reapplyMagicBtn = document.getElementById('reapplyMagicBtn');
 
+        // Touch-up Brush Elements
+        const brushEraseBtn = document.getElementById('brushEraseBtn');
+        const brushRestoreBtn = document.getElementById('brushRestoreBtn');
+        const brushResetBtn = document.getElementById('brushResetBtn');
+        const brushSizeSlider = document.getElementById('brushSizeSlider');
+        const brushSizeVal = document.getElementById('brushSizeVal');
+        const brushStatus = document.getElementById('brushStatus');
+
         let loadedImage = new Image();
         let lastSegmentationMask = null;
         let activeMode = 'ai';
         let currentBgType = 'transparent';
-        let customColorValue = '#ffffff';
+        let activeBrush = null; // 'erase' or 'restore'
+        let brushSize = 30;
+        let isDrawing = false;
+
+        // Custom touch-up alpha mask canvas
+        const userMaskCanvas = document.createElement('canvas');
+        const userMaskCtx = userMaskCanvas.getContext('2d');
 
         // Initialize MediaPipe Selfie Segmentation
         const selfieSegmentation = new SelfieSegmentation({
@@ -307,15 +323,22 @@
         });
 
         selfieSegmentation.setOptions({
-            modelSelection: 1 // 1: Landscape/General, 0: Close-up
+            modelSelection: 1
         });
 
         selfieSegmentation.onResults((results) => {
             lastSegmentationMask = results.segmentationMask;
+            resetUserMask();
             renderResult();
             loadingState.classList.add('hidden');
             workspaceArea.classList.remove('hidden');
         });
+
+        function resetUserMask() {
+            userMaskCanvas.width = loadedImage.naturalWidth;
+            userMaskCanvas.height = loadedImage.naturalHeight;
+            userMaskCtx.clearRect(0, 0, userMaskCanvas.width, userMaskCanvas.height);
+        }
 
         // Handle File Upload
         imageInput.addEventListener('change', (e) => {
@@ -330,13 +353,11 @@
                     dropzone.classList.add('hidden');
                     loadingState.classList.remove('hidden');
 
-                    // Set canvas dimensions to match image
                     resultCanvas.width = loadedImage.naturalWidth;
                     resultCanvas.height = loadedImage.naturalHeight;
+                    resetUserMask();
 
-                    // Execute MediaPipe AI
                     selfieSegmentation.send({ image: loadedImage }).catch(err => {
-                        console.warn("AI fallback to Magic Wand:", err);
                         applyMagicWand();
                         loadingState.classList.add('hidden');
                         workspaceArea.classList.remove('hidden');
@@ -347,30 +368,42 @@
             reader.readAsDataURL(file);
         });
 
-        // Render Cutout with chosen background
+        // Edge Refinement & Anti-Aliased Matting
         function renderResult() {
+            if (!loadedImage.src) return;
+
+            resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+
+            // Fill background if solid color chosen
+            if (currentBgType !== 'transparent') {
+                resultCtx.fillStyle = currentBgType;
+                resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+            }
+
             if (activeMode === 'ai' && lastSegmentationMask) {
-                resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+                // Offscreen mask canvas with edge smoothing
+                const maskCanvas = document.createElement('canvas');
+                maskCanvas.width = resultCanvas.width;
+                maskCanvas.height = resultCanvas.height;
+                const mCtx = maskCanvas.getContext('2d');
 
-                // If user selected a solid background color
-                if (currentBgType !== 'transparent') {
-                    resultCtx.fillStyle = currentBgType;
-                    resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
-                }
+                // Draw smoothed AI mask
+                mCtx.filter = 'blur(1.5px)';
+                mCtx.drawImage(lastSegmentationMask, 0, 0, maskCanvas.width, maskCanvas.height);
+                mCtx.filter = 'none';
 
-                // Draw AI segmentation mask
-                resultCtx.drawImage(lastSegmentationMask, 0, 0, resultCanvas.width, resultCanvas.height);
+                // Apply manual user brush touches
+                mCtx.drawImage(userMaskCanvas, 0, 0);
 
-                // Source-in keeps only the segmented person/subject
+                // Draw cutout
+                resultCtx.drawImage(maskCanvas, 0, 0, resultCanvas.width, resultCanvas.height);
                 resultCtx.globalCompositeOperation = 'source-in';
                 resultCtx.drawImage(loadedImage, 0, 0, resultCanvas.width, resultCanvas.height);
-
-                // Reset composite
                 resultCtx.globalCompositeOperation = 'source-over';
             }
         }
 
-        // Magic Wand / Color-Key Fallback Engine
+        // Magic Wand fallback
         function hexToRgb(hex) {
             const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? {
@@ -393,20 +426,93 @@
                 const r = data[i];
                 const g = data[i + 1];
                 const b = data[i + 2];
-
-                const diff = Math.sqrt(
-                    Math.pow(r - target.r, 2) +
-                    Math.pow(g - target.g, 2) +
-                    Math.pow(b - target.b, 2)
-                );
-
+                const diff = Math.sqrt(Math.pow(r - target.r, 2) + Math.pow(g - target.g, 2) + Math.pow(b - target.b, 2));
                 if (diff < tolerance * 2.2) {
-                    data[i + 3] = 0; // Transparent
+                    data[i + 3] = 0;
                 }
             }
-
             resultCtx.putImageData(imgData, 0, 0);
         }
+
+        // Interactive Brush Handling
+        brushEraseBtn.addEventListener('click', () => {
+            activeBrush = (activeBrush === 'erase') ? null : 'erase';
+            updateBrushButtons();
+        });
+
+        brushRestoreBtn.addEventListener('click', () => {
+            activeBrush = (activeBrush === 'restore') ? null : 'restore';
+            updateBrushButtons();
+        });
+
+        brushResetBtn.addEventListener('click', () => {
+            activeBrush = null;
+            updateBrushButtons();
+            resetUserMask();
+            renderResult();
+        });
+
+        function updateBrushButtons() {
+            brushEraseBtn.className = (activeBrush === 'erase') ? 'tool-btn active px-3 py-1.5 rounded-xl border border-purple-500 text-xs font-bold bg-purple-50 text-purple-700' : 'tool-btn px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-700';
+            brushRestoreBtn.className = (activeBrush === 'restore') ? 'tool-btn active px-3 py-1.5 rounded-xl border border-purple-500 text-xs font-bold bg-purple-50 text-purple-700' : 'tool-btn px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-700';
+
+            if (activeBrush) {
+                brushStatus.classList.remove('hidden');
+                brushStatus.innerText = `● Brush Active: Paint to ${activeBrush}`;
+            } else {
+                brushStatus.classList.add('hidden');
+            }
+        }
+
+        brushSizeSlider.addEventListener('input', (e) => {
+            brushSize = parseInt(e.target.value);
+            brushSizeVal.innerText = `${brushSize}px`;
+        });
+
+        function paintOnCanvas(e) {
+            if (!activeBrush || !isDrawing) return;
+            const rect = resultCanvas.getBoundingClientRect();
+            const scaleX = resultCanvas.width / rect.width;
+            const scaleY = resultCanvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+
+            userMaskCtx.beginPath();
+            userMaskCtx.arc(x, y, brushSize * (scaleX || 1) / 2, 0, Math.PI * 2);
+            if (activeBrush === 'erase') {
+                userMaskCtx.globalCompositeOperation = 'destination-out';
+                userMaskCtx.fillStyle = 'rgba(0,0,0,1)';
+                userMaskCtx.fill();
+            } else if (activeBrush === 'restore') {
+                userMaskCtx.globalCompositeOperation = 'source-over';
+                userMaskCtx.fillStyle = 'rgba(255,255,255,1)';
+                userMaskCtx.fill();
+            }
+            userMaskCtx.globalCompositeOperation = 'source-over';
+            renderResult();
+        }
+
+        resultCanvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            paintOnCanvas(e);
+        });
+        window.addEventListener('mouseup', () => isDrawing = false);
+        resultCanvas.addEventListener('mousemove', paintOnCanvas);
+
+        // Touch support for mobile phones
+        resultCanvas.addEventListener('touchstart', (e) => {
+            if (!activeBrush) return;
+            isDrawing = true;
+            const touch = e.touches[0];
+            paintOnCanvas(touch);
+        });
+        window.addEventListener('touchend', () => isDrawing = false);
+        resultCanvas.addEventListener('touchmove', (e) => {
+            if (!activeBrush) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            paintOnCanvas(touch);
+        });
 
         // Mode Switching
         modeAiBtn.addEventListener('click', () => {
@@ -436,31 +542,27 @@
             });
         });
 
-        // Custom Color Picker
         document.getElementById('customBgColor').addEventListener('input', (e) => {
             bgChips.forEach(c => c.classList.remove('active'));
             currentBgType = e.target.value;
             renderResult();
         });
 
-        // Tolerance slider
         toleranceSlider.addEventListener('input', (e) => {
             toleranceVal.innerText = e.target.value;
         });
 
         reapplyMagicBtn.addEventListener('click', applyMagicWand);
 
-        // Upload another image
         uploadNewBtn.addEventListener('click', () => {
             workspaceArea.classList.add('hidden');
             dropzone.classList.remove('hidden');
             imageInput.value = '';
         });
 
-        // Download PNG
         downloadBtn.addEventListener('click', () => {
             const link = document.createElement('a');
-            link.download = 'anytool-removed-bg.png';
+            link.download = 'anytool-cutout.png';
             link.href = resultCanvas.toDataURL('image/png');
             link.click();
         });

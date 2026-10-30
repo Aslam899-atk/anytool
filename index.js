@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const { PDFDocument } = require('pdf-lib');
+const fs = require('fs');
 const path = require('path');
 
 const app = express();
@@ -45,6 +46,48 @@ app.post('/api/merge-pdf', upload.array('pdfs', 30), async (req, res) => {
     }
 });
 
+// 2. User Feedback API (Store opinions/suggestions)
+app.post('/api/feedback', (req, res) => {
+    try {
+        const { rating, category, message, contact } = req.body;
+        if (!message || message.trim() === '') {
+            return res.status(400).json({ error: 'Message cannot be empty' });
+        }
+
+        const feedbackEntry = {
+            id: Date.now(),
+            date: new Date().toISOString(),
+            rating: rating || 5,
+            category: category || 'General Review',
+            message: message.trim(),
+            contact: contact ? contact.trim() : 'Anonymous'
+        };
+
+        const feedbacksDir = path.join(__dirname, 'data');
+        if (!fs.existsSync(feedbacksDir)) {
+            fs.mkdirSync(feedbacksDir, { recursive: true });
+        }
+
+        const feedbackFilePath = path.join(feedbacksDir, 'feedbacks.json');
+        let feedbacks = [];
+        if (fs.existsSync(feedbackFilePath)) {
+            try {
+                feedbacks = JSON.parse(fs.readFileSync(feedbackFilePath, 'utf8'));
+            } catch (e) {
+                feedbacks = [];
+            }
+        }
+        feedbacks.unshift(feedbackEntry);
+        fs.writeFileSync(feedbackFilePath, JSON.stringify(feedbacks, null, 2), 'utf8');
+
+        console.log(`[Feedback Received] ${feedbackEntry.rating} stars: "${feedbackEntry.message}"`);
+        res.json({ success: true, message: 'Thank you for your feedback!' });
+    } catch (err) {
+        console.error('Error saving feedback:', err);
+        res.status(500).json({ error: 'Failed to save feedback' });
+    }
+});
+
 // --- SEO CLEAN URL ALIASES ---
 app.get(['/qr-code-generator', '/qr-generator'], (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qr-generator.html'));
@@ -68,6 +111,14 @@ app.get(['/bg-remover', '/background-remover'], (req, res) => {
 
 app.get('/image-converter', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'image-converter.html'));
+});
+
+app.get(['/binary-tools', '/binary-encode-decode'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'binary-tools.html'));
+});
+
+app.get(['/video-downloader', '/media-downloader'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'video-downloader.html'));
 });
 
 app.get('/python-runner', (req, res) => {
