@@ -3,24 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Split PDF - AnyTool.io</title>
-    <meta name="description" content="Split PDF files or extract selected pages for free in your browser. Fast, 100% private, no file uploads to servers.">
+    <title>Split PDF Files Online for Free - Extract PDF Pages | AnyTool</title>
+    <meta name="description" content="Split PDF files or extract selected pages for free in your browser. 100% private client-side processing with zero server uploads.">
+    <meta name="keywords" content="split pdf, extract pdf pages, separate pdf, free pdf splitter, split pdf online free, ilovepdf split alternative">
+    <link rel="canonical" href="https://anytool.io/split-pdf">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anytool.io/split-pdf">
+    <meta property="og:title" content="Split PDF Files Online for Free - AnyTool.io">
+    <meta property="og:description" content="Extract individual pages or page ranges from any PDF document instantly and privately in your browser.">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool PDF Splitter",
+      "url": "https://anytool.io/split-pdf",
+      "description": "Free online client-side PDF splitter to extract pages from PDF documents without uploading files to any server.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
     <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-200">
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <a href="/" class="flex items-center space-x-2 text-indigo-600 hover:text-indigo-700">
-                    <span class="text-2xl font-black tracking-tight">AnyTool<span class="text-pink-500">.io</span></span>
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-rose-600 to-red-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
                 </a>
-                <div class="flex space-x-4">
-                    <a href="/merge-pdf.html" class="text-sm font-semibold text-red-600 hover:text-red-800">
-                        Merge PDF →
+                <div class="flex items-center space-x-4">
+                    <a href="/merge-pdf.html" class="text-xs sm:text-sm font-bold text-red-600 hover:text-red-700 bg-red-50 px-3 py-1.5 rounded-lg border border-red-200 transition">
+                        📄 Merge PDF →
                     </a>
-                    <a href="/" class="text-sm font-semibold text-gray-600 hover:text-indigo-600">
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
                         ← All Tools
                     </a>
                 </div>
@@ -29,51 +58,71 @@
     </nav>
 
     <!-- Header -->
-    <header class="bg-gradient-to-r from-red-600 to-rose-600 text-white py-10 px-4 text-center">
-        <h1 class="text-3xl sm:text-4xl font-extrabold mb-3">Split PDF & Extract Pages</h1>
-        <p class="text-red-100 max-w-xl mx-auto text-sm sm:text-base">
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-700 rounded-full text-xs font-bold mb-3 border border-rose-200">
+            <span>✂️ 100% In-Browser • Never Leaves Your Device</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Split <span class="bg-gradient-to-r from-rose-600 to-red-600 bg-clip-text text-transparent">PDF & Extract Pages</span>
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
             Extract individual pages or page ranges from your PDF document instantly and privately in your browser.
         </p>
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 flex-grow w-full">
-        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-10 space-y-6">
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-6">
             <!-- Dropzone -->
-            <div id="dropzone" class="border-2 border-dashed border-red-300 rounded-2xl p-8 text-center hover:border-red-500 transition cursor-pointer bg-red-50/50" onclick="document.getElementById('pdfInput').click()">
-                <svg class="w-12 h-12 text-red-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                <p id="uploadLabel" class="text-base font-bold text-gray-800">Click to upload PDF or drag & drop</p>
-                <p class="text-xs text-gray-500 mt-1">Processed 100% locally in your browser (Never uploaded to server)</p>
+            <div id="dropzone" class="border-2 border-dashed border-rose-300 rounded-2xl p-8 sm:p-12 text-center hover:border-rose-500 transition cursor-pointer bg-rose-50/40" onclick="document.getElementById('pdfInput').click()">
+                <svg class="w-14 h-14 text-rose-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                <p id="uploadLabel" class="text-base font-bold text-slate-800">Click to upload PDF or drag & drop</p>
+                <p class="text-xs text-slate-500 mt-1">Processed 100% locally inside your browser</p>
                 <input type="file" id="pdfInput" accept="application/pdf" class="hidden">
             </div>
 
             <!-- PDF Options Section (Hidden until loaded) -->
-            <div id="splitOptions" class="hidden space-y-5 border-t border-gray-200 pt-6">
-                <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-200">
+            <div id="splitOptions" class="hidden space-y-5 border-t border-slate-200 pt-6">
+                <div class="flex items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-200">
                     <div>
-                        <h4 id="pdfFileName" class="font-bold text-gray-800 text-sm">document.pdf</h4>
-                        <p id="pdfPageCount" class="text-xs text-gray-500">Total: 0 pages</p>
+                        <h4 id="pdfFileName" class="font-bold text-slate-900 text-sm">document.pdf</h4>
+                        <p id="pdfPageCount" class="text-xs text-slate-500">Total: 0 pages</p>
                     </div>
-                    <span class="text-xs font-semibold bg-red-100 text-red-700 px-3 py-1 rounded-full">Ready</span>
+                    <span class="text-xs font-bold bg-rose-100 text-rose-700 px-3 py-1 rounded-full">Ready</span>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Pages to Extract</label>
-                    <input id="pageRangeInput" type="text" class="w-full border border-gray-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="e.g. 1-3, 5, 7-9">
-                    <p class="text-xs text-gray-500 mt-1">Enter specific page numbers or ranges separated by commas (e.g., 1-2, 4).</p>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Pages to Extract</label>
+                    <input id="pageRangeInput" type="text" class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-rose-500 focus:outline-none" placeholder="e.g. 1-3, 5, 7-9">
+                    <p class="text-xs text-slate-500 mt-1">Enter specific page numbers or ranges separated by commas (e.g. 1-2, 4).</p>
                 </div>
 
-                <button id="splitBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                    Split & Download Extracted PDF
+                <button id="splitBtn" class="w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-extrabold py-4 px-6 rounded-2xl shadow-lg shadow-rose-500/25 transition duration-200 flex items-center justify-center space-x-2 text-base">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+                    <span>Split & Download Extracted PDF</span>
                 </button>
             </div>
         </div>
+
+        <!-- SEO Editorial Content -->
+        <section class="mt-16 pt-10 border-t border-slate-200 max-w-3xl mx-auto space-y-6">
+            <h2 class="text-2xl font-bold text-slate-900 text-center">Why Split PDFs Locally with AnyTool?</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1">🔒 Maximum Confidentiality</h3>
+                    <p class="text-xs text-slate-600">Your documents are rendered and sliced directly by your browser's WebAssembly engine. They are never transmitted over the internet.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1">⚡ Zero Waiting Time</h3>
+                    <p class="text-xs text-slate-600">Because there are no large file uploads or download queues, page extraction happens instantaneously even for 100+ page PDFs.</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500 mt-12">
-        <p>© 2026 AnyTool.io • Zero Data Retention • 100% Free</p>
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-16 text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Zero File Retention • Free Forever</p>
     </footer>
 
     <script>
@@ -154,7 +203,7 @@
                 const blob = new Blob([newBytes], { type: 'application/pdf' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = `extracted_pages_${pdfFileName.innerText}`;
+                link.download = `extracted_${pdfFileName.innerText}`;
                 link.click();
             } catch (err) {
                 alert("Failed to split PDF: " + err.message);

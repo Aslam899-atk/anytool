@@ -45,6 +45,46 @@ app.post('/api/merge-pdf', upload.array('pdfs', 30), async (req, res) => {
     }
 });
 
+// --- SEO CLEAN URL ALIASES ---
+app.get(['/qr-code-generator', '/qr-generator'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qr-generator.html'));
+});
+
+app.get(['/qr-scanner', '/qr-reader'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qr-scanner.html'));
+});
+
+app.get('/merge-pdf', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'merge-pdf.html'));
+});
+
+app.get('/split-pdf', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'split-pdf.html'));
+});
+
+app.get(['/bg-remover', '/background-remover'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'bg-remover.html'));
+});
+
+app.get('/image-converter', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'image-converter.html'));
+});
+
+app.get('/python-runner', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'python-runner.html'));
+});
+
+// Sitemap and Robots routes
+app.get('/sitemap.xml', (req, res) => {
+    res.type('application/xml');
+    res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
+});
+
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+});
+
 // Fallback for missing routes: serve homepage
 app.get(/(.*)/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
