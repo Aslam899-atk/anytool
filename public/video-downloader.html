@@ -18,24 +18,6 @@
     <meta property="og:title" content="Free Video & Audio Downloader - YouTube & Instagram | AnyTool">
     <meta property="og:description" content="Download YouTube videos, Instagram Reels, and audio for free in high quality.">
 
-    <!-- Schema.org WebApplication -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "AnyTool Social Media Downloader",
-      "url": "https://anytool.io/video-downloader",
-      "description": "Free online video and audio downloader supporting YouTube, Instagram Reels, and audio extraction.",
-      "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "All",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
-    }
-    </script>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
@@ -50,7 +32,7 @@
                     <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-pink-600 to-indigo-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
                 </a>
                 <div class="flex items-center space-x-4">
-                    <a href="/qr-code-generator" class="text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+                    <a href="/qr-code-generator.html" class="text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-200 transition">
                         📱 QR Generator →
                     </a>
                     <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-pink-600 transition">
@@ -78,108 +60,69 @@
     <main class="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full space-y-8">
         <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-6">
             
-            <!-- Link Input Box -->
-            <div class="space-y-3">
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Paste Link Here</label>
-                <div class="relative">
-                    <input type="url" id="mediaUrl" placeholder="https://www.youtube.com/watch?v=... or https://www.instagram.com/reel/..." required
-                        class="w-full pl-4 pr-12 py-4 bg-slate-50 border border-slate-300 rounded-2xl text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none transition">
-                    <button type="button" id="pasteBtn" class="absolute right-3 top-3 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 hover:text-pink-600 rounded-xl text-xs font-bold shadow-sm transition">
-                        Paste
-                    </button>
-                </div>
-                
-                <!-- Supported Badges -->
-                <div class="flex items-center space-x-2 text-[11px] text-slate-400 font-medium pt-1">
-                    <span>Supports:</span>
-                    <span class="px-2 py-0.5 rounded bg-red-50 text-red-700 font-bold">YouTube</span>
-                    <span class="px-2 py-0.5 rounded bg-pink-50 text-pink-700 font-bold">Instagram Reels</span>
-                    <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-bold">TikTok</span>
-                </div>
-            </div>
-
-            <!-- Format Chooser (Video, Audio, Thumbnail) -->
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Select Download Format</label>
-                <div class="grid grid-cols-3 gap-3">
-                    <label class="cursor-pointer">
-                        <input type="radio" name="formatOption" value="video" checked class="peer hidden">
-                        <div class="peer-checked:bg-pink-600 peer-checked:text-white peer-checked:border-pink-600 bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-2xl text-center font-bold text-xs sm:text-sm transition flex flex-col items-center">
-                            <span class="text-lg mb-0.5">🎬</span>
-                            <span>MP4 Video (HD)</span>
-                        </div>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="formatOption" value="audio" class="peer hidden">
-                        <div class="peer-checked:bg-pink-600 peer-checked:text-white peer-checked:border-pink-600 bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-2xl text-center font-bold text-xs sm:text-sm transition flex flex-col items-center">
-                            <span class="text-lg mb-0.5">🎵</span>
-                            <span>MP3 Audio</span>
-                        </div>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="formatOption" value="image" class="peer hidden">
-                        <div class="peer-checked:bg-pink-600 peer-checked:text-white peer-checked:border-pink-600 bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-2xl text-center font-bold text-xs sm:text-sm transition flex flex-col items-center">
-                            <span class="text-lg mb-0.5">🖼️</span>
-                            <span>Thumbnail / Photo</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Action Button -->
-            <button type="button" id="fetchBtn" class="w-full bg-gradient-to-r from-pink-600 to-indigo-600 hover:from-pink-700 hover:to-indigo-700 text-white font-extrabold py-4 px-6 rounded-2xl shadow-lg shadow-pink-500/25 transition duration-200 flex items-center justify-center space-x-2 text-base">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                <span>Download Media Now</span>
-            </button>
-
-            <!-- Result Box (Appears with links) -->
-            <div id="resultArea" class="hidden bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
-                <div class="flex items-center space-x-3">
-                    <span class="text-2xl">🎉</span>
-                    <div>
-                        <h4 id="mediaTitle" class="font-bold text-slate-900 text-sm">Media Ready</h4>
-                        <p id="mediaPlatform" class="text-xs text-slate-500">Platform Detected</p>
+            <!-- FORM START: ഇത് പൈത്തൺ ബാക്കെൻഡിലേക്ക് (/download) റിക്വസ്റ്റ് അയക്കും -->
+            <form id="downloadForm" action="/download" method="POST" class="space-y-6">
+                <!-- Link Input Box -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Paste Link Here</label>
+                    <div class="relative">
+                        <input type="url" name="url" id="mediaUrl" placeholder="https://www.youtube.com/watch?v=... or https://www.instagram.com/reel/..." required
+                            class="w-full pl-4 pr-12 py-4 bg-slate-50 border border-slate-300 rounded-2xl text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none transition">
+                        <button type="button" id="pasteBtn" class="absolute right-3 top-3 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 hover:text-pink-600 rounded-xl text-xs font-bold shadow-sm transition">
+                            Paste
+                        </button>
+                    </div>
+                    
+                    <!-- Supported Badges -->
+                    <div class="flex items-center space-x-2 text-[11px] text-slate-400 font-medium pt-1">
+                        <span>Supports:</span>
+                        <span class="px-2 py-0.5 rounded bg-red-50 text-red-700 font-bold">YouTube</span>
+                        <span class="px-2 py-0.5 rounded bg-pink-50 text-pink-700 font-bold">Instagram Reels</span>
                     </div>
                 </div>
 
-                <!-- Preview Thumbnail -->
-                <div id="thumbContainer" class="hidden rounded-xl overflow-hidden border border-slate-200 max-h-64 flex justify-center bg-black">
-                    <img id="mediaThumb" class="max-h-64 object-contain">
+                <!-- Format Chooser (Video, Audio, Thumbnail) -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Select Download Format</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="formatOption" value="video" checked class="peer hidden">
+                            <div class="peer-checked:bg-pink-600 peer-checked:text-white peer-checked:border-pink-600 bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-2xl text-center font-bold text-xs sm:text-sm transition flex flex-col items-center">
+                                <span class="text-lg mb-0.5">🎬</span>
+                                <span>MP4 Video (HD)</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="formatOption" value="audio" class="peer hidden">
+                            <div class="peer-checked:bg-pink-600 peer-checked:text-white peer-checked:border-pink-600 bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-2xl text-center font-bold text-xs sm:text-sm transition flex flex-col items-center">
+                                <span class="text-lg mb-0.5">🎵</span>
+                                <span>MP3 Audio</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="formatOption" value="image" class="peer hidden">
+                            <div class="peer-checked:bg-pink-600 peer-checked:text-white peer-checked:border-pink-600 bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-2xl text-center font-bold text-xs sm:text-sm transition flex flex-col items-center">
+                                <span class="text-lg mb-0.5">🖼️</span>
+                                <span>Thumbnail / Photo</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                    <a id="directDownloadLink" href="#" target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl text-center text-xs sm:text-sm shadow transition flex items-center justify-center space-x-2">
-                        <span>⬇ Download File</span>
-                    </a>
-                    <button type="button" id="copyMediaUrl" class="bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold py-3 px-4 rounded-xl text-xs transition">
-                        Copy Link
-                    </button>
-                </div>
+                <!-- Action Button -->
+                <button type="submit" id="fetchBtn" class="w-full bg-gradient-to-r from-pink-600 to-indigo-600 hover:from-pink-700 hover:to-indigo-700 text-white font-extrabold py-4 px-6 rounded-2xl shadow-lg shadow-pink-500/25 transition duration-200 flex items-center justify-center space-x-2 text-base">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span id="btnText">Download Media Now</span>
+                </button>
+            </form>
+            <!-- FORM END -->
+
+            <!-- Status / Loading Area -->
+            <div id="statusArea" class="hidden text-center p-4 rounded-xl font-semibold text-sm bg-blue-50 text-blue-700">
+                വീഡിയോ ഡൗൺലോഡ് ആയിക്കൊണ്ടിരിക്കുന്നു, ദയവായി കാത്തിരിക്കൂ...
             </div>
 
         </div>
-
-        <!-- SEO Editorial Content -->
-        <section class="mt-20 pt-12 border-t border-slate-200 max-w-3xl mx-auto space-y-6">
-            <h2 class="text-2xl font-bold text-slate-900 text-center">How to Download Videos, Reels & Audio</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center">
-                    <div class="w-8 h-8 mx-auto rounded-full bg-pink-100 text-pink-600 font-bold flex items-center justify-center text-sm mb-2">1</div>
-                    <h3 class="font-bold text-slate-900 text-sm mb-1">Copy Link</h3>
-                    <p class="text-xs text-slate-600">Copy the share link from YouTube or Instagram app/website.</p>
-                </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center">
-                    <div class="w-8 h-8 mx-auto rounded-full bg-pink-100 text-pink-600 font-bold flex items-center justify-center text-sm mb-2">2</div>
-                    <h3 class="font-bold text-slate-900 text-sm mb-1">Choose Format</h3>
-                    <p class="text-xs text-slate-600">Select MP4 video, MP3 audio, or high-res thumbnail cover.</p>
-                </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center">
-                    <div class="w-8 h-8 mx-auto rounded-full bg-pink-100 text-pink-600 font-bold flex items-center justify-center text-sm mb-2">3</div>
-                    <h3 class="font-bold text-slate-900 text-sm mb-1">Download</h3>
-                    <p class="text-xs text-slate-600">Click download to save the file straight to your device.</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -190,93 +133,28 @@
     <script>
         const mediaUrlInput = document.getElementById('mediaUrl');
         const pasteBtn = document.getElementById('pasteBtn');
+        const downloadForm = document.getElementById('downloadForm');
         const fetchBtn = document.getElementById('fetchBtn');
-        const resultArea = document.getElementById('resultArea');
-        const mediaTitle = document.getElementById('mediaTitle');
-        const mediaPlatform = document.getElementById('mediaPlatform');
-        const mediaThumb = document.getElementById('mediaThumb');
-        const thumbContainer = document.getElementById('thumbContainer');
-        const directDownloadLink = document.getElementById('directDownloadLink');
-        const copyMediaUrl = document.getElementById('copyMediaUrl');
+        const btnText = document.getElementById('btnText');
+        const statusArea = document.getElementById('statusArea');
 
+        // Paste Button Logic
         pasteBtn.addEventListener('click', async () => {
             try {
                 const text = await navigator.clipboard.readText();
                 if (text) {
                     mediaUrlInput.value = text;
-                    processInputLink();
                 }
             } catch (e) {
                 mediaUrlInput.focus();
             }
         });
 
-        function extractYouTubeID(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
-        }
-
-        function extractInstagramShortcode(url) {
-            const match = url.match(/(?:reel|reels|p)\/([a-zA-Z0-9_-]+)/);
-            return match ? match[1] : null;
-        }
-
-        function processInputLink() {
-            const url = mediaUrlInput.value.trim();
-            const selectedFormat = document.querySelector('input[name="formatOption"]:checked').value;
-
-            if (!url) {
-                alert("Please paste a valid video or reel link.");
-                return;
-            }
-
-            const ytId = extractYouTubeID(url);
-            const igShortcode = extractInstagramShortcode(url);
-
-            resultArea.classList.remove('hidden');
-
-            if (ytId) {
-                mediaPlatform.innerText = "YouTube Video Detected";
-                mediaTitle.innerText = `YouTube: ${ytId}`;
-                const hqThumb = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
-                mediaThumb.src = hqThumb;
-                thumbContainer.classList.remove('hidden');
-
-                if (selectedFormat === 'image') {
-                    directDownloadLink.href = hqThumb;
-                    directDownloadLink.innerText = "⬇ Download HD Thumbnail Image";
-                } else if (selectedFormat === 'audio') {
-                    // Direct high-speed YouTube Audio Resolver Link
-                    directDownloadLink.href = `https://loader.to/api/button/?url=${encodeURIComponent(url)}&f=mp3`;
-                    directDownloadLink.innerText = "⬇ Download MP3 Audio";
-                } else {
-                    directDownloadLink.href = `https://loader.to/api/button/?url=${encodeURIComponent(url)}&f=1080`;
-                    directDownloadLink.innerText = "⬇ Download MP4 Video (HD)";
-                }
-            } else if (igShortcode) {
-                mediaPlatform.innerText = "Instagram Reel / Post Detected";
-                mediaTitle.innerText = `Instagram Post: ${igShortcode}`;
-                thumbContainer.classList.add('hidden');
-
-                // Instagram Direct Download Bridge
-                directDownloadLink.href = `https://saveig.app/en?url=${encodeURIComponent(url)}`;
-                directDownloadLink.innerText = "⬇ Download Instagram Reel / Media";
-            } else {
-                mediaPlatform.innerText = "Web Media URL";
-                mediaTitle.innerText = "Direct Stream";
-                thumbContainer.classList.add('hidden');
-                directDownloadLink.href = url;
-                directDownloadLink.innerText = "⬇ Open / Download Media";
-            }
-        }
-
-        fetchBtn.addEventListener('click', processInputLink);
-
-        copyMediaUrl.addEventListener('click', () => {
-            navigator.clipboard.writeText(directDownloadLink.href);
-            copyMediaUrl.innerText = "Copied! ✓";
-            setTimeout(() => copyMediaUrl.innerText = "Copy Link", 2000);
+        // Form Submit Loading Animation
+        downloadForm.addEventListener('submit', () => {
+            fetchBtn.disabled = true;
+            btnText.innerText = "Processing & Downloading...";
+            statusArea.classList.remove('hidden');
         });
     </script>
 </body>
