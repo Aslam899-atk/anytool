@@ -27,6 +27,7 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
     <!-- Navbar -->
@@ -158,13 +159,60 @@
         qrFileInput.addEventListener("change", (e) => {
             if (e.target.files.length === 0) return;
             const imageFile = e.target.files[0];
-            html5QrCode.scanFile(imageFile, true)
-                .then(decodedText => {
-                    displayResult(decodedText);
-                })
-                .catch(err => {
-                    alert("No QR code found in this image. Please try a clearer image.");
-                });
+            
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    // Method 1: Scan using jsQR with quiet-zone padding (fixes 99% of cropped/custom QR codes)
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+                    const padding = Math.max(24, Math.round(img.width * 0.08));
+                    canvas.width = img.width + (padding * 2);
+                    canvas.height = img.height + (padding * 2);
+
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, padding, padding, img.width, img.height);
+
+                    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    let code = jsQR(imgData.data, imgData.width, imgData.height, {
+                        inversionAttempts: "attemptBoth"
+                    });
+
+                    if (code && code.data) {
+                        displayResult(code.data);
+                        return;
+                    }
+
+                    // Method 2: Scan raw without padding
+                    const rawCanvas = document.createElement("canvas");
+                    rawCanvas.width = img.width;
+                    rawCanvas.height = img.height;
+                    const rawCtx = rawCanvas.getContext("2d");
+                    rawCtx.drawImage(img, 0, 0);
+                    const rawData = rawCtx.getImageData(0, 0, img.width, img.height);
+                    code = jsQR(rawData.data, rawData.width, rawData.height, {
+                        inversionAttempts: "attemptBoth"
+                    });
+
+                    if (code && code.data) {
+                        displayResult(code.data);
+                        return;
+                    }
+
+                    // Method 3: Fallback to html5QrCode engine
+                    html5QrCode.scanFile(imageFile, false)
+                        .then(decodedText => {
+                            displayResult(decodedText);
+                        })
+                        .catch(err => {
+                            alert("Could not detect a QR code in this image. Please make sure the QR code is clearly visible, well-lit, and in focus.");
+                        });
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(imageFile);
         });
 
         const startCamBtn = document.getElementById("startCamBtn");

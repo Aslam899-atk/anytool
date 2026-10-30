@@ -639,6 +639,7 @@
             height: 280,
             type: "canvas",
             data: "https://anytool.io",
+            margin: 16,
             image: "",
             dotsOptions: {
                 color: currentFgColor,
@@ -657,7 +658,7 @@
             },
             imageOptions: {
                 crossOrigin: "anonymous",
-                margin: 4,
+                margin: 6,
                 imageSize: currentLogoSize,
                 hideBackgroundDots: true
             },
@@ -713,6 +714,7 @@
             
             qrCode.update({
                 data: dataString,
+                margin: 16,
                 dotsOptions: {
                     color: currentFgColor,
                     type: currentPattern
@@ -731,7 +733,7 @@
                 image: currentLogo,
                 imageOptions: {
                     crossOrigin: "anonymous",
-                    margin: 4,
+                    margin: 6,
                     imageSize: currentLogoSize,
                     hideBackgroundDots: true
                 },
@@ -902,19 +904,21 @@
             downloadBtn.innerText = "Generating Download...";
             downloadBtn.disabled = true;
 
-            // Create temporary high-res instance for download
+            // Create temporary high-res instance for download with proper Quiet Zone margin
+            const downloadMargin = Math.max(24, Math.round(size * 0.06));
             const downloadQr = new QRCodeStyling({
                 width: size,
                 height: size,
                 type: "canvas",
                 data: getPayloadData(),
+                margin: downloadMargin,
                 image: currentLogo,
                 dotsOptions: {
                     color: currentFgColor,
                     type: currentPattern
                 },
                 backgroundOptions: {
-                    color: currentBgColor
+                    color: currentBgColor || "#ffffff"
                 },
                 cornersSquareOptions: {
                     type: currentCornerSquare,
@@ -926,7 +930,7 @@
                 },
                 imageOptions: {
                     crossOrigin: "anonymous",
-                    margin: 6,
+                    margin: Math.max(6, Math.round(size * 0.015)),
                     imageSize: currentLogoSize,
                     hideBackgroundDots: true
                 },
