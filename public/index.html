@@ -78,6 +78,9 @@
             <button data-filter="dev" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition">
                 💻 Dev & Code
             </button>
+            <button data-filter="security" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition">
+                🛡️ Cyber & Security
+            </button>
             <button data-filter="video" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition">
                 🎥 Video & Audio
             </button>
@@ -214,17 +217,17 @@
                 </div>
             </a>
 
-            <!-- 8. Binary Code Translator (New) -->
-            <a href="/binary-tools" data-category="dev" data-title="Binary Code Translator Text Base64 Hex" data-desc="Convert Text to Binary 01, Binary to Text, Base64 and Hexadecimal online." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between">
+            <!-- 8. Binary Code Translator (Dedicated) -->
+            <a href="/binary-tools" data-category="dev" data-title="Binary Code Translator Text to Binary 01" data-desc="Translate text to 8-bit binary 01 code and decode binary into readable text." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between">
                 <div>
                     <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
                         <span class="text-xl font-mono font-black">01</span>
                     </div>
                     <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition">Binary Translator</h3>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition">Binary Code</h3>
                         <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-700">Dev</span>
                     </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Translate Text to Binary (01), Binary to Text, Base64, and Hex with instant copy.</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">Translate English text to 8-bit binary bits and binary code back to text with live copy.</p>
                 </div>
                 <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600">
                     <span>Open Tool</span>
@@ -232,7 +235,97 @@
                 </div>
             </a>
 
-            <!-- 9. Video & Audio Downloader (New) -->
+            <!-- 9. Hexadecimal Converter (Dedicated) -->
+            <a href="/hex-tools" data-category="dev" data-title="Hexadecimal Converter Text to Hex 0x Dec" data-desc="Convert text to hexadecimal code and hex to plain text with spaces or 0x prefixes." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
+                        <span class="text-lg font-mono font-black">0x</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition">Hex Converter</h3>
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-100 text-amber-700">Dev</span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">Convert plain text into Hex (base-16) and decode Hex to ASCII with custom delimiters.</p>
+                </div>
+                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-600">
+                    <span>Open Tool</span>
+                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
+                </div>
+            </a>
+
+            <!-- 10. Base64 Encoder & Decoder (Dedicated) -->
+            <a href="/base64-tools" data-category="dev" data-title="Base64 Encoder Decoder Text File Data URI" data-desc="Encode and decode Base64 strings, convert images and files to Base64 Data URIs." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-indigo-400 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
+                        <span class="text-lg font-mono font-black">64</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition">Base64 Encoder</h3>
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">Dev</span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">Encode text to Base64, decode Base64 strings, and convert files into Base64 Data URIs.</p>
+                </div>
+                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-indigo-600">
+                    <span>Open Tool</span>
+                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
+                </div>
+            </a>
+
+            <!-- 11. Image to PDF Converter (Dedicated) -->
+            <a href="/image-to-pdf" data-category="pdf" data-title="Image to PDF Converter JPG PNG WEBP Photo" data-desc="Convert JPG, PNG, and WEBP pictures into a single organized PDF document." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-red-400 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-red-600 transition">Image to PDF</h3>
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-red-100 text-red-700">PDF</span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">Turn multiple photos into a clean PDF document with drag & reorder support.</p>
+                </div>
+                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-red-600">
+                    <span>Open Tool</span>
+                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
+                </div>
+            </a>
+
+            <!-- 12. IPv4 & IPv6 Subnet Calculator (Cyber Security / Networking) -->
+            <a href="/ip-tools" data-category="security dev" data-title="IPv4 IPv6 Subnet Calculator CIDR IP Address Cyber Security Network" data-desc="Calculate CIDR subnet mask, usable host ranges, broadcast, and IPv6 notations." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-violet-400 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-violet-600 transition">IP Subnet Calc</h3>
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-violet-100 text-violet-700">Security</span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">Calculate CIDR prefixes, subnet masks, usable host ranges, and IPv6 address mappings.</p>
+                </div>
+                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-violet-600">
+                    <span>Open Tool</span>
+                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
+                </div>
+            </a>
+
+            <!-- 13. Cryptographic Hash Generator & Checksum (Cyber Security) -->
+            <a href="/hash-generator" data-category="security dev" data-title="Cryptographic Hash Generator MD5 SHA-256 SHA-512 SHA-1 Checksum Verify Tamper Security" data-desc="Generate cryptographic hashes for text and files; verify file checksums and detect tampering." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">Hash & Checksum</h3>
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">Security</span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">Compute SHA-256, MD5, SHA-512, and SHA-1 hashes for text and verify file checksum integrity.</p>
+                </div>
+                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600">
+                    <span>Open Tool</span>
+                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
+                </div>
+            </a>
+
+            <!-- 14. Video & Audio Downloader -->
             <a href="/video-downloader.html" data-category="video" data-title="Video Audio Downloader YouTube Instagram Reels" data-desc="Download videos and audio from YouTube, Instagram Reels, and social media." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-pink-400 transition-all duration-300 flex flex-col justify-between">
                 <div>
                     <div class="w-12 h-12 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
@@ -357,7 +450,7 @@
                 const category = card.getAttribute('data-category');
 
                 const matchesQuery = title.includes(query) || desc.includes(query);
-                const matchesCategory = (currentFilter === 'all') || (category === currentFilter);
+                const matchesCategory = (currentFilter === 'all') || category.split(' ').includes(currentFilter);
 
                 if (matchesQuery && matchesCategory) {
                     card.style.display = 'flex';

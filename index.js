@@ -117,6 +117,26 @@ app.get(['/binary-tools', '/binary-encode-decode'], (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'binary-tools.html'));
 });
 
+app.get(['/hex-tools', '/hex-converter'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'hex-tools.html'));
+});
+
+app.get(['/base64-tools', '/base64-converter'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'base64-tools.html'));
+});
+
+app.get(['/ip-tools', '/ip-subnet-calculator'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'ip-tools.html'));
+});
+
+app.get(['/hash-generator', '/checksum-tool'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'hash-generator.html'));
+});
+
+app.get(['/image-to-pdf', '/jpg-to-pdf'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'image-to-pdf.html'));
+});
+
 app.get(['/video-downloader', '/media-downloader'], (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'video-downloader.html'));
 });

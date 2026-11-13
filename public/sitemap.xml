@@ -72,7 +72,42 @@
   <!-- Binary Code Translator -->
   <url>
     <loc>https://anytool.io/binary-tools</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <!-- Hexadecimal Converter -->
+  <url>
+    <loc>https://anytool.io/hex-tools</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <!-- Base64 Encoder & Decoder -->
+  <url>
+    <loc>https://anytool.io/base64-tools</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <!-- Image to PDF Converter -->
+  <url>
+    <loc>https://anytool.io/image-to-pdf</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- IPv4 & IPv6 Subnet Calculator -->
+  <url>
+    <loc>https://anytool.io/ip-tools</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <!-- Cryptographic Hash & Checksum Generator -->
+  <url>
+    <loc>https://anytool.io/hash-generator</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>

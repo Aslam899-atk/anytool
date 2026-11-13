@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexadecimal Converter - Text to Hex & Hex to Text Free | AnyTool</title>
+    <meta name="description" content="Convert Text to Hex and Hexadecimal to Text online for free. Also supports Decimal to Hex, Hex to Binary, and Hex color code previews. Fast, private, in-browser.">
+    <meta name="keywords" content="hex converter, text to hex, hex to text, hexadecimal translator, hex to decimal, hex to binary, free hex converter online">
+    <link rel="canonical" href="https://anytool.io/hex-tools">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Hexadecimal Converter",
+      "url": "https://anytool.io/hex-tools",
+      "description": "Free online developer tool to translate Text to Hexadecimal and Hex to Text with instant real-time live preview.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .mode-tab.active {
+            border-color: #f59e0b;
+            background-color: #fef3c7;
+            color: #b45309;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-amber-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="/binary-tools.html" class="text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200 transition">
+                        01 Binary Translator →
+                    </a>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-amber-600 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-bold mb-3 border border-amber-200">
+            <span>#️⃣ Dedicated Hexadecimal Converter • Base-16 Tool</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Hexadecimal <span class="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Converter & Translator</span>
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
+            Easily convert plain text into Hexadecimal values (0-9, A-F) and decode raw hex strings back into readable text. Includes prefix formatting and byte spaces.
+        </p>
+    </header>
+
+    <!-- Main Tool Container -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-6">
+            
+            <!-- Mode Switcher -->
+            <div class="grid grid-cols-2 gap-3 border-b border-slate-100 pb-4 max-w-md mx-auto">
+                <button id="btnTextToHex" class="mode-tab active px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm transition flex items-center justify-center space-x-2">
+                    <span class="text-lg">📝 ➔ #️⃣</span>
+                    <span>Text to Hex</span>
+                </button>
+                <button id="btnHexToText" class="mode-tab px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-2">
+                    <span class="text-lg">#️⃣ ➔ 📝</span>
+                    <span>Hex to Text</span>
+                </button>
+            </div>
+
+            <!-- Delimiter & Format Options -->
+            <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                <div class="flex items-center space-x-3 text-xs font-semibold text-slate-700">
+                    <span>Delimiter:</span>
+                    <label class="cursor-pointer inline-flex items-center space-x-1">
+                        <input type="radio" name="delimiter" value="space" checked class="text-amber-600">
+                        <span>Space (48 65 78)</span>
+                    </label>
+                    <label class="cursor-pointer inline-flex items-center space-x-1">
+                        <input type="radio" name="delimiter" value="0x" class="text-amber-600">
+                        <span>0x Prefix (0x48, 0x65)</span>
+                    </label>
+                    <label class="cursor-pointer inline-flex items-center space-x-1">
+                        <input type="radio" name="delimiter" value="none" class="text-amber-600">
+                        <span>None (486578)</span>
+                    </label>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <label class="cursor-pointer inline-flex items-center space-x-1 text-xs font-semibold text-slate-700">
+                        <input type="checkbox" id="uppercaseCheck" checked class="text-amber-600 rounded">
+                        <span>Uppercase (A-F)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Workspace: Inputs & Outputs -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                
+                <!-- Left: Input Area -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label id="inputLabel" class="text-xs font-bold uppercase tracking-wider text-slate-700">Enter Plain Text</label>
+                        <button id="clearBtn" class="text-xs text-slate-400 hover:text-red-500 font-semibold transition">Clear</button>
+                    </div>
+                    <textarea id="inputText" rows="9" class="w-full bg-slate-50 border border-slate-300 rounded-2xl p-4 text-sm font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Type or paste text...">Cyber Security</textarea>
+                    <div class="flex justify-between text-[11px] text-slate-400">
+                        <span id="charCount">14 characters</span>
+                        <span>Auto-updates in real time</span>
+                    </div>
+                </div>
+
+                <!-- Right: Output Area -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label id="outputLabel" class="text-xs font-bold uppercase tracking-wider text-slate-700">Hexadecimal Output</label>
+                        <div class="flex space-x-2">
+                            <button id="copyBtn" class="text-xs text-amber-700 hover:text-amber-800 font-bold bg-amber-50 px-3 py-1 rounded-lg border border-amber-200 transition">
+                                Copy Hex
+                            </button>
+                            <button id="downloadBtn" class="text-xs text-slate-600 hover:text-slate-800 font-semibold bg-slate-100 px-3 py-1 rounded-lg transition">
+                                ⬇ Save .txt
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="outputText" rows="9" readonly class="w-full bg-slate-100 border border-slate-300 rounded-2xl p-4 text-sm font-mono text-amber-950 focus:outline-none cursor-text select-all"></textarea>
+                    <div class="flex justify-between items-center text-[11px] text-slate-400">
+                        <span id="outputInfo">Ready</span>
+                        <button id="swapBtn" class="text-amber-600 hover:underline font-bold">⇄ Swap Input & Output</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SEO Editorial Content -->
+        <section class="mt-20 pt-12 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
+            <h2 class="text-2xl font-black text-slate-900 text-center">What is Hexadecimal (Base-16) Encoding?</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🔢</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Base-16 System</h3>
+                    <p class="text-xs text-slate-600">Hexadecimal uses 16 symbols: 0-9 and letters A through F. Each hex digit represents 4 binary bits (a nibble).</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🛡️</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Cyber Security & Memory</h3>
+                    <p class="text-xs text-slate-600">Widely used in packet inspection (Wireshark), memory dump analysis, MAC addresses, IPv6, and cryptographic hashes.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">⚡</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Instant Two-Way Conversion</h3>
+                    <p class="text-xs text-slate-600">Convert long payloads, hex dumps, and byte arrays in browser with customizable separators.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-20 text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free Hexadecimal Utilities • 100% Free</p>
+    </footer>
+
+    <script>
+        let currentMode = 'text-to-hex';
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const inputLabel = document.getElementById('inputLabel');
+        const outputLabel = document.getElementById('outputLabel');
+        const charCount = document.getElementById('charCount');
+        const outputInfo = document.getElementById('outputInfo');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const swapBtn = document.getElementById('swapBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const btnTextToHex = document.getElementById('btnTextToHex');
+        const btnHexToText = document.getElementById('btnHexToText');
+        const uppercaseCheck = document.getElementById('uppercaseCheck');
+        const delimiterRadios = document.querySelectorAll('input[name="delimiter"]');
+
+        function getDelimiter() {
+            for (let r of delimiterRadios) {
+                if (r.checked) return r.value;
+            }
+            return 'space';
+        }
+
+        function textToHex(str) {
+            const delim = getDelimiter();
+            const isUpper = uppercaseCheck.checked;
+
+            const hexArr = str.split('').map(char => {
+                let h = char.charCodeAt(0).toString(16).padStart(2, '0');
+                if (isUpper) h = h.toUpperCase();
+                if (delim === '0x') return `0x${h}`;
+                return h;
+            });
+
+            if (delim === 'space') return hexArr.join(' ');
+            if (delim === '0x') return hexArr.join(', ');
+            return hexArr.join('');
+        }
+
+        function hexToText(hex) {
+            // Clean out 0x, commas, spaces
+            let clean = hex.replace(/0x/gi, '').replace(/[^0-9a-fA-F]/g, '');
+            if (clean.length % 2 !== 0) {
+                clean = clean.slice(0, -1);
+            }
+            let str = '';
+            for (let i = 0; i < clean.length; i += 2) {
+                const byte = clean.substr(i, 2);
+                str += String.fromCharCode(parseInt(byte, 16));
+            }
+            return str || "Invalid or empty Hex input";
+        }
+
+        function convert() {
+            const input = inputText.value;
+            charCount.innerText = `${input.length} characters`;
+
+            let result = '';
+            if (currentMode === 'text-to-hex') {
+                result = textToHex(input);
+            } else {
+                result = hexToText(input);
+            }
+
+            outputText.value = result;
+            outputInfo.innerText = `${result.length} output characters`;
+        }
+
+        inputText.addEventListener('input', convert);
+        uppercaseCheck.addEventListener('change', convert);
+        delimiterRadios.forEach(r => r.addEventListener('change', convert));
+
+        btnTextToHex.addEventListener('click', () => {
+            currentMode = 'text-to-hex';
+            btnTextToHex.className = 'mode-tab active px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm transition flex items-center justify-center space-x-2';
+            btnHexToText.className = 'mode-tab px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-2';
+            inputLabel.innerText = "Enter Plain Text";
+            outputLabel.innerText = "Hexadecimal Output (Base-16)";
+            convert();
+        });
+
+        btnHexToText.addEventListener('click', () => {
+            currentMode = 'hex-to-text';
+            btnHexToText.className = 'mode-tab active px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm transition flex items-center justify-center space-x-2';
+            btnTextToHex.className = 'mode-tab px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-2';
+            inputLabel.innerText = "Enter Hexadecimal String (e.g. 43 79 62 65 72)";
+            outputLabel.innerText = "Decoded Plain Text";
+            convert();
+        });
+
+        clearBtn.addEventListener('click', () => {
+            inputText.value = '';
+            outputText.value = '';
+            charCount.innerText = '0 characters';
+            outputInfo.innerText = '0 output characters';
+            inputText.focus();
+        });
+
+        copyBtn.addEventListener('click', () => {
+            if (!outputText.value) return;
+            navigator.clipboard.writeText(outputText.value);
+            copyBtn.innerText = "Copied! ✓";
+            copyBtn.className = "text-xs text-emerald-700 font-bold bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-300 transition";
+            setTimeout(() => {
+                copyBtn.innerText = "Copy Hex";
+                copyBtn.className = "text-xs text-amber-700 hover:text-amber-800 font-bold bg-amber-50 px-3 py-1 rounded-lg border border-amber-200 transition";
+            }, 2000);
+        });
+
+        swapBtn.addEventListener('click', () => {
+            const temp = outputText.value;
+            inputText.value = temp;
+            if (currentMode === 'text-to-hex') {
+                btnHexToText.click();
+            } else {
+                btnTextToHex.click();
+            }
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (!outputText.value) return;
+            const blob = new Blob([outputText.value], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `anytool_${currentMode}.txt`;
+            a.click();
+        });
+
+        convert();
+    </script>
+</body>
+</html>

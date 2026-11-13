@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Generator & Checksum Tool - MD5, SHA-256, SHA-512 | AnyTool</title>
+    <meta name="description" content="Generate cryptographic hashes (MD5, SHA-1, SHA-256, SHA-512) for text and files online for free. Verify file checksums and compare hashes for cyber security.">
+    <meta name="keywords" content="hash generator, sha256 generator, md5 hash online, sha512 generator, checksum verifier, file hash calculator, cyber security tools">
+    <link rel="canonical" href="https://anytool.io/hash-generator">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Hash Generator & Checksum Tool",
+      "url": "https://anytool.io/hash-generator",
+      "description": "Free online cryptographic hash generator and file integrity checksum verifier.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CryptoJS for MD5 & SHA -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .hash-tab.active {
+            border-color: #8b5cf6;
+            background-color: #f5f3ff;
+            color: #7c3aed;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-violet-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="/ip-tools.html" class="text-xs sm:text-sm font-bold text-teal-600 hover:text-teal-700 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 transition">
+                        🛡️ IP Subnet Tool →
+                    </a>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-violet-600 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-violet-50 text-violet-700 rounded-full text-xs font-bold mb-3 border border-violet-200">
+            <span>🔑 Cyber Security Cryptographic Hash Tool</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Hash Generator & <span class="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">File Checksum</span>
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
+            Compute SHA-256, MD5, SHA-512, and SHA-1 hashes for passwords, messages, and files. Verify file integrity and compare checksums instantly.
+        </p>
+    </header>
+
+    <!-- Main Tool Container -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full space-y-8">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-6">
+            
+            <!-- Mode Switcher: Text vs File Checksum -->
+            <div class="grid grid-cols-2 gap-3 border-b border-slate-100 pb-4 max-w-md mx-auto">
+                <button id="btnTextMode" class="hash-tab active px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm transition flex items-center justify-center space-x-2">
+                    <span class="text-lg">📝</span>
+                    <span>Text Hash</span>
+                </button>
+                <button id="btnFileMode" class="hash-tab px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-2">
+                    <span class="text-lg">📁</span>
+                    <span>File Checksum</span>
+                </button>
+            </div>
+
+            <!-- Text Input Area -->
+            <div id="textSection" class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-bold uppercase tracking-wider text-slate-700">Enter Plaintext String</label>
+                    <button id="clearBtn" class="text-xs text-slate-400 hover:text-red-500 font-semibold">Clear</button>
+                </div>
+                <textarea id="hashInputText" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-2xl p-4 text-sm font-mono focus:ring-2 focus:ring-violet-500 focus:outline-none" placeholder="Enter password, secret key, or message...">admin123</textarea>
+            </div>
+
+            <!-- File Upload Area (Hidden by default) -->
+            <div id="fileSection" class="hidden space-y-4">
+                <div class="border-2 border-dashed border-violet-300 rounded-2xl p-8 text-center hover:border-violet-500 bg-violet-50/20 cursor-pointer" onclick="document.getElementById('fileHashInput').click()">
+                    <span class="text-3xl mb-2 block">📄</span>
+                    <p class="text-sm font-bold text-slate-800">Upload any file to calculate checksum</p>
+                    <p class="text-xs text-slate-500 mt-1">Calculated 100% locally in your browser (Never uploaded)</p>
+                    <input type="file" id="fileHashInput" class="hidden">
+                </div>
+                <div id="fileSelectedInfo" class="hidden p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex justify-between">
+                    <span id="fileNameLabel">file.exe</span>
+                    <span id="fileSizeLabel">0 KB</span>
+                </div>
+            </div>
+
+            <!-- Calculated Hashes Grid -->
+            <div class="space-y-4 border-t border-slate-100 pt-6">
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Cryptographic Hashes</h3>
+
+                <!-- SHA-256 (Industry Standard) -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-violet-700">SHA-256 (Recommended / Bitcoin standard)</span>
+                        <button onclick="copyHash('resSha256', this)" class="text-xs font-bold text-violet-600 hover:underline">Copy</button>
+                    </div>
+                    <p id="resSha256" class="text-xs font-mono text-slate-800 break-all select-all font-semibold"></p>
+                </div>
+
+                <!-- MD5 -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-amber-700">MD5 (Legacy / Quick Checksum)</span>
+                        <button onclick="copyHash('resMd5', this)" class="text-xs font-bold text-amber-600 hover:underline">Copy</button>
+                    </div>
+                    <p id="resMd5" class="text-xs font-mono text-slate-800 break-all select-all font-semibold"></p>
+                </div>
+
+                <!-- SHA-512 -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-indigo-700">SHA-512 (Ultra High Security)</span>
+                        <button onclick="copyHash('resSha512', this)" class="text-xs font-bold text-indigo-600 hover:underline">Copy</button>
+                    </div>
+                    <p id="resSha512" class="text-xs font-mono text-slate-800 break-all select-all font-semibold"></p>
+                </div>
+
+                <!-- SHA-1 -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-600">SHA-1 (Git Commit standard)</span>
+                        <button onclick="copyHash('resSha1', this)" class="text-xs font-bold text-slate-600 hover:underline">Copy</button>
+                    </div>
+                    <p id="resSha1" class="text-xs font-mono text-slate-800 break-all select-all font-semibold"></p>
+                </div>
+            </div>
+
+            <!-- Hash Verifier / Compare Feature -->
+            <div class="mt-6 pt-6 border-t border-slate-100 space-y-3">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Verify / Compare with Expected Hash</label>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input id="verifyHashInput" type="text" placeholder="Paste expected hash here to check for match..." class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-mono focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                    <button id="compareBtn" class="bg-violet-600 hover:bg-violet-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow transition">
+                        Compare
+                    </button>
+                </div>
+                <div id="compareResult" class="hidden p-3 rounded-xl text-xs font-bold"></div>
+            </div>
+
+        </div>
+
+        <!-- SEO Editorial Content -->
+        <section class="mt-20 pt-12 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
+            <h2 class="text-2xl font-black text-slate-900 text-center">Why Use Cryptographic Hashes in Cyber Security?</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🛡️</span>
+                    <h3 class="font-bold text-slate-900 text-sm">File Integrity Verification</h3>
+                    <p class="text-xs text-slate-600">Software vendors publish SHA-256 checksums so downloaders can verify that the downloaded installer was not infected with trojans.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🔒</span>
+                    <h3 class="font-bold text-slate-900 text-sm">One-Way Hashing</h3>
+                    <p class="text-xs text-slate-600">A cryptographic hash cannot be reversed back to original plaintext. Even a single changed character completely alters the hash (Avalanche effect).</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">⚡</span>
+                    <h3 class="font-bold text-slate-900 text-sm">100% In-Browser Privacy</h3>
+                    <p class="text-xs text-slate-600">Your files, passwords, and sensitive keys are hashed using client-side JavaScript. Nothing is sent across the internet.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-20 text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Cyber Security Hash Tools • 100% Free</p>
+    </footer>
+
+    <script>
+        let currentMode = 'text';
+        const hashInputText = document.getElementById('hashInputText');
+        const textSection = document.getElementById('textSection');
+        const fileSection = document.getElementById('fileSection');
+        const fileHashInput = document.getElementById('fileHashInput');
+        const fileSelectedInfo = document.getElementById('fileSelectedInfo');
+        const fileNameLabel = document.getElementById('fileNameLabel');
+        const fileSizeLabel = document.getElementById('fileSizeLabel');
+
+        const btnTextMode = document.getElementById('btnTextMode');
+        const btnFileMode = document.getElementById('btnFileMode');
+        const clearBtn = document.getElementById('clearBtn');
+
+        const resSha256 = document.getElementById('resSha256');
+        const resMd5 = document.getElementById('resMd5');
+        const resSha512 = document.getElementById('resSha512');
+        const resSha1 = document.getElementById('resSha1');
+
+        const verifyHashInput = document.getElementById('verifyHashInput');
+        const compareBtn = document.getElementById('compareBtn');
+        const compareResult = document.getElementById('compareResult');
+
+        function calculateTextHashes() {
+            const text = hashInputText.value;
+            if (!text) {
+                resSha256.innerText = '';
+                resMd5.innerText = '';
+                resSha512.innerText = '';
+                resSha1.innerText = '';
+                return;
+            }
+
+            resSha256.innerText = CryptoJS.SHA256(text).toString();
+            resMd5.innerText = CryptoJS.MD5(text).toString();
+            resSha512.innerText = CryptoJS.SHA512(text).toString();
+            resSha1.innerText = CryptoJS.SHA1(text).toString();
+        }
+
+        hashInputText.addEventListener('input', calculateTextHashes);
+
+        btnTextMode.addEventListener('click', () => {
+            currentMode = 'text';
+            btnTextMode.className = 'hash-tab active px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm transition flex items-center justify-center space-x-2';
+            btnFileMode.className = 'hash-tab px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-2';
+            textSection.classList.remove('hidden');
+            fileSection.classList.add('hidden');
+            calculateTextHashes();
+        });
+
+        btnFileMode.addEventListener('click', () => {
+            currentMode = 'file';
+            btnFileMode.className = 'hash-tab active px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm transition flex items-center justify-center space-x-2';
+            btnTextMode.className = 'hash-tab px-5 py-3 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-2';
+            fileSection.classList.remove('hidden');
+            textSection.classList.add('hidden');
+        });
+
+        fileHashInput.addEventListener('change', (e) => {
+            if (e.target.files.length === 0) return;
+            const file = e.target.files[0];
+            fileNameLabel.innerText = file.name;
+            fileSizeLabel.innerText = `${(file.size / 1024).toFixed(1)} KB`;
+            fileSelectedInfo.classList.remove('hidden');
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const wordArray = CryptoJS.lib.WordArray.create(event.target.result);
+                resSha256.innerText = CryptoJS.SHA256(wordArray).toString();
+                resMd5.innerText = CryptoJS.MD5(wordArray).toString();
+                resSha512.innerText = CryptoJS.SHA512(wordArray).toString();
+                resSha1.innerText = CryptoJS.SHA1(wordArray).toString();
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            hashInputText.value = '';
+            calculateTextHashes();
+            hashInputText.focus();
+        });
+
+        window.copyHash = function(id, btn) {
+            const text = document.getElementById(id).innerText;
+            if (!text) return;
+            navigator.clipboard.writeText(text);
+            const orig = btn.innerText;
+            btn.innerText = "Copied! ✓";
+            setTimeout(() => btn.innerText = orig, 1500);
+        };
+
+        compareBtn.addEventListener('click', () => {
+            const expected = verifyHashInput.value.trim().toLowerCase();
+            if (!expected) return;
+
+            const computed = [
+                resSha256.innerText.toLowerCase(),
+                resMd5.innerText.toLowerCase(),
+                resSha512.innerText.toLowerCase(),
+                resSha1.innerText.toLowerCase()
+            ];
+
+            compareResult.classList.remove('hidden');
+            if (computed.includes(expected)) {
+                compareResult.className = 'p-3 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200';
+                compareResult.innerText = "✓ Exact Hash Match Verified! The data is authentic and has not been altered.";
+            } else {
+                compareResult.className = 'p-3 rounded-xl text-xs font-bold bg-rose-50 text-rose-800 border border-rose-200';
+                compareResult.innerText = "✕ Checksum Mismatch! The expected hash does not match any computed hash.";
+            }
+        });
+
+        calculateTextHashes();
+    </script>
+</body>
+</html>

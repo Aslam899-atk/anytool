@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encoder & Decoder - Text & Image to Base64 Free | AnyTool</title>
+    <meta name="description" content="Encode and decode Base64 strings and files online for free. Convert Text to Base64, Base64 to Text, and Images to Base64 data URIs. 100% private in-browser tool.">
+    <meta name="keywords" content="base64 encoder, base64 decoder, text to base64, base64 to text, image to base64, base64 converter online, free base64 tool">
+    <link rel="canonical" href="https://anytool.io/base64-tools">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Base64 Encoder & Decoder",
+      "url": "https://anytool.io/base64-tools",
+      "description": "Free online developer tool to encode text or images to Base64 and decode Base64 back to text or files.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .mode-tab.active {
+            border-color: #6366f1;
+            background-color: #eef2ff;
+            color: #4f46e5;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="/binary-tools.html" class="text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200 transition">
+                        01 Binary Translator →
+                    </a>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold mb-3 border border-indigo-200">
+            <span>🔐 Dedicated Base64 Encoder & Decoder</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Base64 <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Encode & Decode</span>
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
+            Encode text and binary data into safe Base64 ASCII strings, decode Base64 back to original text, and convert images to Base64 data URIs.
+        </p>
+    </header>
+
+    <!-- Main Tool Container -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-6">
+            
+            <!-- Mode Switcher -->
+            <div class="grid grid-cols-3 gap-2 border-b border-slate-100 pb-4 max-w-lg mx-auto">
+                <button id="btnTextToBase64" class="mode-tab active px-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm transition flex items-center justify-center space-x-1.5">
+                    <span>📝 ➔ 🔐</span>
+                    <span>Encode Text</span>
+                </button>
+                <button id="btnBase64ToText" class="mode-tab px-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-1.5">
+                    <span>🔐 ➔ 📝</span>
+                    <span>Decode Text</span>
+                </button>
+                <button id="btnImageToBase64" class="mode-tab px-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-1.5">
+                    <span>🖼️ Image/File</span>
+                    <span>to Base64</span>
+                </button>
+            </div>
+
+            <!-- Workspace: Inputs & Outputs -->
+            <div id="textModeWorkspace" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                
+                <!-- Left: Input Area -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label id="inputLabel" class="text-xs font-bold uppercase tracking-wider text-slate-700">Plain Text Input</label>
+                        <button id="clearBtn" class="text-xs text-slate-400 hover:text-red-500 font-semibold transition">Clear</button>
+                    </div>
+                    <textarea id="inputText" rows="9" class="w-full bg-slate-50 border border-slate-300 rounded-2xl p-4 text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Type text here...">Welcome to AnyTool!</textarea>
+                    <div class="flex justify-between text-[11px] text-slate-400">
+                        <span id="charCount">20 characters</span>
+                        <span>Live real-time output</span>
+                    </div>
+                </div>
+
+                <!-- Right: Output Area -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label id="outputLabel" class="text-xs font-bold uppercase tracking-wider text-slate-700">Base64 Output</label>
+                        <div class="flex space-x-2">
+                            <button id="copyBtn" class="text-xs text-indigo-700 hover:text-indigo-800 font-bold bg-indigo-50 px-3 py-1 rounded-lg border border-indigo-200 transition">
+                                Copy Result
+                            </button>
+                            <button id="downloadBtn" class="text-xs text-slate-600 hover:text-slate-800 font-semibold bg-slate-100 px-3 py-1 rounded-lg transition">
+                                ⬇ Save .txt
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="outputText" rows="9" readonly class="w-full bg-slate-100 border border-slate-300 rounded-2xl p-4 text-sm font-mono text-indigo-950 focus:outline-none cursor-text select-all"></textarea>
+                    <div class="flex justify-between items-center text-[11px] text-slate-400">
+                        <span id="outputInfo">Ready</span>
+                        <button id="swapBtn" class="text-indigo-600 hover:underline font-bold">⇄ Swap Input & Output</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Image/File to Base64 Workspace (Hidden by default) -->
+            <div id="fileModeWorkspace" class="hidden space-y-6">
+                <div class="border-2 border-dashed border-indigo-300 rounded-2xl p-8 text-center hover:border-indigo-500 bg-indigo-50/20 cursor-pointer" onclick="document.getElementById('fileInput').click()">
+                    <span class="text-3xl mb-2 block">📁</span>
+                    <p class="text-sm font-bold text-slate-800">Upload an Image or Document</p>
+                    <p class="text-xs text-slate-500 mt-1">Converts PNG, JPG, SVG, PDF, etc. into a Data URI</p>
+                    <input type="file" id="fileInput" class="hidden">
+                </div>
+
+                <div id="fileResultArea" class="hidden space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span id="fileInfoText" class="text-xs font-bold text-slate-700">File converted</span>
+                        <button id="copyFileBase64Btn" class="text-xs font-bold text-indigo-600 hover:underline">Copy Base64 Data URI</button>
+                    </div>
+                    <textarea id="fileBase64Output" rows="6" readonly class="w-full bg-slate-50 border border-slate-300 rounded-2xl p-4 text-xs font-mono select-all focus:outline-none"></textarea>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SEO Editorial Content -->
+        <section class="mt-20 pt-12 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
+            <h2 class="text-2xl font-black text-slate-900 text-center">Why Use Base64 Encoding?</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🌐</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Safe Data Transport</h3>
+                    <p class="text-xs text-slate-600">Base64 converts binary files into 64 safe ASCII characters, allowing images and binary payloads to be transmitted via JSON, URLs, or HTML without corruption.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🖼️</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Inline Images (Data URIs)</h3>
+                    <p class="text-xs text-slate-600">Embed small icons, logos, and fonts directly into CSS or HTML files to reduce HTTP server requests.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🔒</span>
+                    <h3 class="font-bold text-slate-900 text-sm">100% Client-Side</h3>
+                    <p class="text-xs text-slate-600">All encoding and decoding executes locally inside your web browser. Zero files or text strings are sent to any server.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-20 text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free Base64 Utilities • 100% Free</p>
+    </footer>
+
+    <script>
+        let currentMode = 'text-to-b64';
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const inputLabel = document.getElementById('inputLabel');
+        const outputLabel = document.getElementById('outputLabel');
+        const charCount = document.getElementById('charCount');
+        const outputInfo = document.getElementById('outputInfo');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const swapBtn = document.getElementById('swapBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        const btnTextToBase64 = document.getElementById('btnTextToBase64');
+        const btnBase64ToText = document.getElementById('btnBase64ToText');
+        const btnImageToBase64 = document.getElementById('btnImageToBase64');
+
+        const textModeWorkspace = document.getElementById('textModeWorkspace');
+        const fileModeWorkspace = document.getElementById('fileModeWorkspace');
+        const fileInput = document.getElementById('fileInput');
+        const fileResultArea = document.getElementById('fileResultArea');
+        const fileBase64Output = document.getElementById('fileBase64Output');
+        const fileInfoText = document.getElementById('fileInfoText');
+        const copyFileBase64Btn = document.getElementById('copyFileBase64Btn');
+
+        function textToBase64(str) {
+            try {
+                return btoa(unescape(encodeURIComponent(str)));
+            } catch (e) {
+                return "Error encoding to Base64";
+            }
+        }
+
+        function base64ToText(b64) {
+            try {
+                return decodeURIComponent(escape(atob(b64.trim())));
+            } catch (e) {
+                return "Invalid Base64 sequence";
+            }
+        }
+
+        function convert() {
+            const input = inputText.value;
+            charCount.innerText = `${input.length} characters`;
+
+            let result = '';
+            if (currentMode === 'text-to-b64') {
+                result = textToBase64(input);
+            } else if (currentMode === 'b64-to-text') {
+                result = base64ToText(input);
+            }
+
+            outputText.value = result;
+            outputInfo.innerText = `${result.length} output characters`;
+        }
+
+        inputText.addEventListener('input', convert);
+
+        btnTextToBase64.addEventListener('click', () => {
+            currentMode = 'text-to-b64';
+            textModeWorkspace.classList.remove('hidden');
+            fileModeWorkspace.classList.add('hidden');
+            setActiveTab(btnTextToBase64);
+            inputLabel.innerText = "Plain Text Input";
+            outputLabel.innerText = "Base64 Output";
+            convert();
+        });
+
+        btnBase64ToText.addEventListener('click', () => {
+            currentMode = 'b64-to-text';
+            textModeWorkspace.classList.remove('hidden');
+            fileModeWorkspace.classList.add('hidden');
+            setActiveTab(btnBase64ToText);
+            inputLabel.innerText = "Base64 Input String";
+            outputLabel.innerText = "Decoded Plain Text";
+            convert();
+        });
+
+        btnImageToBase64.addEventListener('click', () => {
+            currentMode = 'file-to-b64';
+            textModeWorkspace.classList.add('hidden');
+            fileModeWorkspace.classList.remove('hidden');
+            setActiveTab(btnImageToBase64);
+        });
+
+        function setActiveTab(activeBtn) {
+            [btnTextToBase64, btnBase64ToText, btnImageToBase64].forEach(b => {
+                b.className = 'mode-tab px-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-600 transition flex items-center justify-center space-x-1.5';
+            });
+            activeBtn.className = 'mode-tab active px-4 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm transition flex items-center justify-center space-x-1.5';
+        }
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length === 0) return;
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                fileResultArea.classList.remove('hidden');
+                fileBase64Output.value = event.target.result;
+                fileInfoText.innerText = `${file.name} (${(file.size / 1024).toFixed(1)} KB) - ${file.type || 'file'}`;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        copyFileBase64Btn.addEventListener('click', () => {
+            if (!fileBase64Output.value) return;
+            navigator.clipboard.writeText(fileBase64Output.value);
+            copyFileBase64Btn.innerText = "Copied Data URI! ✓";
+            setTimeout(() => copyFileBase64Btn.innerText = "Copy Base64 Data URI", 2000);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            inputText.value = '';
+            outputText.value = '';
+            charCount.innerText = '0 characters';
+            outputInfo.innerText = '0 output characters';
+            inputText.focus();
+        });
+
+        copyBtn.addEventListener('click', () => {
+            if (!outputText.value) return;
+            navigator.clipboard.writeText(outputText.value);
+            copyBtn.innerText = "Copied! ✓";
+            copyBtn.className = "text-xs text-emerald-700 font-bold bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-300 transition";
+            setTimeout(() => {
+                copyBtn.innerText = "Copy Result";
+                copyBtn.className = "text-xs text-indigo-700 hover:text-indigo-800 font-bold bg-indigo-50 px-3 py-1 rounded-lg border border-indigo-200 transition";
+            }, 2000);
+        });
+
+        swapBtn.addEventListener('click', () => {
+            const temp = outputText.value;
+            inputText.value = temp;
+            if (currentMode === 'text-to-b64') {
+                btnBase64ToText.click();
+            } else {
+                btnTextToBase64.click();
+            }
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (!outputText.value) return;
+            const blob = new Blob([outputText.value], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `anytool_${currentMode}.txt`;
+            a.click();
+        });
+
+        convert();
+    </script>
+</body>
+</html>

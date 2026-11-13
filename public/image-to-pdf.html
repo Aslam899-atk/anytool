@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF Converter - Convert JPG & PNG to PDF Free | AnyTool</title>
+    <meta name="description" content="Convert JPG, PNG, and WEBP images to PDF online for free. Drag and reorder images, adjust orientation and margins, and download high-quality PDF instantly.">
+    <meta name="keywords" content="image to pdf, jpg to pdf, png to pdf, convert photos to pdf, free image to pdf converter, combine images to pdf">
+    <link rel="canonical" href="https://anytool.io/image-to-pdf">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Image to PDF Converter",
+      "url": "https://anytool.io/image-to-pdf",
+      "description": "Free in-browser tool to convert multiple images (JPG, PNG, WEBP) into a single PDF file with drag & drop ordering.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-rose-600 to-red-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="/merge-pdf.html" class="text-xs sm:text-sm font-bold text-red-600 hover:text-red-700 bg-red-50 px-3 py-1.5 rounded-lg border border-red-200 transition">
+                        📄 Merge PDF →
+                    </a>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-rose-600 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-700 rounded-full text-xs font-bold mb-3 border border-rose-200">
+            <span>🖼️ ➔ 📄 100% Free • Reorder Images • High-Resolution PDF</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Convert <span class="bg-gradient-to-r from-rose-600 to-red-600 bg-clip-text text-transparent">Images to PDF</span>
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+            Convert JPG, PNG, and WEBP pictures into a single organized PDF document. Reorder images, customize page size, and download instantly.
+        </p>
+    </header>
+
+    <!-- Main Container (Matches User's Sketch) -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full space-y-8">
+        
+        <!-- STEP 1: Upload Images Dropzone -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center space-x-3">
+                    <span class="w-8 h-8 rounded-full bg-rose-600 text-white font-extrabold flex items-center justify-center text-sm shadow">1</span>
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Upload Your Images</h2>
+                </div>
+                <span class="text-xs font-semibold text-slate-400">JPG, PNG, WEBP</span>
+            </div>
+
+            <div id="dropzone" class="border-2 border-dashed border-rose-300 rounded-2xl p-8 sm:p-12 text-center hover:border-rose-500 hover:bg-rose-50/30 transition cursor-pointer bg-rose-50/20" onclick="document.getElementById('imageInput').click()">
+                <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-3 shadow-sm">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </div>
+                <h3 class="text-base font-bold text-slate-800 mb-1">Click to select photos or drag & drop</h3>
+                <p class="text-xs text-slate-500">Multiple image selection supported</p>
+                <input type="file" id="imageInput" accept="image/*" multiple class="hidden">
+            </div>
+        </div>
+
+        <!-- STEP 2: Reorder Images Grid (Matches "Drag and do order" in sketch) -->
+        <div id="step2Area" class="hidden bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div class="flex items-center space-x-3">
+                    <span class="w-8 h-8 rounded-full bg-rose-600 text-white font-extrabold flex items-center justify-center text-sm shadow">2</span>
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Rearrange Image Order</h2>
+                </div>
+                <button type="button" onclick="document.getElementById('imageInput').click()" class="text-xs font-bold text-rose-600 hover:text-rose-800 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 transition">
+                    + Add More Images
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-500">Click the arrows (← →) on each image to arrange their page sequence in the PDF:</p>
+            <div id="imageCardsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-4"></div>
+        </div>
+
+        <!-- STEP 3: Options & Download -->
+        <div id="step3Area" class="hidden bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-6">
+            <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                <span class="w-8 h-8 rounded-full bg-emerald-600 text-white font-extrabold flex items-center justify-center text-sm shadow">3</span>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Page Setup & Download</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Page Orientation</label>
+                    <select id="orientationSelect" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-700">
+                        <option value="portrait" selected>Portrait (Standard A4)</option>
+                        <option value="landscape">Landscape</option>
+                        <option value="fit">Auto-Fit to Image Size</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Page Margin</label>
+                    <select id="marginSelect" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-700">
+                        <option value="none">No Margin (Full Bleed)</option>
+                        <option value="small" selected>Small Margin (15px)</option>
+                        <option value="large">Big Margin (30px)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Document Name</label>
+                    <input id="pdfNameInput" type="text" value="images_combined.pdf" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-700">
+                </div>
+            </div>
+
+            <button id="convertBtn" class="w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-extrabold py-4 px-6 rounded-2xl shadow-lg shadow-rose-500/25 transition duration-200 flex items-center justify-center space-x-2 text-base">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span>Convert & Download PDF Now</span>
+            </button>
+        </div>
+
+        <!-- SEO Editorial Content -->
+        <section class="mt-20 pt-12 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
+            <h2 class="text-2xl font-black text-slate-900 text-center">Fast, Private Image to PDF Converter</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🔀</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Visual Order Control</h3>
+                    <p class="text-xs text-slate-600">Reorder your photos effortlessly before converting so your final PDF has pages in the exact sequence you want.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">🔒</span>
+                    <h3 class="font-bold text-slate-900 text-sm">100% Client-Side Privacy</h3>
+                    <p class="text-xs text-slate-600">Images are processed directly inside your browser memory using WebAssembly. Never uploaded to external servers.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-3xl">💎</span>
+                    <h3 class="font-bold text-slate-900 text-sm">High-Resolution Output</h3>
+                    <p class="text-xs text-slate-600">Preserves the sharpness and clarity of your original photos without degrading quality.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-20 text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • PDF Utilities • 100% Free</p>
+    </footer>
+
+    <script>
+        const { PDFDocument, PageSizes } = PDFLib;
+        let imagesList = [];
+
+        const imageInput = document.getElementById('imageInput');
+        const step2Area = document.getElementById('step2Area');
+        const step3Area = document.getElementById('step3Area');
+        const imageCardsGrid = document.getElementById('imageCardsGrid');
+        const convertBtn = document.getElementById('convertBtn');
+        const orientationSelect = document.getElementById('orientationSelect');
+        const marginSelect = document.getElementById('marginSelect');
+        const pdfNameInput = document.getElementById('pdfNameInput');
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length === 0) return;
+            for (let file of e.target.files) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    imagesList.push({
+                        name: file.name,
+                        type: file.type,
+                        dataUrl: event.target.result
+                    });
+                    renderImagesGrid();
+                };
+                reader.readAsDataURL(file);
+            }
+            imageInput.value = '';
+        });
+
+        function renderImagesGrid() {
+            imageCardsGrid.innerHTML = '';
+            if (imagesList.length > 0) {
+                step2Area.classList.remove('hidden');
+                step3Area.classList.remove('hidden');
+            } else {
+                step2Area.classList.add('hidden');
+                step3Area.classList.add('hidden');
+            }
+
+            imagesList.forEach((img, idx) => {
+                const card = document.createElement('div');
+                card.className = "p-2 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between";
+                card.innerHTML = `
+                    <div class="h-32 w-full rounded-xl overflow-hidden bg-white border border-slate-100 flex items-center justify-center mb-2">
+                        <img src="${img.dataUrl}" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="flex items-center justify-between text-xs px-1">
+                        <span class="font-bold text-slate-700">Page ${idx + 1}</span>
+                        <div class="flex space-x-1">
+                            <button type="button" onclick="moveImage(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-30 p-1"' : 'class="p-1 hover:bg-slate-200 rounded text-slate-600"'} title="Move Left">←</button>
+                            <button type="button" onclick="moveImage(${idx}, 1)" ${idx === imagesList.length - 1 ? 'disabled class="opacity-30 p-1"' : 'class="p-1 hover:bg-slate-200 rounded text-slate-600"'} title="Move Right">→</button>
+                            <button type="button" onclick="removeImage(${idx})" class="p-1 text-red-600 hover:bg-red-50 rounded" title="Remove">✕</button>
+                        </div>
+                    </div>
+                `;
+                imageCardsGrid.appendChild(card);
+            });
+        }
+
+        window.moveImage = function(index, dir) {
+            const target = index + dir;
+            if (target < 0 || target >= imagesList.length) return;
+            const temp = imagesList[index];
+            imagesList[index] = imagesList[target];
+            imagesList[target] = temp;
+            renderImagesGrid();
+        };
+
+        window.removeImage = function(index) {
+            imagesList.splice(index, 1);
+            renderImagesGrid();
+        };
+
+        convertBtn.addEventListener('click', async () => {
+            if (imagesList.length === 0) return;
+
+            convertBtn.innerText = "Generating PDF...";
+            convertBtn.disabled = true;
+
+            try {
+                const pdfDoc = await PDFDocument.create();
+                const orientation = orientationSelect.value;
+                const marginSetting = marginSelect.value;
+                const margin = (marginSetting === 'none') ? 0 : (marginSetting === 'small' ? 15 : 30);
+
+                for (let imgObj of imagesList) {
+                    // Convert dataUrl to bytes
+                    const res = await fetch(imgObj.dataUrl);
+                    const bytes = await res.arrayBuffer();
+
+                    let embeddedImg;
+                    if (imgObj.type.includes('png')) {
+                        embeddedImg = await pdfDoc.embedPng(bytes);
+                    } else {
+                        embeddedImg = await pdfDoc.embedJpg(bytes);
+                    }
+
+                    const imgWidth = embeddedImg.width;
+                    const imgHeight = embeddedImg.height;
+
+                    let pageWidth, pageHeight;
+                    if (orientation === 'fit') {
+                        pageWidth = imgWidth + (margin * 2);
+                        pageHeight = imgHeight + (margin * 2);
+                    } else if (orientation === 'landscape') {
+                        pageWidth = PageSizes.A4[1];
+                        pageHeight = PageSizes.A4[0];
+                    } else {
+                        pageWidth = PageSizes.A4[0];
+                        pageHeight = PageSizes.A4[1];
+                    }
+
+                    const page = pdfDoc.addPage([pageWidth, pageHeight]);
+
+                    const availW = pageWidth - (margin * 2);
+                    const availH = pageHeight - (margin * 2);
+                    const scale = Math.min(availW / imgWidth, availH / imgHeight, 1);
+
+                    const drawW = imgWidth * scale;
+                    const drawH = imgHeight * scale;
+                    const drawX = margin + (availW - drawW) / 2;
+                    const drawY = margin + (availH - drawH) / 2;
+
+                    page.drawImage(embeddedImg, {
+                        x: drawX,
+                        y: drawY,
+                        width: drawW,
+                        height: drawH
+                    });
+                }
+
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = pdfNameInput.value.trim() || 'images_combined.pdf';
+                link.click();
+            } catch (err) {
+                alert("Error converting images to PDF: " + err.message);
+            } finally {
+                convertBtn.innerText = "Convert & Download PDF Now";
+                convertBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
