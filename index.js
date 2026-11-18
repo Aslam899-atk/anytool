@@ -46,8 +46,16 @@ app.post('/api/merge-pdf', upload.array('pdfs', 30), async (req, res) => {
     }
 });
 
-// 2. User Feedback API (Store opinions/suggestions)
-app.post('/api/feedback', (req, res) => {
+function escapeHtml(text) {
+    if (!text) return '';
+    return text.toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+// 2. User Feedback API (Store opinions/suggestions & Send to Telegram)
+app.post('/api/feedback', async (req, res) => {
     try {
         const { rating, category, message, contact } = req.body;
         if (!message || message.trim() === '') {
@@ -81,6 +89,39 @@ app.post('/api/feedback', (req, res) => {
         fs.writeFileSync(feedbackFilePath, JSON.stringify(feedbacks, null, 2), 'utf8');
 
         console.log(`[Feedback Received] ${feedbackEntry.rating} stars: "${feedbackEntry.message}"`);
+
+        // Send instant notification to Telegram Channel / Bot
+        const botToken = process.env.TELEGRAM_BOT_TOKEN || '8976694649:AAGjWqYQFBVbP3ticcy-4LgtcgArXbqjuAY';
+        const chatId = process.env.TELEGRAM_CHANNEL_ID || '-1004333245596';
+
+        if (botToken && chatId) {
+            const stars = '⭐'.repeat(Math.min(5, Math.max(1, feedbackEntry.rating)));
+            const telegramText = `🔔 <b>New AnyTool Feedback Received!</b>\n\n` +
+                `<b>Category:</b> ${escapeHtml(feedbackEntry.category)}\n` +
+                `<b>Rating:</b> ${stars} (${feedbackEntry.rating}/5)\n` +
+                `<b>Sender:</b> ${escapeHtml(feedbackEntry.contact)}\n` +
+                `<b>Date:</b> ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })} IST\n\n` +
+                `<b>💬 Message:</b>\n<i>"${escapeHtml(feedbackEntry.message)}"</i>`;
+
+            try {
+                const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: telegramText,
+                        parse_mode: 'HTML'
+                    })
+                });
+                const tgData = await tgRes.json();
+                console.log('[Telegram] Notification status:', tgData.ok);
+            } catch (telegramErr) {
+                console.error('[Telegram] Failed to send notification:', telegramErr);
+            }
+        } else {
+            console.warn('[Telegram] TELEGRAM_BOT_TOKEN or TELEGRAM_CHANNEL_ID missing in environment');
+        }
+
         res.json({ success: true, message: 'Thank you for your feedback!' });
     } catch (err) {
         console.error('Error saving feedback:', err);
