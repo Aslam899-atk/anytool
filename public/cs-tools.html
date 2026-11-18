@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Science & Number Systems Suite - Logic, Base Converter, ASCII | AnyTool</title>
+    <meta name="description" content="Free computer science tools: Interactive ASCII table, Number Base Converter (Binary, Hex, Octal, Dec), Logic Gate Simulator, Bitwise Calculator, Two's Complement, and Storage Unit Converter.">
+    <meta name="keywords" content="ascii table, binary calculator, logic gate simulator, number base converter, two's complement, bitwise calculator, computer science tools">
+    <link rel="canonical" href="https://anytool.io/cs-tools">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Computer Science Tools Suite",
+      "url": "https://anytool.io/cs-tools",
+      "description": "Educational and engineering tools for computer science: logic gates, binary math, and encoding.",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        .cs-tab-btn.active {
+            background-color: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            color: #34d399;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-emerald-500 selection:text-black">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-700 group-hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent">AnyTool<span class="text-pink-500">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        🌐 മലയാളം
+                    </button>
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        ☀️ Light
+                    </button>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-400 hover:text-emerald-400 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-emerald-950/60 text-emerald-400 rounded-full text-xs font-bold mb-3 border border-emerald-800/60 shadow-sm">
+            <span>🔬 10+ Computer Science & Number Tools • Interactive Logic & Math</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
+            Computer Science & <span class="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">Number Systems</span>
+        </h1>
+        <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+            Interactive Logic Gate Simulator, Live ASCII & Unicode Tables, Binary & Bitwise Calculator, and Data Unit Converter.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-grow w-full">
+        
+        <!-- Tab Bar -->
+        <div class="bg-slate-900/80 p-2 rounded-2xl border border-slate-800 mb-8 flex flex-wrap gap-2 justify-center">
+            <button onclick="switchCsTab('tab-base')" class="cs-tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🔢 Number Base Converter
+            </button>
+            <button onclick="switchCsTab('tab-logic')" class="cs-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                💡 Logic Gate Simulator
+            </button>
+            <button onclick="switchCsTab('tab-bitwise')" class="cs-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                ⚙️ Bitwise & Two's Complement
+            </button>
+            <button onclick="switchCsTab('tab-ascii')" class="cs-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                📜 Searchable ASCII Table
+            </button>
+            <button onclick="switchCsTab('tab-storage')" class="cs-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                💾 Storage Unit Converter
+            </button>
+        </div>
+
+        <!-- ================= TAB 1: NUMBER BASE CONVERTER ================= -->
+        <div id="tab-base" class="cs-pane space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6 max-w-4xl mx-auto">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center space-x-2.5">
+                        <span class="text-xl">🔢</span>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Live Multi-Base Number Converter</h3>
+                            <p class="text-[11px] text-slate-400">Type in any field; all other bases update synchronously</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">Decimal (Base 10)</label>
+                        <input id="baseDec" type="text" value="255" oninput="convertFromDec(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-emerald-300 font-bold focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-cyan-400 mb-1">Binary (Base 2)</label>
+                        <input id="baseBin" type="text" value="11111111" oninput="convertFromBin(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-cyan-300 font-bold focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">Hexadecimal (Base 16)</label>
+                        <input id="baseHex" type="text" value="FF" oninput="convertFromHex(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-amber-300 font-bold focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-purple-400 mb-1">Octal (Base 8)</label>
+                        <input id="baseOct" type="text" value="377" oninput="convertFromOct(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-purple-300 font-bold focus:outline-none focus:border-purple-500">
+                    </div>
+                </div>
+
+                <!-- Binary 8-Bit Nibble Inspection -->
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
+                    <span class="text-slate-400">8-Bit Nibbles:</span>
+                    <span id="nibbleView" class="text-cyan-400 font-bold text-sm tracking-widest">00000000 11111111</span>
+                    <button onclick="AnyTool.copyToClipboard(document.getElementById('baseBin').value)" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 rounded-lg border border-slate-700">Copy Binary</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 2: LOGIC GATE SIMULATOR ================= -->
+        <div id="tab-logic" class="cs-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6 max-w-4xl mx-auto">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center space-x-2.5">
+                        <span class="text-xl">💡</span>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Interactive Logic Gate Simulator</h3>
+                            <p class="text-[11px] text-slate-400">Toggle inputs A and B to view digital outputs & truth tables</p>
+                        </div>
+                    </div>
+                    <select id="gateType" onchange="calcGate()" class="bg-slate-950 border border-slate-700 text-xs font-bold text-emerald-400 rounded-xl px-3 py-1.5">
+                        <option value="AND">AND Gate</option>
+                        <option value="OR">OR Gate</option>
+                        <option value="XOR">XOR Gate</option>
+                        <option value="NAND">NAND Gate</option>
+                        <option value="NOR">NOR Gate</option>
+                        <option value="XNOR">XNOR Gate</option>
+                        <option value="NOT">NOT Gate (Input A)</option>
+                    </select>
+                </div>
+
+                <!-- Visual Circuit Diagram Representation -->
+                <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <!-- Inputs -->
+                    <div class="flex flex-col space-y-4">
+                        <button id="btnInputA" onclick="toggleGateInput('A')" class="w-16 h-16 rounded-2xl border-2 border-slate-700 bg-slate-900 text-xl font-bold font-mono transition flex flex-col items-center justify-center">
+                            <span class="text-[10px] text-slate-500 uppercase">Input A</span>
+                            <span id="valInputA" class="text-rose-400">0</span>
+                        </button>
+                        <button id="btnInputB" onclick="toggleGateInput('B')" class="w-16 h-16 rounded-2xl border-2 border-slate-700 bg-slate-900 text-xl font-bold font-mono transition flex flex-col items-center justify-center">
+                            <span class="text-[10px] text-slate-500 uppercase">Input B</span>
+                            <span id="valInputB" class="text-rose-400">0</span>
+                        </button>
+                    </div>
+
+                    <!-- Gate Icon -->
+                    <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-center space-y-1">
+                        <div id="gateDisplayIcon" class="text-4xl text-cyan-400 font-bold">⊼</div>
+                        <div id="gateDisplayName" class="text-sm font-bold text-slate-200">AND GATE</div>
+                    </div>
+
+                    <!-- Output Lamp -->
+                    <div class="flex flex-col items-center space-y-2">
+                        <div id="outputLamp" class="w-20 h-20 rounded-full border-4 border-slate-700 bg-slate-900 flex items-center justify-center transition-all duration-300">
+                            <span id="outputLampVal" class="text-2xl font-black font-mono text-slate-500">0</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">OUTPUT Q</span>
+                    </div>
+                </div>
+
+                <!-- Truth Table -->
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs">
+                    <h4 class="font-bold text-slate-300 mb-2">Gate Truth Table:</h4>
+                    <div id="truthTableContainer" class="overflow-x-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: BITWISE & TWO'S COMPLEMENT ================= -->
+        <div id="tab-bitwise" class="cs-pane hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Bitwise Operations -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                        <span class="text-xl">⚙️</span>
+                        <h3 class="text-base font-bold text-white">Bitwise Operators</h3>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="block text-slate-400 mb-1">Operand A (Dec)</label>
+                            <input id="bitA" type="number" value="12" oninput="calcBitwise()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-cyan-400 font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Operand B (Dec)</label>
+                            <input id="bitB" type="number" value="5" oninput="calcBitwise()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-emerald-400 font-mono">
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs font-mono">
+                        <div class="flex justify-between"><span class="text-slate-400">A AND B (&):</span><span id="bitAnd" class="text-cyan-400">4 (00000100)</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">A OR B (|):</span><span id="bitOr" class="text-emerald-400">13 (00001101)</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">A XOR B (^):</span><span id="bitXor" class="text-purple-400">9 (00001001)</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">NOT A (~A):</span><span id="bitNot" class="text-rose-400">-13</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">A &lt;&lt; 1 (Left Shift):</span><span id="bitShl" class="text-amber-400">24</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">A &gt;&gt; 1 (Right Shift):</span><span id="bitShr" class="text-slate-200">6</span></div>
+                    </div>
+                </div>
+
+                <!-- Two's Complement -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                        <span class="text-xl">➕</span>
+                        <h3 class="text-base font-bold text-white">Two's Complement Calculator</h3>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Signed Decimal Integer</label>
+                        <input id="signedDecInput" type="number" value="-42" oninput="calcTwosComplement()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300">
+                    </div>
+
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3 text-xs font-mono">
+                        <div>
+                            <div class="text-slate-500 text-[10px]">8-BIT SIGNED BINARY:</div>
+                            <div id="twos8" class="text-emerald-400 font-bold text-sm tracking-wider">11010110</div>
+                        </div>
+                        <div>
+                            <div class="text-slate-500 text-[10px]">16-BIT SIGNED BINARY:</div>
+                            <div id="twos16" class="text-cyan-400 font-bold tracking-wider">11111111 11010110</div>
+                        </div>
+                        <div>
+                            <div class="text-slate-500 text-[10px]">HEXADECIMAL NOTATION:</div>
+                            <div id="twosHex" class="text-amber-400 font-bold">0xD6</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: SEARCHABLE ASCII TABLE ================= -->
+        <div id="tab-ascii" class="cs-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl">📜</span>
+                        <h3 class="text-base font-bold text-white">Standard ASCII & Control Character Table</h3>
+                    </div>
+                    <input id="asciiSearch" type="text" oninput="renderAsciiTable()" placeholder="Search by character, decimal, or hex..." class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-200">
+                </div>
+
+                <div class="overflow-x-auto max-h-96">
+                    <table class="w-full text-xs font-mono text-left">
+                        <thead class="bg-slate-950 text-slate-400 sticky top-0 border-b border-slate-800">
+                            <tr>
+                                <th class="p-2.5">Dec</th>
+                                <th class="p-2.5">Hex</th>
+                                <th class="p-2.5">Binary</th>
+                                <th class="p-2.5">Char</th>
+                                <th class="p-2.5">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="asciiTableBody" class="divide-y divide-slate-800/60"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 5: STORAGE UNITS ================= -->
+        <div id="tab-storage" class="cs-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-4 max-w-2xl mx-auto">
+                <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                    <span class="text-xl">💾</span>
+                    <h3 class="text-base font-bold text-white">Data Storage Unit Converter</h3>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div>
+                        <label class="block text-slate-400 mb-1">Value</label>
+                        <input id="storageVal" type="number" value="1024" oninput="calcStorage()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-cyan-400 font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">Unit</label>
+                        <select id="storageUnit" onchange="calcStorage()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <option value="B">Bytes (B)</option>
+                            <option value="KB">Kilobytes (KB - 1000)</option>
+                            <option value="KiB" selected>Kibibytes (KiB - 1024)</option>
+                            <option value="MB">Megabytes (MB)</option>
+                            <option value="MiB">Mebibytes (MiB)</option>
+                            <option value="GB">Gigabytes (GB)</option>
+                            <option value="GiB">Gibibytes (GiB)</option>
+                            <option value="TB">Terabytes (TB)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs font-mono" id="storageResults"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 px-4 text-center text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free In-Browser Computer Science Tools</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
+    <script>
+        function switchCsTab(tabId) {
+            document.querySelectorAll('.cs-pane').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.cs-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if (target) target.classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        // --- Number Base Converter ---
+        function convertFromDec(val) {
+            const num = parseInt(val, 10);
+            if (!isNaN(num)) {
+                document.getElementById('baseBin').value = (num >>> 0).toString(2);
+                document.getElementById('baseHex').value = (num >>> 0).toString(16).toUpperCase();
+                document.getElementById('baseOct').value = (num >>> 0).toString(8);
+                updateNibbles((num >>> 0).toString(2));
+            }
+        }
+
+        function convertFromBin(val) {
+            const clean = val.replace(/[^01]/g, '');
+            const num = parseInt(clean, 2);
+            if (!isNaN(num)) {
+                document.getElementById('baseDec').value = num;
+                document.getElementById('baseHex').value = num.toString(16).toUpperCase();
+                document.getElementById('baseOct').value = num.toString(8);
+                updateNibbles(clean);
+            }
+        }
+
+        function convertFromHex(val) {
+            const clean = val.replace(/[^0-9a-fA-F]/g, '');
+            const num = parseInt(clean, 16);
+            if (!isNaN(num)) {
+                document.getElementById('baseDec').value = num;
+                document.getElementById('baseBin').value = num.toString(2);
+                document.getElementById('baseOct').value = num.toString(8);
+                updateNibbles(num.toString(2));
+            }
+        }
+
+        function convertFromOct(val) {
+            const clean = val.replace(/[^0-7]/g, '');
+            const num = parseInt(clean, 8);
+            if (!isNaN(num)) {
+                document.getElementById('baseDec').value = num;
+                document.getElementById('baseBin').value = num.toString(2);
+                document.getElementById('baseHex').value = num.toString(16).toUpperCase();
+                updateNibbles(num.toString(2));
+            }
+        }
+
+        function updateNibbles(binStr) {
+            const padded = binStr.padStart(16, '0');
+            document.getElementById('nibbleView').innerText = `${padded.slice(0, 8)} ${padded.slice(8)}`;
+        }
+
+        // --- Logic Gate Simulator ---
+        let inputA = 0;
+        let inputB = 0;
+
+        function toggleGateInput(which) {
+            if (which === 'A') {
+                inputA = inputA === 0 ? 1 : 0;
+                document.getElementById('valInputA').innerText = inputA;
+                document.getElementById('valInputA').className = inputA === 1 ? 'text-emerald-400' : 'text-rose-400';
+            } else {
+                inputB = inputB === 0 ? 1 : 0;
+                document.getElementById('valInputB').innerText = inputB;
+                document.getElementById('valInputB').className = inputB === 1 ? 'text-emerald-400' : 'text-rose-400';
+            }
+            calcGate();
+        }
+
+        function calcGate() {
+            const gate = document.getElementById('gateType').value;
+            let out = 0;
+
+            if (gate === 'AND') out = (inputA && inputB) ? 1 : 0;
+            else if (gate === 'OR') out = (inputA || inputB) ? 1 : 0;
+            else if (gate === 'XOR') out = (inputA ^ inputB) ? 1 : 0;
+            else if (gate === 'NAND') out = !(inputA && inputB) ? 1 : 0;
+            else if (gate === 'NOR') out = !(inputA || inputB) ? 1 : 0;
+            else if (gate === 'XNOR') out = (inputA === inputB) ? 1 : 0;
+            else if (gate === 'NOT') out = !inputA ? 1 : 0;
+
+            const lamp = document.getElementById('outputLamp');
+            const lampVal = document.getElementById('outputLampVal');
+            lampVal.innerText = out;
+
+            if (out === 1) {
+                lamp.className = "w-20 h-20 rounded-full border-4 border-emerald-500 bg-emerald-500/20 shadow-lg shadow-emerald-500/50 flex items-center justify-center transition-all";
+                lampVal.className = "text-2xl font-black font-mono text-emerald-400";
+            } else {
+                lamp.className = "w-20 h-20 rounded-full border-4 border-slate-700 bg-slate-900 flex items-center justify-center transition-all";
+                lampVal.className = "text-2xl font-black font-mono text-slate-500";
+            }
+
+            document.getElementById('gateDisplayName').innerText = gate + " GATE";
+            renderTruthTable(gate);
+        }
+
+        function renderTruthTable(gate) {
+            const table = document.getElementById('truthTableContainer');
+            const rows = gate === 'NOT' ? [
+                { a: 0, b: '-', q: 1 },
+                { a: 1, b: '-', q: 0 }
+            ] : [
+                { a: 0, b: 0, q: evaluateGate(gate, 0, 0) },
+                { a: 0, b: 1, q: evaluateGate(gate, 0, 1) },
+                { a: 1, b: 0, q: evaluateGate(gate, 1, 0) },
+                { a: 1, b: 1, q: evaluateGate(gate, 1, 1) }
+            ];
+
+            table.innerHTML = `
+                <table class="w-full font-mono text-center border-collapse">
+                    <thead><tr class="text-slate-400 border-b border-slate-800"><th class="p-1">A</th><th class="p-1">B</th><th class="p-1 text-emerald-400">Output Q</th></tr></thead>
+                    <tbody>${rows.map(r => `<tr class="border-b border-slate-900"><td class="p-1">${r.a}</td><td class="p-1">${r.b}</td><td class="p-1 font-bold ${r.q === 1 ? 'text-emerald-400' : 'text-slate-500'}">${r.q}</td></tr>`).join('')}</tbody>
+                </table>
+            `;
+        }
+
+        function evaluateGate(g, a, b) {
+            if (g === 'AND') return (a && b) ? 1 : 0;
+            if (g === 'OR') return (a || b) ? 1 : 0;
+            if (g === 'XOR') return (a ^ b) ? 1 : 0;
+            if (g === 'NAND') return !(a && b) ? 1 : 0;
+            if (g === 'NOR') return !(a || b) ? 1 : 0;
+            if (g === 'XNOR') return (a === b) ? 1 : 0;
+            return 0;
+        }
+
+        // --- Bitwise & Two's Complement ---
+        function calcBitwise() {
+            const a = parseInt(document.getElementById('bitA').value) || 0;
+            const b = parseInt(document.getElementById('bitB').value) || 0;
+
+            const toBin = n => (n >>> 0).toString(2).padStart(8, '0').slice(-8);
+
+            document.getElementById('bitAnd').innerText = `${a & b} (${toBin(a & b)})`;
+            document.getElementById('bitOr').innerText = `${a | b} (${toBin(a | b)})`;
+            document.getElementById('bitXor').innerText = `${a ^ b} (${toBin(a ^ b)})`;
+            document.getElementById('bitNot').innerText = `${(~a)} (${toBin(~a)})`;
+            document.getElementById('bitShl').innerText = `${a << 1}`;
+            document.getElementById('bitShr').innerText = `${a >> 1}`;
+        }
+
+        function calcTwosComplement() {
+            const val = parseInt(document.getElementById('signedDecInput').value) || 0;
+            const uint8 = (val & 0xFF).toString(2).padStart(8, '0');
+            const uint16 = (val & 0xFFFF).toString(2).padStart(16, '0');
+            const hex = "0x" + (val & 0xFF).toString(16).toUpperCase();
+
+            document.getElementById('twos8').innerText = uint8;
+            document.getElementById('twos16').innerText = `${uint16.slice(0, 8)} ${uint16.slice(8)}`;
+            document.getElementById('twosHex').innerText = hex;
+        }
+
+        // --- ASCII Table Generator ---
+        const asciiDescriptions = {
+            0: "Null char", 9: "Horizontal Tab", 10: "Line feed", 13: "Carriage return", 32: "Space",
+            48: "Digit Zero", 65: "Uppercase A", 97: "Lowercase a"
+        };
+
+        function renderAsciiTable() {
+            const q = document.getElementById('asciiSearch').value.toLowerCase().trim();
+            const tbody = document.getElementById('asciiTableBody');
+            const rows = [];
+
+            for (let i = 0; i < 128; i++) {
+                const hex = i.toString(16).toUpperCase().padStart(2, '0');
+                const bin = i.toString(2).padStart(8, '0');
+                let char = i >= 32 && i <= 126 ? String.fromCharCode(i) : '·';
+                let desc = asciiDescriptions[i] || (i < 32 ? "Control Code" : "Printable ASCII");
+
+                if (q === "" || i.toString().includes(q) || hex.toLowerCase().includes(q) || char.toLowerCase().includes(q) || desc.toLowerCase().includes(q)) {
+                    rows.push(`
+                        <tr class="hover:bg-slate-900/60 transition">
+                            <td class="p-2 text-cyan-400 font-bold">${i}</td>
+                            <td class="p-2 text-amber-400">0x${hex}</td>
+                            <td class="p-2 text-slate-400 text-[10px]">${bin}</td>
+                            <td class="p-2 text-emerald-300 font-bold text-sm bg-slate-900/40">${char}</td>
+                            <td class="p-2 text-slate-400">${desc}</td>
+                        </tr>
+                    `);
+                }
+            }
+            tbody.innerHTML = rows.slice(0, 64).join('');
+        }
+
+        // --- Storage Units ---
+        function calcStorage() {
+            const val = parseFloat(document.getElementById('storageVal').value) || 0;
+            const unit = document.getElementById('storageUnit').value;
+
+            // Convert everything to Bytes first
+            const bytesMap = {
+                'B': 1,
+                'KB': 1000,
+                'KiB': 1024,
+                'MB': 1000000,
+                'MiB': 1048576,
+                'GB': 1000000000,
+                'GiB': 1073741824,
+                'TB': 1000000000000
+            };
+
+            const bytes = val * (bytesMap[unit] || 1);
+            const container = document.getElementById('storageResults');
+
+            container.innerHTML = `
+                <div class="flex justify-between"><span class="text-slate-400">Bytes (B):</span><span class="text-emerald-400 font-bold">${bytes.toLocaleString()} B</span></div>
+                <div class="flex justify-between"><span class="text-slate-400">Kilobytes (KB - 1000):</span><span class="text-cyan-400">${(bytes / 1000).toLocaleString()} KB</span></div>
+                <div class="flex justify-between"><span class="text-slate-400">Kibibytes (KiB - 1024):</span><span class="text-cyan-300">${(bytes / 1024).toFixed(3)} KiB</span></div>
+                <div class="flex justify-between"><span class="text-slate-400">Megabytes (MB - 1000²):</span><span class="text-purple-400">${(bytes / 1e6).toFixed(4)} MB</span></div>
+                <div class="flex justify-between"><span class="text-slate-400">Mebibytes (MiB - 1024²):</span><span class="text-purple-300">${(bytes / (1024**2)).toFixed(4)} MiB</span></div>
+                <div class="flex justify-between"><span class="text-slate-400">Gigabytes (GB - 1000³):</span><span class="text-amber-400">${(bytes / 1e9).toFixed(6)} GB</span></div>
+                <div class="flex justify-between"><span class="text-slate-400">Gibibytes (GiB - 1024³):</span><span class="text-amber-300">${(bytes / (1024**3)).toFixed(6)} GiB</span></div>
+            `;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            calcGate();
+            calcBitwise();
+            calcTwosComplement();
+            renderAsciiTable();
+            calcStorage();
+        });
+    </script>
+</body>
+</html>

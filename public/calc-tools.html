@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Utilities & Calculators Suite - Age, Percentage, Units | AnyTool</title>
+    <meta name="description" content="Free daily online calculators: Exact age calculator, percentage calculator, unit converter (length, weight, temp), GST calculator, scientific calculator, and timezone converter.">
+    <meta name="keywords" content="age calculator, percentage calculator, unit converter, gst calculator, scientific calculator, date difference calculator, random number generator">
+    <link rel="canonical" href="https://anytool.io/calc-tools">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Daily Utilities & Calculators Suite",
+      "url": "https://anytool.io/calc-tools",
+      "description": "Essential daily math and conversion tools running 100% in-browser.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        .calc-tab-btn.active {
+            background-color: rgba(245, 158, 11, 0.2);
+            border-color: #f59e0b;
+            color: #fbbf24;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-700 group-hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">AnyTool<span class="text-pink-500">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        🌐 മലയാളം
+                    </button>
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        ☀️ Light
+                    </button>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-400 hover:text-amber-400 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-amber-950/60 text-amber-400 rounded-full text-xs font-bold mb-3 border border-amber-800/60 shadow-sm">
+            <span>🧮 8+ Daily Calculators & Converters • Precision Math</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
+            Daily Utilities & <span class="bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">Calculators</span>
+        </h1>
+        <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+            Calculate exact age down to days, solve percentages, convert physical units, calculate GST, and perform scientific computations.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-grow w-full">
+        
+        <!-- Tab Bar -->
+        <div class="bg-slate-900/80 p-2 rounded-2xl border border-slate-800 mb-8 flex flex-wrap gap-2 justify-center">
+            <button onclick="switchCalcTab('tab-age')" class="calc-tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🎂 Age & Date Calculator
+            </button>
+            <button onclick="switchCalcTab('tab-percent')" class="calc-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                % Percentage & GST
+            </button>
+            <button onclick="switchCalcTab('tab-units')" class="calc-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                📏 Unit Converter
+            </button>
+            <button onclick="switchCalcTab('tab-scientific')" class="calc-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🔬 Scientific Calculator
+            </button>
+            <button onclick="switchCalcTab('tab-timezone')" class="calc-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🌍 World Time Zones
+            </button>
+        </div>
+
+        <!-- ================= TAB 1: AGE & DATE ================= -->
+        <div id="tab-age" class="calc-pane space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6 max-w-3xl mx-auto">
+                <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                    <span class="text-xl">🎂</span>
+                    <h3 class="text-base font-bold text-white">Exact Age Calculator & Milestone Countdown</h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Date of Birth</label>
+                        <input id="birthDate" type="date" value="2000-01-01" onchange="calcAge()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs font-mono text-cyan-300 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Target Date (Default: Today)</label>
+                        <input id="targetDate" type="date" onchange="calcAge()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs font-mono text-slate-300 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Age Result Hero Card -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-center space-y-2">
+                    <div class="text-xs text-slate-500 uppercase tracking-widest font-mono">YOUR EXACT AGE</div>
+                    <div id="ageMainResult" class="text-3xl sm:text-4xl font-black text-amber-400 font-mono">26 Years, 10 Months, 17 Days</div>
+                    <div id="ageSubResult" class="text-xs text-slate-400 font-mono">Next birthday in: 44 days</div>
+                </div>
+
+                <!-- Summary Breakdown Stats -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs font-mono">
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="text-slate-500 text-[10px]">TOTAL MONTHS</div>
+                        <div id="totalMonths" class="text-emerald-400 font-bold">322</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="text-slate-500 text-[10px]">TOTAL WEEKS</div>
+                        <div id="totalWeeks" class="text-cyan-400 font-bold">1,402</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="text-slate-500 text-[10px]">TOTAL DAYS</div>
+                        <div id="totalDays" class="text-purple-400 font-bold">9,818</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="text-slate-500 text-[10px]">TOTAL HOURS</div>
+                        <div id="totalHours" class="text-rose-400 font-bold">235,632</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 2: PERCENTAGE & GST ================= -->
+        <div id="tab-percent" class="calc-pane hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Percentage Calculator -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                        <span class="text-xl">%</span>
+                        <h3 class="text-base font-bold text-white">Percentage Calculations</h3>
+                    </div>
+
+                    <div class="space-y-4 text-xs">
+                        <div class="space-y-1">
+                            <span class="text-slate-400">What is <input id="pctRate" type="number" value="15" oninput="calcPct()" class="w-16 bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-amber-400 font-mono font-bold">% of <input id="pctVal" type="number" value="250" oninput="calcPct()" class="w-24 bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-slate-200 font-mono">?</span>
+                            <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-sm font-bold text-amber-400 font-mono" id="pctResult1">Result: 37.5</div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-slate-400"><input id="pctPart" type="number" value="45" oninput="calcPct()" class="w-16 bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-cyan-400 font-mono"> is what % of <input id="pctTotal" type="number" value="180" oninput="calcPct()" class="w-24 bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-slate-200 font-mono">?</span>
+                            <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-sm font-bold text-cyan-400 font-mono" id="pctResult2">Result: 25%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GST Calculator -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                        <span class="text-xl">🏷️</span>
+                        <h3 class="text-base font-bold text-white">GST / Tax Calculator</h3>
+                    </div>
+
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="block text-slate-400 mb-1">Base Amount</label>
+                            <input id="gstBase" type="number" value="1000" oninput="calcGst()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 font-mono">
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <label class="text-slate-400">GST Slab:</label>
+                            <select id="gstRate" onchange="calcGst()" class="bg-slate-950 border border-slate-800 text-amber-400 font-bold rounded-xl px-3 py-1.5">
+                                <option value="5">5% (Essential Goods)</option>
+                                <option value="12">12% (Standard)</option>
+                                <option value="18" selected>18% (Services & Tech)</option>
+                                <option value="28">28% (Luxury)</option>
+                            </select>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs font-mono">
+                            <div class="flex justify-between"><span class="text-slate-400">CGST (Central):</span><span id="outCgst" class="text-cyan-400">₹90.00</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">SGST (State):</span><span id="outSgst" class="text-cyan-400">₹90.00</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Total Tax:</span><span id="outTotalTax" class="text-amber-400 font-bold">₹180.00</span></div>
+                            <div class="flex justify-between border-t border-slate-800 pt-1.5"><span class="text-slate-300 font-bold">Net Total:</span><span id="outNetGst" class="text-emerald-400 font-black text-sm">₹1,180.00</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: UNIT CONVERTER ================= -->
+        <div id="tab-units" class="calc-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6 max-w-2xl mx-auto">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl">📏</span>
+                        <h3 class="text-base font-bold text-white">Universal Metric & Imperial Unit Converter</h3>
+                    </div>
+                    <select id="unitCategory" onchange="updateUnitOptions()" class="bg-slate-950 border border-slate-700 text-xs font-bold text-amber-400 rounded-xl px-2.5 py-1">
+                        <option value="length">Length</option>
+                        <option value="weight">Weight / Mass</option>
+                        <option value="temp">Temperature</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">From Value & Unit</label>
+                        <div class="space-y-2">
+                            <input id="unitFromVal" type="number" value="10" oninput="convertUnits()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-cyan-400 font-mono text-sm">
+                            <select id="unitFromSelect" onchange="convertUnits()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200"></select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">To Value & Unit</label>
+                        <div class="space-y-2">
+                            <input id="unitToVal" type="text" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-amber-400 font-mono text-sm font-bold focus:outline-none">
+                            <select id="unitToSelect" onchange="convertUnits()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: SCIENTIFIC CALCULATOR ================= -->
+        <div id="tab-scientific" class="calc-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-4 max-w-md mx-auto">
+                <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                    <span class="text-xl">🔬</span>
+                    <h3 class="text-base font-bold text-white">Scientific Calculator</h3>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-right">
+                    <div id="calcHistory" class="text-xs text-slate-500 font-mono h-4 overflow-hidden"></div>
+                    <div id="calcDisplay" class="text-2xl font-black text-amber-400 font-mono truncate">0</div>
+                </div>
+
+                <!-- Calculator Keypad -->
+                <div class="grid grid-cols-4 gap-2 text-xs font-mono font-bold">
+                    <button onclick="pressSci('sin')" class="p-3 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl">sin</button>
+                    <button onclick="pressSci('cos')" class="p-3 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl">cos</button>
+                    <button onclick="pressSci('tan')" class="p-3 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl">tan</button>
+                    <button onclick="clearSci()" class="p-3 bg-rose-900/60 hover:bg-rose-900 text-rose-300 rounded-xl">C</button>
+
+                    <button onclick="pressSci('sqrt')" class="p-3 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl">√</button>
+                    <button onclick="pressSci('^')" class="p-3 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl">^</button>
+                    <button onclick="pressSci('pi')" class="p-3 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl">π</button>
+                    <button onclick="pressSci('/')" class="p-3 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-xl">÷</button>
+
+                    <button onclick="pressDigit('7')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">7</button>
+                    <button onclick="pressDigit('8')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">8</button>
+                    <button onclick="pressDigit('9')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">9</button>
+                    <button onclick="pressSci('*')" class="p-3 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-xl">×</button>
+
+                    <button onclick="pressDigit('4')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">4</button>
+                    <button onclick="pressDigit('5')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">5</button>
+                    <button onclick="pressDigit('6')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">6</button>
+                    <button onclick="pressSci('-')" class="p-3 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-xl">-</button>
+
+                    <button onclick="pressDigit('1')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">1</button>
+                    <button onclick="pressDigit('2')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">2</button>
+                    <button onclick="pressDigit('3')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">3</button>
+                    <button onclick="pressSci('+')" class="p-3 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-xl">+</button>
+
+                    <button onclick="pressDigit('0')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl col-span-2">0</button>
+                    <button onclick="pressDigit('.')" class="p-3 bg-slate-900 hover:bg-slate-800 text-slate-100 rounded-xl">.</button>
+                    <button onclick="evaluateSci()" class="p-3 bg-amber-600 hover:bg-amber-500 text-black font-black rounded-xl">=</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 5: WORLD TIMEZONES ================= -->
+        <div id="tab-timezone" class="calc-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-4 max-w-3xl mx-auto">
+                <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                    <span class="text-xl">🌍</span>
+                    <h3 class="text-base font-bold text-white">Live World Time Clock & Sync</h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="timezoneGrid"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 px-4 text-center text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free In-Browser Daily Calculators</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
+    <script>
+        function switchCalcTab(tabId) {
+            document.querySelectorAll('.calc-pane').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.calc-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if (target) target.classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        // --- Age Calculator ---
+        function calcAge() {
+            const birthInput = document.getElementById('birthDate').value;
+            if (!birthInput) return;
+            const bDate = new Date(birthInput);
+            const targetInput = document.getElementById('targetDate').value;
+            const tDate = targetInput ? new Date(targetInput) : new Date();
+
+            let years = tDate.getFullYear() - bDate.getFullYear();
+            let months = tDate.getMonth() - bDate.getMonth();
+            let days = tDate.getDate() - bDate.getDate();
+
+            if (days < 0) {
+                months -= 1;
+                const prevMonth = new Date(tDate.getFullYear(), tDate.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            if (months < 0) {
+                years -= 1;
+                months += 12;
+            }
+
+            document.getElementById('ageMainResult').innerText = `${years} Years, ${months} Months, ${days} Days`;
+
+            // Total statistics
+            const diffTime = tDate.getTime() - bDate.getTime();
+            const totalD = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            document.getElementById('totalDays').innerText = totalD.toLocaleString();
+            document.getElementById('totalWeeks').innerText = Math.floor(totalD / 7).toLocaleString();
+            document.getElementById('totalMonths').innerText = (years * 12 + months).toLocaleString();
+            document.getElementById('totalHours').innerText = (totalD * 24).toLocaleString();
+
+            // Next birthday countdown
+            const nextBirthday = new Date(tDate.getFullYear(), bDate.getMonth(), bDate.getDate());
+            if (nextBirthday < tDate) nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+            const daysToBday = Math.ceil((nextBirthday - tDate) / (1000 * 60 * 60 * 24));
+            document.getElementById('ageSubResult').innerText = `Next birthday in: ${daysToBday} days 🎈`;
+        }
+
+        // --- Percentage & GST ---
+        function calcPct() {
+            const rate = parseFloat(document.getElementById('pctRate').value) || 0;
+            const val = parseFloat(document.getElementById('pctVal').value) || 0;
+            document.getElementById('pctResult1').innerText = `Result: ${(val * rate / 100).toFixed(2)}`;
+
+            const part = parseFloat(document.getElementById('pctPart').value) || 0;
+            const total = parseFloat(document.getElementById('pctTotal').value) || 1;
+            document.getElementById('pctResult2').innerText = `Result: ${((part / total) * 100).toFixed(2)}%`;
+        }
+
+        function calcGst() {
+            const base = parseFloat(document.getElementById('gstBase').value) || 0;
+            const rate = parseFloat(document.getElementById('gstRate').value) || 18;
+            const totalTax = base * (rate / 100);
+            const halfTax = totalTax / 2;
+
+            document.getElementById('outCgst').innerText = `₹${halfTax.toFixed(2)}`;
+            document.getElementById('outSgst').innerText = `₹${halfTax.toFixed(2)}`;
+            document.getElementById('outTotalTax').innerText = `₹${totalTax.toFixed(2)}`;
+            document.getElementById('outNetGst').innerText = `₹${(base + totalTax).toFixed(2)}`;
+        }
+
+        // --- Unit Converter ---
+        const unitsConfig = {
+            length: {
+                meter: 1, kilometer: 1000, centimeter: 0.01, millimeter: 0.001,
+                mile: 1609.34, yard: 0.9144, foot: 0.3048, inch: 0.0254
+            },
+            weight: {
+                kilogram: 1, gram: 0.001, milligram: 0.000001, pound: 0.453592, ounce: 0.0283495, ton: 1000
+            },
+            temp: { celsius: "C", fahrenheit: "F", kelvin: "K" }
+        };
+
+        function updateUnitOptions() {
+            const cat = document.getElementById('unitCategory').value;
+            const fromSelect = document.getElementById('unitFromSelect');
+            const toSelect = document.getElementById('unitToSelect');
+            const keys = Object.keys(unitsConfig[cat]);
+
+            fromSelect.innerHTML = keys.map(k => `<option value="${k}">${k}</option>`).join('');
+            toSelect.innerHTML = keys.map(k => `<option value="${k}">${k}</option>`).join('');
+            if (keys.length > 1) toSelect.selectedIndex = 1;
+            convertUnits();
+        }
+
+        function convertUnits() {
+            const cat = document.getElementById('unitCategory').value;
+            const val = parseFloat(document.getElementById('unitFromVal').value) || 0;
+            const from = document.getElementById('unitFromSelect').value;
+            const to = document.getElementById('unitToSelect').value;
+
+            if (cat === 'temp') {
+                let c = val;
+                if (from === 'fahrenheit') c = (val - 32) * 5/9;
+                else if (from === 'kelvin') c = val - 273.15;
+
+                let res = c;
+                if (to === 'fahrenheit') res = (c * 9/5) + 32;
+                else if (to === 'kelvin') res = c + 273.15;
+                document.getElementById('unitToVal').value = res.toFixed(2);
+            } else {
+                const baseVal = val * unitsConfig[cat][from];
+                const finalVal = baseVal / unitsConfig[cat][to];
+                document.getElementById('unitToVal').value = finalVal.toFixed(4);
+            }
+        }
+
+        // --- Scientific Calculator ---
+        let calcExpr = "";
+
+        function pressDigit(d) {
+            calcExpr += d;
+            document.getElementById('calcDisplay').innerText = calcExpr;
+        }
+
+        function pressSci(op) {
+            if (op === 'sin') calcExpr += "Math.sin(";
+            else if (op === 'cos') calcExpr += "Math.cos(";
+            else if (op === 'tan') calcExpr += "Math.tan(";
+            else if (op === 'sqrt') calcExpr += "Math.sqrt(";
+            else if (op === 'pi') calcExpr += "Math.PI";
+            else if (op === '^') calcExpr += "**";
+            else calcExpr += op;
+            document.getElementById('calcDisplay').innerText = calcExpr;
+        }
+
+        function clearSci() {
+            calcExpr = "";
+            document.getElementById('calcDisplay').innerText = "0";
+            document.getElementById('calcHistory').innerText = "";
+        }
+
+        function evaluateSci() {
+            try {
+                document.getElementById('calcHistory').innerText = calcExpr;
+                const res = Function(`'use strict'; return (${calcExpr})`)();
+                document.getElementById('calcDisplay').innerText = res;
+                calcExpr = res.toString();
+            } catch (e) {
+                document.getElementById('calcDisplay').innerText = "Error";
+                calcExpr = "";
+            }
+        }
+
+        // --- Timezones ---
+        const cities = [
+            { city: "New York", zone: "America/New_York", flag: "🇺🇸" },
+            { city: "London", zone: "Europe/London", flag: "🇬🇧" },
+            { city: "Dubai", zone: "Asia/Dubai", flag: "🇦🇪" },
+            { city: "India (IST)", zone: "Asia/Kolkata", flag: "🇮🇳" },
+            { city: "Tokyo", zone: "Asia/Tokyo", flag: "🇯🇵" },
+            { city: "Sydney", zone: "Australia/Sydney", flag: "🇦🇺" }
+        ];
+
+        function renderTimezones() {
+            const grid = document.getElementById('timezoneGrid');
+            const now = new Date();
+            grid.innerHTML = cities.map(c => {
+                const timeStr = now.toLocaleTimeString('en-US', { timeZone: c.zone, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const dateStr = now.toLocaleDateString('en-US', { timeZone: c.zone, weekday: 'short', month: 'short', day: 'numeric' });
+                return `
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-2xl">${c.flag}</span>
+                            <div>
+                                <div class="text-xs font-bold text-slate-200">${c.city}</div>
+                                <div class="text-[10px] text-slate-500 font-mono">${dateStr}</div>
+                            </div>
+                        </div>
+                        <div class="text-sm font-bold text-amber-400 font-mono">${timeStr}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            calcAge();
+            calcPct();
+            calcGst();
+            updateUnitOptions();
+            renderTimezones();
+            setInterval(renderTimezones, 1000);
+        });
+    </script>
+</body>
+</html>

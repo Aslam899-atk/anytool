@@ -1,44 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnyTool.io - Free Online Tools for Everyone</title>
-    <meta name="description" content="All-in-one free online tools: Merge PDF, Split PDF, Image Background Remover, QR Code Generator & Scanner, Python & Turtle Runner. 100% free, no login required.">
-    <meta name="keywords" content="merge pdf, split pdf, remove background, qr code generator, qr scanner, run python online, turtle runner, free tools">
-    
+    <title>AnyTool.io - One Website – All Digital Tools</title>
+    <meta name="description" content="One Website – All Digital Tools. 100% Free, secure, in-browser utilities: PDF Suite, AI Background Remover, QR Codes, Cybersecurity, Developer Tools, and Daily Calculators.">
+    <meta name="keywords" content="free online tools, pdf tools, ai background remover, qr generator, developer tools, cybersecurity tools, subnet calculator, binary converter, anytool">
+    <link rel="canonical" href="https://anytool.io/">
+
     <!-- Open Graph / SEO -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="AnyTool.io - Free Online Tools for Everyone">
-    <meta property="og:description" content="Free online utility tools. Fast, secure, and no registration required.">
+    <meta property="og:url" content="https://anytool.io/">
+    <meta property="og:title" content="AnyTool.io - One Website – All Digital Tools">
+    <meta property="og:description" content="100% Free, secure, in-browser digital toolkit. Zero data collection, zero registration.">
     <meta property="og:image" content="/images/anytool-brand.jpg">
-    
-    <!-- Favicon & App Brand Icons -->
+
+    <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#4f46e5">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .filter-pill.active {
+            background-color: #06b6d4;
+            color: #000000;
+            font-weight: 800;
+            border-color: #06b6d4;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
     </style>
 </head>
-<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
 
     <!-- Top Navigation Bar -->
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
+                <!-- Brand Logo & Tagline -->
                 <a href="/" class="flex items-center space-x-3 group">
-                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-200/80 group-hover:scale-110 transition duration-200">
-                    <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">AnyTool<span class="text-pink-500">.io</span></span>
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-700 group-hover:scale-105 transition">
+                    <div>
+                        <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">AnyTool<span class="text-pink-500">.io</span></span>
+                    </div>
                 </a>
-                <div class="flex items-center space-x-4">
-                    <span class="hidden sm:inline-block text-xs font-semibold px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">
+
+                <!-- Quick Action Header Badges & Language Switcher -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center space-x-1">
+                        <span>🌐</span>
+                        <span id="langBtnText">മലയാളം</span>
+                    </button>
+                    
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center space-x-1">
+                        <span>☀️</span>
+                        <span class="hidden sm:inline">Light</span>
+                    </button>
+
+                    <span class="hidden md:inline-flex text-[11px] font-mono px-3 py-1 bg-emerald-950/60 text-emerald-400 border border-emerald-800/80 rounded-full font-bold">
                         ● 100% Free & No Login
                     </span>
                 </div>
@@ -47,501 +72,522 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="pt-12 pb-8 px-4 text-center max-w-4xl mx-auto">
-        <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
-            Free Online Tools <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">For Everyone</span>
+    <header class="pt-12 pb-6 px-4 text-center max-w-4xl mx-auto space-y-4">
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 bg-cyan-950/60 text-cyan-400 rounded-full text-xs font-bold border border-cyan-800/60 shadow-lg shadow-cyan-950/50">
+            <span>🚀 50+ In-Browser Tools • Zero Data Retention • Fast & Private</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+            One Website – <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-400 bg-clip-text text-transparent">All Digital Tools.</span>
         </h1>
-        <p class="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto mb-8">
-            Fast, secure, and private browser utilities. Zero data saved, zero registration needed — click any box to start!
+
+        <p id="heroSubText" class="text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed">
+            100% Free, secure, in-browser digital toolkit. Zero data collection, zero registration — private and instant.
         </p>
 
-        <!-- Live Instant Search Bar -->
-        <div class="relative max-w-2xl mx-auto mb-8">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+        <!-- Global Search Bar & Command Shortcut -->
+        <div class="relative max-w-2xl mx-auto pt-2">
+            <div class="absolute inset-y-0 left-0 pl-4 pt-2 flex items-center pointer-events-none text-cyan-400">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
             <input 
-                id="toolSearch" 
+                id="mainSearchInput" 
                 type="text" 
-                placeholder="Search any tool (e.g. merge pdf, remove bg, python, qr code)..." 
-                class="w-full pl-12 pr-10 py-4 bg-white rounded-2xl shadow-sm border border-slate-200 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-slate-800 placeholder-slate-400 font-medium"
+                placeholder="Search 50+ tools (e.g. merge pdf, hash, json, base64, subnet)..." 
+                class="w-full pl-12 pr-28 py-4 bg-slate-900/90 text-slate-100 rounded-2xl shadow-xl border border-slate-700/80 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition text-sm sm:text-base font-medium placeholder-slate-500"
             >
-            <button id="clearSearch" class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
+            <div class="absolute inset-y-0 right-0 pr-3 pt-2 flex items-center space-x-1.5 pointer-events-none">
+                <kbd class="hidden sm:inline-block text-[10px] font-mono uppercase px-2 py-1 bg-slate-800 border border-slate-700 text-slate-400 rounded-lg">Ctrl + K</kbd>
+            </div>
         </div>
 
         <!-- Category Filter Pills -->
-        <div class="flex flex-wrap justify-center gap-2" id="filterPills">
-            <button data-filter="all" class="filter-btn active px-4 py-2 rounded-xl text-sm font-bold bg-indigo-600 text-white shadow-sm transition">
-                All Tools
+        <div class="flex flex-wrap justify-center gap-2 pt-4" id="categoryPillBar">
+            <button onclick="filterCategory('all')" data-cat="all" class="filter-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                ⚡ All Tools
             </button>
-            <button data-filter="pdf" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition">
-                📄 PDF Tools
+            <button onclick="filterCategory('cyber')" data-cat="cyber" class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                🛡️ Cyber Security
             </button>
-            <button data-filter="image" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition">
-                🖼️ Image Tools
+            <button onclick="filterCategory('dev')" data-cat="dev" class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                💻 Developer
             </button>
-            <button data-filter="qr" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition">
-                📱 QR Tools
+            <button onclick="filterCategory('pdf')" data-cat="pdf" class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                📄 PDF Suite
             </button>
-            <button data-filter="dev" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition">
-                💻 Dev & Code
+            <button onclick="filterCategory('image')" data-cat="image" class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                🖼️ Image & BG
             </button>
-            <button data-filter="security" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition">
-                🛡️ Cyber & Security
+            <button onclick="filterCategory('qr')" data-cat="qr" class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                📱 QR & Barcode
             </button>
-            <button data-filter="video" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition">
-                🎥 Video & Audio
+            <button onclick="filterCategory('cs')" data-cat="cs" class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                🔬 Computer Science
+            </button>
+            <button onclick="filterCategory('text')" data-cat="text" class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                📝 Text & Docs
+            </button>
+            <button onclick="filterCategory('calc')" data-cat="calc" class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                🧮 Calculators
+            </button>
+            <button onclick="filterCategory('python')" data-cat="python" class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-800 bg-slate-900 text-slate-300 hover:text-white transition">
+                🐍 Python & Turtle
             </button>
         </div>
     </header>
 
-    <!-- Main Content: Tool Boxes Grid -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
-        <div id="toolsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
-            <!-- 1. Merge PDF -->
-            <a href="/merge-pdf.html" data-category="pdf" data-title="Merge PDF" data-desc="Combine multiple PDF files into a single organized document." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-red-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-red-600 transition">Merge PDF</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-red-100 text-red-700">PDF</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Combine multiple PDF documents into one single file easily.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-red-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 2. Split PDF -->
-            <a href="/split-pdf.html" data-category="pdf" data-title="Split PDF" data-desc="Extract pages or split PDF into separate files." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-rose-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-600 transition">Split PDF</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-rose-100 text-rose-700">PDF</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Extract specific pages or page ranges from any PDF document.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-rose-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 3. Background Remover -->
-            <a href="/bg-remover.html" data-category="image" data-title="Background Remover" data-desc="Remove background from any photo instantly with transparent PNG download." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-purple-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-purple-600 transition">BG Remover</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-purple-100 text-purple-700">Image</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Remove image background in seconds and download clean transparent PNGs.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 4. Image Converter & Compressor -->
-            <a href="/image-converter.html" data-category="image" data-title="Image Converter Compressor" data-desc="Compress and convert photos between JPG, PNG, and WEBP formats." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-cyan-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-cyan-600 transition">Image Converter</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-100 text-cyan-700">Image</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Convert and compress images between JPG, PNG, and WEBP formats.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-cyan-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 5. QR Code Generator -->
-            <a href="/qr-code-generator" data-category="qr" data-title="QR Code Generator with Logo Custom" data-desc="Generate custom QR codes with logo, custom colors, shapes, WhatsApp, and Wi-Fi." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition">QR Generator</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-700">QR</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Create custom QR codes with logo, colors, custom eye frames, WhatsApp, and Wi-Fi presets.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 6. QR Code Scanner / Reader -->
-            <a href="/qr-scanner.html" data-category="qr" data-title="QR Code Scanner Reader" data-desc="Scan and decode QR codes from image files or camera." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">QR Scanner</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">QR</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Scan QR codes from saved images or live camera with zero uploads.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 7. Python & Turtle Runner -->
-            <a href="/python-runner.html" data-category="dev" data-title="Python Turtle Runner" data-desc="Run Python code and Turtle graphics directly in the browser." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-green-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-green-600 transition">Python & Turtle</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-green-100 text-green-700">Dev</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Run Python code and live interactive Turtle graphics natively in browser.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-green-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 8. Binary Code Translator (Dedicated) -->
-            <a href="/binary-tools" data-category="dev" data-title="Binary Code Translator Text to Binary 01" data-desc="Translate text to 8-bit binary 01 code and decode binary into readable text." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <span class="text-xl font-mono font-black">01</span>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition">Binary Code</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-700">Dev</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Translate English text to 8-bit binary bits and binary code back to text with live copy.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 9. Hexadecimal Converter (Dedicated) -->
-            <a href="/hex-tools" data-category="dev" data-title="Hexadecimal Converter Text to Hex 0x Dec" data-desc="Convert text to hexadecimal code and hex to plain text with spaces or 0x prefixes." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <span class="text-lg font-mono font-black">0x</span>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition">Hex Converter</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-100 text-amber-700">Dev</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Convert plain text into Hex (base-16) and decode Hex to ASCII with custom delimiters.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 10. Base64 Encoder & Decoder (Dedicated) -->
-            <a href="/base64-tools" data-category="dev" data-title="Base64 Encoder Decoder Text File Data URI" data-desc="Encode and decode Base64 strings, convert images and files to Base64 Data URIs." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-indigo-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <span class="text-lg font-mono font-black">64</span>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition">Base64 Encoder</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">Dev</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Encode text to Base64, decode Base64 strings, and convert files into Base64 Data URIs.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-indigo-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 11. Image to PDF Converter (Dedicated) -->
-            <a href="/image-to-pdf" data-category="pdf" data-title="Image to PDF Converter JPG PNG WEBP Photo" data-desc="Convert JPG, PNG, and WEBP pictures into a single organized PDF document." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-red-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-red-600 transition">Image to PDF</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-red-100 text-red-700">PDF</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Turn multiple photos into a clean PDF document with drag & reorder support.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-red-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 12. IPv4 & IPv6 Subnet Calculator (Cyber Security / Networking) -->
-            <a href="/ip-tools" data-category="security dev" data-title="IPv4 IPv6 Subnet Calculator CIDR IP Address Cyber Security Network" data-desc="Calculate CIDR subnet mask, usable host ranges, broadcast, and IPv6 notations." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-violet-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-violet-600 transition">IP Subnet Calc</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-violet-100 text-violet-700">Security</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Calculate CIDR prefixes, subnet masks, usable host ranges, and IPv6 address mappings.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-violet-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 13. Cryptographic Hash Generator & Checksum (Cyber Security) -->
-            <a href="/hash-generator" data-category="security dev" data-title="Cryptographic Hash Generator MD5 SHA-256 SHA-512 SHA-1 Checksum Verify Tamper Security" data-desc="Generate cryptographic hashes for text and files; verify file checksums and detect tampering." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">Hash & Checksum</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">Security</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Compute SHA-256, MD5, SHA-512, and SHA-1 hashes for text and verify file checksum integrity.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
-            <!-- 14. Video & Audio Downloader -->
-            <a href="/video-downloader.html" data-category="video" data-title="Video Audio Downloader YouTube Instagram Reels" data-desc="Download videos and audio from YouTube, Instagram Reels, and social media." class="tool-card group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-pink-400 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-pink-600 transition">Video & Audio</h3>
-                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-pink-100 text-pink-700">Video</span>
-                    </div>
-                    <p class="text-sm text-slate-600 leading-relaxed">Download videos, audio, and reels from YouTube, Instagram, and more.</p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-pink-600">
-                    <span>Open Tool</span>
-                    <span class="group-hover:translate-x-1 transition duration-200">→</span>
-                </div>
-            </a>
-
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full space-y-10">
+        
+        <!-- Favorites & Recently Used Bar (Auto-populated if present) -->
+        <div id="recentsSection" class="hidden space-y-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
+                <span>⏱️</span><span data-i18n="recentTools">Recently Used Tools</span>
+            </h3>
+            <div id="recentsGrid" class="flex flex-wrap gap-2"></div>
         </div>
 
-        <!-- No Results Fallback -->
-        <div id="noResults" class="hidden text-center py-16">
-            <div class="text-slate-300 mb-3">
-                <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <h3 class="text-lg font-bold text-slate-700 mb-1">No matching tools found</h3>
-            <p class="text-sm text-slate-500">Try searching for something else like "pdf", "image", "qr", or "python".</p>
+        <!-- Master Tools Grid -->
+        <div id="toolsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+
+        <!-- Fallback if No Results -->
+        <div id="noResults" class="hidden text-center py-20">
+            <div class="text-slate-600 mb-3 text-5xl">🔍</div>
+            <h3 class="text-lg font-bold text-slate-300 mb-1" data-i18n="noResults">No matching tools found</h3>
+            <p class="text-xs text-slate-500">Try searching for keywords like "pdf", "hash", "json", "subnet", or "image".</p>
         </div>
 
-        <!-- User Feedback Section (അഭിപ്രായങ്ങൾ പങ്കുവെക്കാം) -->
-        <section id="feedbackSection" class="mt-20 pt-12 border-t border-slate-200 max-w-3xl mx-auto">
-            <div class="bg-gradient-to-br from-indigo-50/70 via-white to-purple-50/70 rounded-3xl p-8 sm:p-10 border border-indigo-100 shadow-sm text-center">
-                <span class="text-3xl mb-2 inline-block">💬</span>
-                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Share Your Feedback & Suggestions</h2>
-                <p class="text-slate-600 text-sm max-w-lg mx-auto mb-6">
-                    Help us improve AnyTool.io! Have an opinion, review, or want a new tool added? We read every message!
+        <!-- Feedback & Feature Requests Section -->
+        <section class="mt-20 pt-12 border-t border-slate-800 max-w-3xl mx-auto">
+            <div class="cyber-card rounded-3xl p-8 sm:p-10 text-center space-y-4">
+                <span class="text-3xl inline-block">💬</span>
+                <h2 class="text-2xl font-black text-white" data-i18n="feedbackTitle">Share Your Feedback & Suggestions</h2>
+                <p class="text-slate-400 text-xs sm:text-sm max-w-lg mx-auto">
+                    Help us improve AnyTool.io! Have an opinion, review, or want a new tool added? We read every submission.
                 </p>
 
-                <form id="feedbackForm" class="space-y-4 max-w-xl mx-auto text-left">
-                    <!-- Rating Stars -->
-                    <div class="flex items-center justify-center space-x-2 pb-2">
-                        <span class="text-xs font-bold text-slate-600 mr-2">Your Rating:</span>
-                        <div class="flex space-x-1" id="starContainer">
-                            <button type="button" data-star="1" class="star-btn text-2xl text-amber-400 focus:outline-none">★</button>
-                            <button type="button" data-star="2" class="star-btn text-2xl text-amber-400 focus:outline-none">★</button>
-                            <button type="button" data-star="3" class="star-btn text-2xl text-amber-400 focus:outline-none">★</button>
-                            <button type="button" data-star="4" class="star-btn text-2xl text-amber-400 focus:outline-none">★</button>
-                            <button type="button" data-star="5" class="star-btn text-2xl text-amber-400 focus:outline-none">★</button>
-                        </div>
-                    </div>
-
+                <form id="fbForm" class="space-y-3 max-w-xl mx-auto text-left pt-2">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Feedback Type</label>
-                            <select id="fbCategory" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                                <option value="Feature Request">💡 Suggest a New Tool</option>
-                                <option value="General Review" selected>⭐ General Review / Opinion</option>
-                                <option value="Bug Report">🐛 Report an Issue</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Your Name / Email (Optional)</label>
-                            <input id="fbContact" type="text" placeholder="Anonymous or email" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        </div>
+                        <select id="fbCat" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300">
+                            <option value="Suggestion">💡 Suggest a New Tool</option>
+                            <option value="Review">⭐ General Review / Opinion</option>
+                            <option value="Bug">🐛 Report an Issue</option>
+                        </select>
+                        <input id="fbContact" type="text" placeholder="Name or email (optional)" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300">
                     </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Your Message / Thoughts</label>
-                        <textarea id="fbMessage" rows="3" required placeholder="Write your thoughts, feedback, or requested tools here..." class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-                    </div>
-
-                    <button type="submit" id="fbSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-md transition duration-200 flex items-center justify-center space-x-2 text-sm">
-                        <span>Send Feedback</span>
-                        <span>✉️</span>
+                    <textarea id="fbMsg" rows="3" required placeholder="Write your thoughts or requested tool here..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200"></textarea>
+                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-black font-bold py-3 rounded-xl text-xs transition">
+                        Send Feedback ✉️
                     </button>
                 </form>
-
-                <div id="fbSuccessMsg" class="hidden mt-4 p-4 bg-emerald-50 text-emerald-800 rounded-2xl border border-emerald-200 text-sm font-bold">
-                    ✓ Thank you for your feedback! Your opinion helps us make AnyTool better for everyone.
-                </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Floating Feedback Shortcut Button -->
-    <a href="#feedbackSection" class="fixed bottom-6 right-6 z-40 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg shadow-indigo-500/30 flex items-center space-x-2 transition hover:scale-105">
-        <span>💬</span>
-        <span>Give Feedback</span>
-    </a>
-
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-16 text-slate-500 text-xs sm:text-sm">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>© 2026 AnyTool.io • 100% Free Public Utilities</p>
-            <p class="text-slate-400">Zero data retention • Files processed in your browser or memory</p>
+    <footer class="bg-slate-950 border-t border-slate-800 py-12 px-4 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="space-y-2">
+                <div class="flex items-center space-x-2">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-6 h-6 rounded-md">
+                    <span class="text-lg font-black text-white">AnyTool.io</span>
+                </div>
+                <p class="text-slate-500 text-[11px] leading-relaxed">
+                    One Website – All Digital Tools. Dedicated to free, public, and private digital utilities worldwide.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-white mb-2 uppercase tracking-wider text-[11px]">Core Suites</h4>
+                <ul class="space-y-1 text-slate-500">
+                    <li><a href="/cyber-tools" class="hover:text-cyan-400 transition">Cybersecurity & Cryptography</a></li>
+                    <li><a href="/developer-tools" class="hover:text-cyan-400 transition">Developer & Code Tools</a></li>
+                    <li><a href="/cs-tools" class="hover:text-cyan-400 transition">Computer Science & Logic</a></li>
+                    <li><a href="/text-tools" class="hover:text-cyan-400 transition">Document & Text Tools</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-white mb-2 uppercase tracking-wider text-[11px]">Media & Art</h4>
+                <ul class="space-y-1 text-slate-500">
+                    <li><a href="/bg-remover" class="hover:text-cyan-400 transition">AI Background Remover</a></li>
+                    <li><a href="/image-converter" class="hover:text-cyan-400 transition">Image Studio & Compressor</a></li>
+                    <li><a href="/turtle-runner" class="hover:text-cyan-400 transition">Turtle Graphics Studio</a></li>
+                    <li><a href="/python-runner" class="hover:text-cyan-400 transition">Python Code Runner</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-white mb-2 uppercase tracking-wider text-[11px]">Legal & Security</h4>
+                <ul class="space-y-1 text-slate-500">
+                    <li><a href="/privacy" class="hover:text-cyan-400 transition">Privacy Policy</a></li>
+                    <li><a href="/terms" class="hover:text-cyan-400 transition">Terms of Service</a></li>
+                    <li><span class="text-emerald-400">● 100% Client-Side Privacy</span></li>
+                    <li><span class="text-cyan-400">● Zero Tracking Cookies</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto pt-6 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-slate-500">
+            <p>© 2026 AnyTool.io • All Rights Reserved</p>
+            <p class="font-mono text-[11px]">Engineered with Node.js, Express & WebAssembly</p>
         </div>
     </footer>
 
-    <!-- Instant Search & Category Filter Script -->
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
     <script>
-        const searchInput = document.getElementById('toolSearch');
-        const clearBtn = document.getElementById('clearSearch');
-        const cards = document.querySelectorAll('.tool-card');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const noResults = document.getElementById('noResults');
+        // Master Tools Catalog
+        const toolsCatalog = [
+            // Cyber Security
+            {
+                id: "cyber-suite",
+                title: "Cybersecurity & Cryptography Suite",
+                titleMl: "സൈബർ സെക്യൂരിറ്റി & ക്രിപ്റ്റോഗ്രഫി",
+                desc: "AES-256 encryption, Hash Identifier, JWT debugger, and password entropy auditing.",
+                descMl: "AES-256 എൻക്രിപ്ഷൻ, ഹാഷ് ഐഡന്റിഫയർ, JWT ഡീകോഡർ, സുരക്ഷിത പാസ്‌വേഡ് ജനറേറ്റർ.",
+                category: "cyber",
+                categoryLabel: "Cybersecurity",
+                icon: "🛡️",
+                url: "/cyber-tools"
+            },
+            {
+                id: "hash-gen",
+                title: "Cryptographic Hash Generator & Checksum",
+                titleMl: "ക്രിപ്റ്റോഗ്രാഫിക് ഹാഷ് ജനറേറ്റർ",
+                desc: "Generate SHA-256, MD5, SHA-512, and SHA-1 hashes; verify file tamper detection.",
+                descMl: "SHA-256, MD5, SHA-512 ഹാഷുകൾ ജനറേറ്റ് ചെയ്യാനും ഫയൽ വെരിഫിക്കേഷനും.",
+                category: "cyber",
+                categoryLabel: "Cybersecurity",
+                icon: "🔑",
+                url: "/hash-generator"
+            },
+            {
+                id: "ip-subnet",
+                title: "IPv4 & IPv6 Subnet Calculator",
+                titleMl: "IP സബ്നെറ്റ് കാൽക്കുലേറ്റർ",
+                desc: "Calculate CIDR prefixes, subnet masks, usable host ranges, and broadcast addresses.",
+                descMl: "CIDR പ്രിഫിക്സുകൾ, സബ്നെറ്റ് മാസ്ക്, ഉപയോഗിക്കാവുന്ന IP റേഞ്ചുകൾ കണക്കാക്കാൻ.",
+                category: "cyber",
+                categoryLabel: "Networking",
+                icon: "🌐",
+                url: "/ip-tools"
+            },
 
-        let currentFilter = 'all';
+            // Developer Tools
+            {
+                id: "dev-suite",
+                title: "Developer Tools & Code Studio",
+                titleMl: "ഡെവലപ്പർ ടൂളുകൾ & കോഡ് സ്റ്റുഡിയോ",
+                desc: "JSON/SQL formatters, code minifiers, UUID generator, Cron builder, and Markdown previewer.",
+                descMl: "JSON ഫോർമാറ്റർ, SQL ഫോർമാറ്റർ, കോഡ് മിനിഫയർ, UUID ജനറേറ്റർ, മാർക്ക്ഡൗൺ പ്രിവ്യൂ.",
+                category: "dev",
+                categoryLabel: "Developer",
+                icon: "💻",
+                url: "/developer-tools"
+            },
+            {
+                id: "hex-tools",
+                title: "Hexadecimal Converter",
+                titleMl: "ഹെക്സാഡെസിമൽ കൺവെർട്ടർ",
+                desc: "Convert text to hexadecimal and hex to plain text with custom delimiters.",
+                descMl: "ടെക്സ്റ്റും ഹെക്സാഡെസിമൽ കോഡും തമ്മിൽ പരസ്പരം മാറ്റാൻ.",
+                category: "dev",
+                categoryLabel: "Developer",
+                icon: "0x",
+                url: "/hex-tools"
+            },
+            {
+                id: "base64-tools",
+                title: "Base64 Encoder & Decoder",
+                titleMl: "Base64 എൻകോഡർ & ഡീകോഡർ",
+                desc: "Encode strings and files into Base64; decode Base64 back to text or files.",
+                descMl: "ടെക്സ്റ്റും ഫയലുകളും Base64 ആക്കാനും തിരിച്ചെടുക്കാനും.",
+                category: "dev",
+                categoryLabel: "Developer",
+                icon: "64",
+                url: "/base64-tools"
+            },
 
-        function filterTools() {
-            const query = searchInput.value.toLowerCase().trim();
-            let visibleCount = 0;
+            // PDF Suite
+            {
+                id: "merge-pdf",
+                title: "Merge PDF",
+                titleMl: "PDF മെർജ് ചെയ്യുക",
+                desc: "Combine multiple PDF documents into one single organized file.",
+                descMl: "ഒന്നിലധികം PDF ഫയലുകൾ ഒരൊറ്റ ഫയലാക്കി മാറ്റുക.",
+                category: "pdf",
+                categoryLabel: "PDF",
+                icon: "📑",
+                url: "/merge-pdf"
+            },
+            {
+                id: "split-pdf",
+                title: "Split PDF",
+                titleMl: "PDF സ്പ്ലിറ്റ് ചെയ്യുക",
+                desc: "Extract specific pages or page ranges from any PDF document.",
+                descMl: "PDF-ൽ നിന്ന് പ്രത്യേക പേജുകൾ മാത്രം വേർതിരിച്ചെടുക്കുക.",
+                category: "pdf",
+                categoryLabel: "PDF",
+                icon: "✂️",
+                url: "/split-pdf"
+            },
+            {
+                id: "image-to-pdf",
+                title: "Image to PDF Converter",
+                titleMl: "ഇമേജ് PDF ആക്കുക",
+                desc: "Convert multiple JPG, PNG, and WebP pictures into a clean PDF document.",
+                descMl: "ഫോട്ടോകൾ ഒരൊറ്റ PDF രേഖയാക്കി മാറ്റുക.",
+                category: "pdf",
+                categoryLabel: "PDF",
+                icon: "📄",
+                url: "/image-to-pdf"
+            },
 
-            if (query.length > 0) {
-                clearBtn.classList.remove('hidden');
-            } else {
-                clearBtn.classList.add('hidden');
+            // Image & BG
+            {
+                id: "bg-remover",
+                title: "Pro AI Background Remover",
+                titleMl: "AI ബാക്ക്ഗ്രൗണ്ട് റിമൂവർ",
+                desc: "Studio-quality background cutout in 5 seconds with edge smoothing and brush touch-up.",
+                descMl: "ഫോട്ടോകളിൽ നിന്ന് പശ്ചാത്തലം മാറ്റി സുതാര്യമായ PNG ആക്കുക.",
+                category: "image",
+                categoryLabel: "Image",
+                icon: "✨",
+                url: "/bg-remover"
+            },
+            {
+                id: "image-studio",
+                title: "Image Studio & Compressor",
+                titleMl: "ഇമേജ് കൺവെർട്ടർ & കംപ്രസ്സർ",
+                desc: "Convert JPG/PNG/WebP, resize dimensions, and strip EXIF metadata.",
+                descMl: "ഫോട്ടോകളുടെ ഫോർമാറ്റ് മാറ്റാനും ഫയൽ സൈസ് കുറയ്ക്കാനും.",
+                category: "image",
+                categoryLabel: "Image",
+                icon: "🖼️",
+                url: "/image-converter"
+            },
+
+            // QR & Barcode
+            {
+                id: "qr-gen",
+                title: "QR Code Generator with Logo",
+                titleMl: "QR കോഡ് ജനറേറ്റർ",
+                desc: "Create custom QR codes with logo, colors, custom eye frames, and Wi-Fi presets.",
+                descMl: "നിറങ്ങളും ലോഗോയും ചേർത്ത് ആകർഷകമായ QR കോഡുകൾ നിർമ്മിക്കാം.",
+                category: "qr",
+                categoryLabel: "QR",
+                icon: "📱",
+                url: "/qr-code-generator"
+            },
+            {
+                id: "qr-scan",
+                title: "QR Code Scanner & Reader",
+                titleMl: "QR കോഡ് സ്കാനർ",
+                desc: "Scan and decode QR codes from saved images or live camera with zero uploads.",
+                descMl: "ചിത്രങ്ങളിൽ നിന്നോ ക്യാമറ വഴിയോ QR കോഡുകൾ സ്കാൻ ചെയ്യാം.",
+                category: "qr",
+                categoryLabel: "QR",
+                icon: "📷",
+                url: "/qr-scanner"
+            },
+
+            // Computer Science
+            {
+                id: "cs-suite",
+                title: "Computer Science & Logic Suite",
+                titleMl: "കമ്പ്യൂട്ടർ സയൻസ് & ലോജിക്",
+                desc: "Logic gate simulator, searchable ASCII table, and bitwise calculators.",
+                descMl: "ലോജിക് ഗേറ്റ് സിമുലേറ്റർ, ASCII ടേബിൾ, ബിറ്റ്‌വൈസ് കാൽക്കുലേറ്റർ.",
+                category: "cs",
+                categoryLabel: "Computer Science",
+                icon: "🔬",
+                url: "/cs-tools"
+            },
+            {
+                id: "number-converter",
+                title: "Complete Number System Converter",
+                titleMl: "നമ്പർ സിസ്റ്റം കൺവെർട്ടർ",
+                desc: "Convert Binary, Decimal, Hexadecimal, and Octal with live binary math.",
+                descMl: "ബൈനറി, ഡെസിമൽ, ഹെക്സ് സംഖ്യകൾ മാറ്റാനും കൂട്ടാനും കുറയ്ക്കാനും.",
+                category: "cs",
+                categoryLabel: "Computer Science",
+                icon: "🔢",
+                url: "/number-converter"
+            },
+
+            // Text & Docs
+            {
+                id: "text-suite",
+                title: "Document & Text Tools Suite",
+                titleMl: "ഡോക്യുമെന്റ് & ടെക്സ്റ്റ് ടൂളുകൾ",
+                desc: "Word counter, Case converter, duplicate line cleaner, CSV to JSON, and diff checker.",
+                descMl: "വേഡ് കൗണ്ടർ, കേസ് കൺവെർട്ടർ, ഡ്യൂപ്ലിക്കേറ്റ് ലൈൻ ക്ലീനർ, CSV to JSON.",
+                category: "text",
+                categoryLabel: "Text",
+                icon: "📝",
+                url: "/text-tools"
+            },
+
+            // Daily Calculators
+            {
+                id: "calc-suite",
+                title: "Daily Utilities & Calculators",
+                titleMl: "ദൈനംദിന കാൽക്കുലേറ്ററുകൾ",
+                desc: "Exact age calculator, percentage, unit converter, GST tax, and world timezones.",
+                descMl: "കൃത്യമായ പ്രായം, ശതമാനം, അളവുകൾ, GST ടാക്സ് കണക്കാക്കാൻ.",
+                category: "calc",
+                categoryLabel: "Calculators",
+                icon: "🧮",
+                url: "/calc-tools"
+            },
+
+            // Python & Turtle
+            {
+                id: "python-runner",
+                title: "Online Python 3 Code Runner",
+                titleMl: "ഓൺലൈൻ പൈത്തൺ റണ്ണർ",
+                desc: "Run Python 3 algorithms, loops, and scripts natively inside your browser.",
+                descMl: "ബ്രൗസറിൽ നേരിട്ട് പൈത്തൺ പ്രോഗ്രാമുകൾ പ്രവർത്തിപ്പിക്കാം.",
+                category: "python",
+                categoryLabel: "Python",
+                icon: "🐍",
+                url: "/python-runner"
+            },
+            {
+                id: "turtle-studio",
+                title: "Python Turtle Graphics Studio",
+                titleMl: "ടർടിൽ ഗ്രാഫിക്സ് സ്റ്റുഡിയോ",
+                desc: "Design procedural artwork, mandalas, and spirals with Python Turtle and export PNG.",
+                descMl: "പൈത്തൺ ടർടിൽ ഉപയോഗിച്ച് അത്ഭുതകരമായ ഡിസൈനുകൾ വരയ്ക്കാം.",
+                category: "python",
+                categoryLabel: "Python",
+                icon: "🐢",
+                url: "/turtle-runner"
             }
+        ];
 
-            cards.forEach(card => {
-                const title = card.getAttribute('data-title').toLowerCase();
-                const desc = card.getAttribute('data-desc').toLowerCase();
-                const category = card.getAttribute('data-category');
+        let currentActiveCat = 'all';
 
-                const matchesQuery = title.includes(query) || desc.includes(query);
-                const matchesCategory = (currentFilter === 'all') || category.split(' ').includes(currentFilter);
+        function renderToolsGrid(query = '') {
+            const grid = document.getElementById('toolsGrid');
+            const noRes = document.getElementById('noResults');
+            const lang = AnyTool.currentLang || 'en';
+            const q = query.toLowerCase().trim();
 
-                if (matchesQuery && matchesCategory) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
+            const filtered = toolsCatalog.filter(t => {
+                const matchesCat = (currentActiveCat === 'all') || (t.category === currentActiveCat);
+                const titleStr = (t.title + ' ' + (t.titleMl || '')).toLowerCase();
+                const descStr = (t.desc + ' ' + (t.descMl || '')).toLowerCase();
+                const matchesQ = (q === '') || titleStr.includes(q) || descStr.includes(q) || (t.category && t.category.includes(q));
+                return matchesCat && matchesQ;
             });
 
-            if (visibleCount === 0) {
-                noResults.classList.remove('hidden');
-            } else {
-                noResults.classList.add('hidden');
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noRes.classList.remove('hidden');
+                return;
+            }
+
+            noRes.classList.add('hidden');
+            grid.innerHTML = filtered.map(t => {
+                const displayTitle = (lang === 'ml' && t.titleMl) ? t.titleMl : t.title;
+                const displayDesc = (lang === 'ml' && t.descMl) ? t.descMl : t.desc;
+                const isFav = AnyTool.isFavorite(t.id);
+
+                return `
+                    <div class="cyber-card group rounded-3xl p-6 flex flex-col justify-between relative">
+                        <button onclick="toggleFav('${t.id}', event)" class="absolute top-5 right-5 text-slate-500 hover:text-amber-400 transition" title="Bookmark">
+                            ${isFav ? '★' : '☆'}
+                        </button>
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition duration-300">
+                                ${t.icon}
+                            </div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-base font-bold text-white group-hover:text-cyan-400 transition">${displayTitle}</h3>
+                            </div>
+                            <p class="text-xs text-slate-400 leading-relaxed">${displayDesc}</p>
+                        </div>
+                        <div class="mt-6 pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400 uppercase tracking-wider">${t.categoryLabel}</span>
+                            <a href="${t.url}" onclick="AnyTool.trackTool('${t.id}', '${t.title}', '${t.url}', '${t.icon}', '${t.category}')" class="text-xs font-bold text-cyan-400 group-hover:translate-x-1 transition duration-200 flex items-center space-x-1">
+                                <span>Launch</span>
+                                <span>→</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterCategory(cat) {
+            currentActiveCat = cat;
+            document.querySelectorAll('.filter-pill').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-cat') === cat) btn.classList.add('active');
+            });
+            renderToolsGrid(document.getElementById('mainSearchInput').value);
+        }
+
+        function toggleFav(id, e) {
+            e.stopPropagation();
+            const tool = toolsCatalog.find(t => t.id === id);
+            if (tool) {
+                AnyTool.toggleFavorite(tool.id, tool.title, tool.url, tool.icon, tool.category);
+                renderToolsGrid(document.getElementById('mainSearchInput').value);
             }
         }
 
-        searchInput.addEventListener('input', filterTools);
+        function renderRecents() {
+            const recents = AnyTool.getRecents();
+            const sec = document.getElementById('recentsSection');
+            const grid = document.getElementById('recentsGrid');
 
-        clearBtn.addEventListener('click', () => {
-            searchInput.value = '';
-            filterTools();
-            searchInput.focus();
+            if (recents.length === 0) {
+                sec.classList.add('hidden');
+                return;
+            }
+
+            sec.classList.remove('hidden');
+            grid.innerHTML = recents.map(r => `
+                <a href="${r.url}" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-xl text-xs flex items-center space-x-2 transition">
+                    <span>${r.icon || '⚡'}</span>
+                    <span class="font-bold text-slate-200">${r.title}</span>
+                </a>
+            `).join('');
+        }
+
+        // Live Search Input Listener
+        document.getElementById('mainSearchInput').addEventListener('input', (e) => {
+            renderToolsGrid(e.target.value);
         });
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => {
-                    b.className = 'filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:border-slate-300 transition';
-                });
-                btn.className = 'filter-btn active px-4 py-2 rounded-xl text-sm font-bold bg-indigo-600 text-white shadow-sm transition';
-
-                currentFilter = btn.getAttribute('data-filter');
-                filterTools();
-            });
-        });
-
-        // Feedback Form Handling
-        let selectedRating = 5;
-        const starBtns = document.querySelectorAll('.star-btn');
-        starBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                selectedRating = parseInt(btn.getAttribute('data-star'));
-                starBtns.forEach(s => {
-                    const sVal = parseInt(s.getAttribute('data-star'));
-                    if (sVal <= selectedRating) {
-                        s.className = 'star-btn text-2xl text-amber-400 focus:outline-none';
-                    } else {
-                        s.className = 'star-btn text-2xl text-slate-300 focus:outline-none';
-                    }
-                });
-            });
-        });
-
-        const feedbackForm = document.getElementById('feedbackForm');
-        const fbSuccessMsg = document.getElementById('fbSuccessMsg');
-        const fbSubmitBtn = document.getElementById('fbSubmitBtn');
-
-        feedbackForm.addEventListener('submit', async (e) => {
+        // Feedback Form
+        document.getElementById('fbForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const message = document.getElementById('fbMessage').value.trim();
-            const category = document.getElementById('fbCategory').value;
+            const message = document.getElementById('fbMsg').value.trim();
+            const category = document.getElementById('fbCat').value;
             const contact = document.getElementById('fbContact').value.trim();
 
-            fbSubmitBtn.disabled = true;
-            fbSubmitBtn.innerText = "Submitting...";
-
             try {
-                const res = await fetch('/api/feedback', {
+                await fetch('/api/feedback', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ rating: selectedRating, category, message, contact })
+                    body: JSON.stringify({ category, message, contact })
                 });
-
-                feedbackForm.classList.add('hidden');
-                fbSuccessMsg.classList.remove('hidden');
+                AnyTool.showToast("Thank you for your feedback! ✓", "success");
+                document.getElementById('fbMsg').value = '';
             } catch (err) {
-                // Fallback to localStorage if network issue
-                localStorage.setItem('anytool_user_feedback', JSON.stringify({ rating: selectedRating, category, message, contact }));
-                feedbackForm.classList.add('hidden');
-                fbSuccessMsg.classList.remove('hidden');
+                AnyTool.showToast("Feedback noted! ✓", "success");
             }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderToolsGrid();
+            renderRecents();
+            AnyTool.initCommandPalette(toolsCatalog);
         });
     </script>
 </body>

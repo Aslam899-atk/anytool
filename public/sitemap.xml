@@ -111,4 +111,67 @@
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
+  <!-- Turtle Graphics Studio -->
+  <url>
+    <loc>https://anytool.io/turtle-runner</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- Cybersecurity & Cryptography Tools Suite -->
+  <url>
+    <loc>https://anytool.io/cyber-tools</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <!-- Developer Tools Suite -->
+  <url>
+    <loc>https://anytool.io/developer-tools</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <!-- Computer Science Tools Suite -->
+  <url>
+    <loc>https://anytool.io/cs-tools</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- Document & Text Tools Suite -->
+  <url>
+    <loc>https://anytool.io/text-tools</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- Daily Calculators Suite -->
+  <url>
+    <loc>https://anytool.io/calc-tools</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- Complete Number System Converter -->
+  <url>
+    <loc>https://anytool.io/number-converter</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://anytool.io/privacy</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <!-- Terms of Service -->
+  <url>
+    <loc>https://anytool.io/terms</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Number System Converter & Binary Calculator | AnyTool</title>
+    <meta name="description" content="All-in-one number base converter and binary calculator. Convert between Binary, Decimal, Hexadecimal, Octal, ASCII, and UTF-8 with instant live calculation and bitwise operations.">
+    <meta name="keywords" content="binary converter, decimal to binary, binary to hex, hex to decimal, binary calculator, octal converter, ascii to binary, bitwise calculator">
+    <link rel="canonical" href="https://anytool.io/number-converter">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Number System Converter & Binary Calculator",
+      "url": "https://anytool.io/number-converter",
+      "description": "Comprehensive binary, decimal, hex, and octal converter with live binary arithmetic.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        .num-tab-btn.active {
+            background-color: rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+            color: #60a5fa;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-700 group-hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">AnyTool<span class="text-pink-500">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        🌐 മലയാളം
+                    </button>
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        ☀️ Light
+                    </button>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-400 hover:text-blue-400 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-blue-950/60 text-blue-400 rounded-full text-xs font-bold mb-3 border border-blue-800/60 shadow-sm">
+            <span>🔢 Binary • Decimal • Hexadecimal • Octal • Bitwise • Calculator</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
+            Number System <span class="bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">Converter & Calculator</span>
+        </h1>
+        <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+            Convert any number between bases, translate ASCII text to binary, and perform binary arithmetic (+, -, ×, ÷).
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-grow w-full">
+        
+        <!-- Tab Bar -->
+        <div class="bg-slate-900/80 p-2 rounded-2xl border border-slate-800 mb-8 flex flex-wrap gap-2 justify-center">
+            <button onclick="switchNumTab('tab-converter')" class="num-tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                ⚡ Multi-Base Converter
+            </button>
+            <button onclick="switchNumTab('tab-text')" class="num-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🔤 Text ⟷ Binary / ASCII
+            </button>
+            <button onclick="switchNumTab('tab-calculator')" class="num-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                ➕ Binary Arithmetic Calculator
+            </button>
+        </div>
+
+        <!-- ================= TAB 1: MULTI-BASE CONVERTER ================= -->
+        <div id="tab-converter" class="num-pane space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-cyan-400 mb-1">Binary (Base 2)</label>
+                        <input id="numBin" type="text" value="101010" oninput="fromBin(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-cyan-300 font-bold focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">Decimal (Base 10)</label>
+                        <input id="numDec" type="number" value="42" oninput="fromDec(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-emerald-300 font-bold focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">Hexadecimal (Base 16)</label>
+                        <input id="numHex" type="text" value="2A" oninput="fromHex(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-amber-300 font-bold focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-purple-400 mb-1">Octal (Base 8)</label>
+                        <input id="numOct" type="text" value="52" oninput="fromOct(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm font-mono text-purple-300 font-bold focus:outline-none focus:border-purple-500">
+                    </div>
+                </div>
+
+                <!-- Nibble Breakdown -->
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs font-mono">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">8-Bit Nibble Formatting:</span>
+                        <span id="nibbleFmt" class="text-cyan-400 font-bold text-sm tracking-widest">0010 1010</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-400">Bit Length:</span>
+                        <span id="bitCount" class="text-emerald-400 font-bold">6 bits</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 2: TEXT TO BINARY ================= -->
+        <div id="tab-text" class="num-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <h3 class="text-base font-bold text-white">Text ⟷ 8-Bit Binary Translator</h3>
+                    <div class="flex space-x-2">
+                        <button onclick="textToBin()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition">Text → Binary</button>
+                        <button onclick="binToText()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs rounded-xl border border-slate-700 transition">Binary → Text</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Plain Text (ASCII / UTF-8)</label>
+                        <textarea id="textSource" rows="8" oninput="textToBin()" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-200 focus:outline-none">Hello AnyTool!</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Binary Code (8-bit bytes)</label>
+                        <textarea id="binOutput" rows="8" oninput="binToText()" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-2">
+                    <button onclick="AnyTool.copyToClipboard(document.getElementById('binOutput').value)" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition">Copy Binary</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: BINARY ARITHMETIC ================= -->
+        <div id="tab-calculator" class="num-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6 max-w-2xl mx-auto">
+                <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                    <span class="text-xl">➕</span>
+                    <h3 class="text-base font-bold text-white">Binary Arithmetic Calculator</h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Binary A</label>
+                        <input id="calcBinA" type="text" value="1010" oninput="runBinaryMath()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-cyan-400 font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Operator</label>
+                        <select id="calcBinOp" onchange="runBinaryMath()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-bold text-amber-400">
+                            <option value="+">+ (Addition)</option>
+                            <option value="-">- (Subtraction)</option>
+                            <option value="*">× (Multiplication)</option>
+                            <option value="/">÷ (Division)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Binary B</label>
+                        <input id="calcBinB" type="text" value="0011" oninput="runBinaryMath()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-cyan-400 font-bold">
+                    </div>
+                </div>
+
+                <!-- Calculation Result Card -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3 font-mono text-center">
+                    <div class="text-xs text-slate-500 uppercase tracking-widest">CALCULATED RESULT</div>
+                    <div id="binMathResult" class="text-3xl font-black text-emerald-400 tracking-wider">1101</div>
+                    <div id="binMathDec" class="text-xs text-slate-400">Decimal: 10 + 3 = 13</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 px-4 text-center text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free In-Browser Number Converter</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
+    <script>
+        function switchNumTab(tabId) {
+            document.querySelectorAll('.num-pane').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.num-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if (target) target.classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        function fromDec(val) {
+            const num = parseInt(val, 10);
+            if (!isNaN(num)) {
+                document.getElementById('numBin').value = (num >>> 0).toString(2);
+                document.getElementById('numHex').value = (num >>> 0).toString(16).toUpperCase();
+                document.getElementById('numOct').value = (num >>> 0).toString(8);
+                updateDetails((num >>> 0).toString(2));
+            }
+        }
+
+        function fromBin(val) {
+            const clean = val.replace(/[^01]/g, '');
+            const num = parseInt(clean, 2);
+            if (!isNaN(num)) {
+                document.getElementById('numDec').value = num;
+                document.getElementById('numHex').value = num.toString(16).toUpperCase();
+                document.getElementById('numOct').value = num.toString(8);
+                updateDetails(clean);
+            }
+        }
+
+        function fromHex(val) {
+            const clean = val.replace(/[^0-9a-fA-F]/g, '');
+            const num = parseInt(clean, 16);
+            if (!isNaN(num)) {
+                document.getElementById('numDec').value = num;
+                document.getElementById('numBin').value = num.toString(2);
+                document.getElementById('numOct').value = num.toString(8);
+                updateDetails(num.toString(2));
+            }
+        }
+
+        function fromOct(val) {
+            const clean = val.replace(/[^0-7]/g, '');
+            const num = parseInt(clean, 8);
+            if (!isNaN(num)) {
+                document.getElementById('numDec').value = num;
+                document.getElementById('numBin').value = num.toString(2);
+                document.getElementById('numHex').value = num.toString(16).toUpperCase();
+                updateDetails(num.toString(2));
+            }
+        }
+
+        function updateDetails(bin) {
+            document.getElementById('bitCount').innerText = `${bin.length} bits`;
+            const padded = bin.padStart(Math.ceil(bin.length / 4) * 4, '0');
+            document.getElementById('nibbleFmt').innerText = padded.match(/.{1,4}/g)?.join(' ') || bin;
+        }
+
+        function textToBin() {
+            const text = document.getElementById('textSource').value;
+            const bytes = new TextEncoder().encode(text);
+            const bin = Array.from(bytes).map(b => b.toString(2).padStart(8, '0')).join(' ');
+            document.getElementById('binOutput').value = bin;
+        }
+
+        function binToText() {
+            try {
+                const binStr = document.getElementById('binOutput').value.trim();
+                const clean = binStr.split(/\s+/).filter(b => b.length > 0);
+                const bytes = new Uint8Array(clean.map(b => parseInt(b, 2)));
+                document.getElementById('textSource').value = new TextDecoder().decode(bytes);
+            } catch (e) {}
+        }
+
+        function runBinaryMath() {
+            const aStr = document.getElementById('calcBinA').value.replace(/[^01]/g, '');
+            const bStr = document.getElementById('calcBinB').value.replace(/[^01]/g, '');
+            const op = document.getElementById('calcBinOp').value;
+
+            const a = parseInt(aStr, 2) || 0;
+            const b = parseInt(bStr, 2) || 0;
+            let res = 0;
+
+            if (op === '+') res = a + b;
+            else if (op === '-') res = a - b;
+            else if (op === '*') res = a * b;
+            else if (op === '/') res = b !== 0 ? Math.floor(a / b) : 0;
+
+            document.getElementById('binMathResult').innerText = (res >>> 0).toString(2);
+            document.getElementById('binMathDec').innerText = `Decimal: ${a} ${op} ${b} = ${res}`;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            textToBin();
+            runBinaryMath();
+            updateDetails("101010");
+        });
+    </script>
+</body>
+</html>

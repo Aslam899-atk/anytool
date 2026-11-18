@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity & Cryptography Tools Suite - Free & In-Browser | AnyTool</title>
+    <meta name="description" content="All-in-one free cybersecurity and cryptography toolkit: AES text encryption, hash generator, hash identifier, password entropy checker, JWT decoder, subnet calculator, and hex dumper. 100% private in-browser execution.">
+    <meta name="keywords" content="cybersecurity tools, cryptography online, hash generator, jwt decoder, aes encryption, password generator, regex tester, ip subnet calculator, hex dump viewer">
+    <link rel="canonical" href="https://anytool.io/cyber-tools">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Cybersecurity & Cryptography Tools Suite",
+      "url": "https://anytool.io/cyber-tools",
+      "description": "Comprehensive suite of 20+ cybersecurity, cryptography, and network analysis tools running securely in-browser.",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        .tool-tab-btn.active {
+            background-color: rgba(6, 182, 212, 0.15);
+            border-color: #06b6d4;
+            color: #22d3ee;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-700 group-hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AnyTool<span class="text-pink-500">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        🌐 മലയാളം
+                    </button>
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        ☀️ Light
+                    </button>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-400 hover:text-cyan-400 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-cyan-950/60 text-cyan-400 rounded-full text-xs font-bold mb-3 border border-cyan-800/60 shadow-sm">
+            <span>🛡️ 20+ Cybersecurity & Cryptography Tools • 100% Client-Side Private</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
+            Cybersecurity & <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">Cryptography Suite</span>
+        </h1>
+        <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+            Zero logs, zero network transmission. Encrypt, hash, inspect tokens, calculate subnets, analyze file signatures, and audit passwords right inside your browser.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-grow w-full">
+        
+        <!-- Category Tool Selector Bar -->
+        <div class="bg-slate-900/80 p-2 rounded-2xl border border-slate-800 mb-8 flex flex-wrap gap-2 justify-center" id="tabBar">
+            <button onclick="switchTab('tab-crypto')" class="tool-tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🔐 Cryptography & Ciphers
+            </button>
+            <button onclick="switchTab('tab-passwords')" class="tool-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🔑 Password & Hash Auditing
+            </button>
+            <button onclick="switchTab('tab-tokens')" class="tool-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🎫 JWT & Regex Tester
+            </button>
+            <button onclick="switchTab('tab-networking')" class="tool-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🌐 Network & Subnet Tools
+            </button>
+            <button onclick="switchTab('tab-forensics')" class="tool-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🔬 File Signatures & Hex Dump
+            </button>
+        </div>
+
+        <!-- ================= SECTION 1: CRYPTOGRAPHY & CIPHERS ================= -->
+        <div id="tab-crypto" class="tab-pane space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Tool 1: AES-GCM Text Encryption / Decryption -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">🔒</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">AES-256 GCM Text Encryption</h3>
+                                <p class="text-[11px] text-slate-400">Military-grade authenticated encryption via Web Crypto API</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-mono uppercase bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded border border-cyan-800">AES-GCM</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Plaintext / Ciphertext</label>
+                            <textarea id="aesInput" rows="3" placeholder="Enter sensitive text to encrypt or decrypt..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Secret Passphrase</label>
+                            <input id="aesPass" type="password" placeholder="Enter secret encryption key..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+
+                        <div class="flex space-x-2">
+                            <button onclick="runAesEncrypt()" class="flex-1 bg-cyan-600 hover:bg-cyan-500 text-black font-bold py-2.5 rounded-xl text-xs transition">
+                                Encrypt (AES-256) 🔒
+                            </button>
+                            <button onclick="runAesDecrypt()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold py-2.5 rounded-xl text-xs border border-slate-700 transition">
+                                Decrypt 🔓
+                            </button>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Result Output</label>
+                            <textarea id="aesOutput" rows="3" readonly placeholder="Output will appear here..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+                        </div>
+
+                        <div class="flex justify-end space-x-2">
+                            <button onclick="AnyTool.copyToClipboard(document.getElementById('aesOutput').value)" class="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700">Copy</button>
+                            <button onclick="document.getElementById('aesInput').value='';document.getElementById('aesOutput').value='';" class="text-xs text-slate-400 hover:text-rose-400 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 2: Classical Ciphers (Caesar, ROT13, Morse Code) -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">🏛️</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Classic Ciphers (Caesar, ROT13, Morse)</h3>
+                                <p class="text-[11px] text-slate-400">Cryptographic history, rotational ciphers, and telegraph code</p>
+                            </div>
+                        </div>
+                        <select id="cipherType" onchange="runClassicCipher()" class="bg-slate-950 border border-slate-700 text-xs font-bold text-cyan-400 rounded-xl px-2.5 py-1">
+                            <option value="rot13">ROT13</option>
+                            <option value="caesar">Caesar (Shift 3)</option>
+                            <option value="morse">Morse Code</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Input Text</label>
+                            <textarea id="cipherInput" rows="3" oninput="runClassicCipher()" placeholder="Type plain text or morse code (dots and dashes)..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500">Hello AnyTool Cybersecurity</textarea>
+                        </div>
+
+                        <div id="caesarShiftRow" class="hidden flex items-center justify-between bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-xs font-semibold text-slate-400">Caesar Shift:</span>
+                            <input id="caesarShift" type="range" min="1" max="25" value="3" oninput="document.getElementById('shiftVal').innerText=this.value; runClassicCipher();" class="w-40 accent-cyan-500">
+                            <span id="shiftVal" class="text-xs font-mono text-cyan-400 font-bold">3</span>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Cipher Output</label>
+                            <textarea id="cipherOutput" rows="3" readonly class="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <button id="morsePlayBtn" onclick="playMorseAudio()" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-cyan-300 px-3 py-1.5 rounded-lg border border-slate-700 font-bold flex items-center space-x-1">
+                                <span>🔊</span><span>Play Morse Audio</span>
+                            </button>
+                            <div class="flex space-x-2 ml-auto">
+                                <button onclick="AnyTool.copyToClipboard(document.getElementById('cipherOutput').value)" class="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= SECTION 2: PASSWORDS & HASH AUDITING ================= -->
+        <div id="tab-passwords" class="tab-pane hidden space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Tool 3: Secure Password Generator & Entropy Meter -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">🎲</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Cryptographic Password Generator</h3>
+                                <p class="text-[11px] text-slate-400">Hardware-randomized passwords using window.crypto</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <input id="generatedPass" type="text" readonly class="w-full bg-slate-950 border border-slate-700 rounded-2xl px-4 py-3 text-sm font-mono text-cyan-300 font-bold pr-20">
+                            <button onclick="AnyTool.copyToClipboard(document.getElementById('generatedPass').value)" class="absolute right-2 top-2 bg-cyan-600 hover:bg-cyan-500 text-black text-xs font-bold px-3 py-1.5 rounded-xl transition">Copy</button>
+                        </div>
+
+                        <!-- Entropy Meter -->
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-2">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-400">Entropy Strength:</span>
+                                <span id="entropyText" class="font-bold text-emerald-400">Strong (128 bits)</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                <div id="entropyBar" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 85%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Generator Controls -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs text-slate-300">
+                                <span>Length: <strong id="passLenVal" class="text-cyan-400 font-mono">16</strong></span>
+                                <input id="passLenSlider" type="range" min="8" max="64" value="16" oninput="document.getElementById('passLenVal').innerText=this.value; generatePass();" class="w-48 accent-cyan-500">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 pt-2">
+                                <label class="flex items-center space-x-2"><input id="incUpper" type="checkbox" checked onchange="generatePass()" class="rounded bg-slate-800 text-cyan-500"><span>Uppercase (A-Z)</span></label>
+                                <label class="flex items-center space-x-2"><input id="incLower" type="checkbox" checked onchange="generatePass()" class="rounded bg-slate-800 text-cyan-500"><span>Lowercase (a-z)</span></label>
+                                <label class="flex items-center space-x-2"><input id="incNums" type="checkbox" checked onchange="generatePass()" class="rounded bg-slate-800 text-cyan-500"><span>Numbers (0-9)</span></label>
+                                <label class="flex items-center space-x-2"><input id="incSymbols" type="checkbox" checked onchange="generatePass()" class="rounded bg-slate-800 text-cyan-500"><span>Symbols (!@#$%)</span></label>
+                            </div>
+                        </div>
+
+                        <button onclick="generatePass()" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center space-x-1.5">
+                            <span>⟳ Regenerate Secure Password</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tool 4: Hash Identifier & Multi-Hash Generator -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">🔍</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Hash Identifier & Generator</h3>
+                                <p class="text-[11px] text-slate-400">Detect hash type (MD5, SHA, NTLM) or calculate real-time hashes</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Input String / Hash</label>
+                            <input id="hashInputText" type="text" oninput="auditHash()" placeholder="Type text to hash, or paste a hash to identify..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+
+                        <!-- Detected Hash Badge -->
+                        <div id="hashIdBox" class="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-xs flex justify-between items-center">
+                            <span class="text-slate-400">Detected Hash Algorithm:</span>
+                            <span id="detectedAlgorithm" class="font-mono font-bold text-cyan-400">Input plain text</span>
+                        </div>
+
+                        <!-- Live Multi-Hashes Display -->
+                        <div class="space-y-2 text-xs font-mono">
+                            <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80 flex justify-between items-center">
+                                <span class="text-slate-500">SHA-256:</span>
+                                <span id="outSha256" class="text-slate-300 truncate max-w-xs select-all">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span>
+                            </div>
+                            <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80 flex justify-between items-center">
+                                <span class="text-slate-500">SHA-512:</span>
+                                <span id="outSha512" class="text-slate-300 truncate max-w-xs select-all">cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce4...</span>
+                            </div>
+                            <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800/80 flex justify-between items-center">
+                                <span class="text-slate-500">SHA-1:</span>
+                                <span id="outSha1" class="text-slate-300 truncate max-w-xs select-all">da39a3ee5e6b4b0d3255bfef95601890afd80709</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= SECTION 3: JWT & REGEX ================= -->
+        <div id="tab-tokens" class="tab-pane hidden space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Tool 5: JWT (JSON Web Token) Debugger & Inspector -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">🎫</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">JWT Token Decoder</h3>
+                                <p class="text-[11px] text-slate-400">Decode JSON Web Token Header, Payload, and Signature locally</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Encoded Token (Bearer)</label>
+                            <textarea id="jwtInput" rows="3" oninput="decodeJwt()" placeholder="Paste eyJhbGciOi... JWT string" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-500"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-rose-400 mb-1">Decoded Header</label>
+                                <textarea id="jwtHeader" rows="5" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs font-mono text-rose-300 focus:outline-none"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-indigo-400 mb-1">Decoded Payload</label>
+                                <textarea id="jwtPayload" rows="5" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs font-mono text-indigo-300 focus:outline-none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 6: Regex Tester & Explainer -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">🎯</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Regular Expression (Regex) Tester</h3>
+                                <p class="text-[11px] text-slate-400">Test patterns, extract captured groups, and check matches in real time</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex space-x-2">
+                            <div class="flex-grow">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Pattern</label>
+                                <input id="regexPattern" type="text" value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" oninput="testRegex()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-emerald-400 focus:outline-none">
+                            </div>
+                            <div class="w-24">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Flags</label>
+                                <input id="regexFlags" type="text" value="gm" oninput="testRegex()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-slate-300 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Test String</label>
+                            <textarea id="regexText" rows="3" oninput="testRegex()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none">Contact info: admin@anytool.io or support@example.com for help.</textarea>
+                        </div>
+
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-xs">
+                            <div class="text-slate-400 mb-1">Match Results (<span id="matchCount" class="text-cyan-400 font-bold">2</span> matches):</div>
+                            <div id="regexMatchOutput" class="text-emerald-400 font-mono space-y-1 max-h-24 overflow-y-auto"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= SECTION 4: NETWORK & SUBNET ================= -->
+        <div id="tab-networking" class="tab-pane hidden space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Tool 7: Subnet & CIDR Calculator -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">🌐</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">IPv4 / IPv6 Subnet Calculator</h3>
+                                <p class="text-[11px] text-slate-400">Calculate netmask, broadcast, host range, and IP notation</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="col-span-2">
+                                <label class="block text-xs font-bold text-slate-400 mb-1">IP Address</label>
+                                <input id="netIp" type="text" value="192.168.1.10" oninput="calcSubnet()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 mb-1">CIDR Prefix</label>
+                                <select id="netCidr" onchange="calcSubnet()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-xs font-mono text-cyan-400 focus:outline-none">
+                                    <option value="24" selected>/24 (255.255.255.0)</option>
+                                    <option value="16">/16 (255.255.0.0)</option>
+                                    <option value="8">/8 (255.0.0.0)</option>
+                                    <option value="28">/28 (255.255.255.240)</option>
+                                    <option value="30">/30 (255.255.255.252)</option>
+                                    <option value="32">/32 (Single Host)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs font-mono">
+                            <div class="flex justify-between"><span class="text-slate-400">Subnet Mask:</span><span id="outNetmask" class="text-slate-200">255.255.255.0</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Network Address:</span><span id="outNetAddr" class="text-cyan-400">192.168.1.0</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Broadcast Address:</span><span id="outBroadcast" class="text-rose-400">192.168.1.255</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Usable Host Range:</span><span id="outHostRange" class="text-emerald-400">192.168.1.1 - 192.168.1.254</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Total Usable Hosts:</span><span id="outTotalHosts" class="text-purple-400">254</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">RFC 1918 Scope:</span><span id="outScope" class="text-amber-400">Private Network</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 8: Common Network Ports Reference -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">🔌</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Network Port Reference</h3>
+                                <p class="text-[11px] text-slate-400">Instant lookup for well-known and registered TCP/UDP ports</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <input id="portSearch" type="text" oninput="filterPorts()" placeholder="Search by port number or service (e.g. 22, ssh, https, 3306)..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
+
+                        <div id="portsList" class="max-h-60 overflow-y-auto space-y-1.5 text-xs font-mono pr-1"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= SECTION 5: FORENSICS & HEX ================= -->
+        <div id="tab-forensics" class="tab-pane hidden space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Tool 9: File Signature (Magic Bytes) Analyzer -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">🧬</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">File Signature (Magic Bytes) Analyzer</h3>
+                                <p class="text-[11px] text-slate-400">Detect true file type by inspecting binary header magic numbers</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="border-2 border-dashed border-slate-800 rounded-2xl p-6 text-center hover:border-cyan-500 cursor-pointer bg-slate-950/40" onclick="document.getElementById('sigFileInput').click()">
+                            <p class="text-xs text-slate-400 mb-2">Click to select any file to inspect true magic bytes</p>
+                            <button type="button" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold text-xs rounded-xl border border-slate-700">Choose File</button>
+                            <input type="file" id="sigFileInput" onchange="analyzeMagicBytes(this)" class="hidden">
+                        </div>
+
+                        <div id="magicResultBox" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs font-mono">
+                            <div class="flex justify-between"><span class="text-slate-400">Magic Hex:</span><span id="magicHex" class="text-cyan-400 font-bold">Select a file</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Identified Format:</span><span id="magicFormat" class="text-emerald-400">-</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">MIME Type:</span><span id="magicMime" class="text-purple-400">-</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 10: Hex Dump & ASCII Inspector -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xl">📊</span>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Hex Dump Viewer</h3>
+                                <p class="text-[11px] text-slate-400">Inspect strings and binary data in classic 16-byte offset hex layout</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <textarea id="hexDumpInput" rows="2" oninput="runHexDump()" placeholder="Type or paste text to generate hex dump..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500">AnyTool Cyber Security 2026</textarea>
+
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 max-h-56 overflow-y-auto">
+                            <pre id="hexDumpPre" class="text-[11px] font-mono text-cyan-300 leading-relaxed"></pre>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 px-4 text-center text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • 100% Private In-Browser Cybersecurity Utilities</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
+    <script>
+        // Tab Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tool-tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const target = document.getElementById(tabId);
+            if (target) target.classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        // --- Tool 1: AES-GCM Encrypt & Decrypt ---
+        async function getKey(password, salt) {
+            const enc = new TextEncoder();
+            const keyMaterial = await crypto.subtle.importKey(
+                "raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]
+            );
+            return crypto.subtle.deriveKey(
+                { name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" },
+                keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
+            );
+        }
+
+        async function runAesEncrypt() {
+            try {
+                const text = document.getElementById('aesInput').value;
+                const pass = document.getElementById('aesPass').value;
+                if (!text || !pass) {
+                    AnyTool.showToast("Please enter both text and password!", "error");
+                    return;
+                }
+                const enc = new TextEncoder();
+                const salt = crypto.getRandomValues(new Uint8Array(16));
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                const key = await getKey(pass, salt);
+
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: "AES-GCM", iv }, key, enc.encode(text)
+                );
+
+                const buffer = new Uint8Array(salt.byteLength + iv.byteLength + encrypted.byteLength);
+                buffer.set(salt, 0);
+                buffer.set(iv, salt.byteLength);
+                buffer.set(new Uint8Array(encrypted), salt.byteLength + iv.byteLength);
+
+                const b64 = btoa(String.fromCharCode.apply(null, buffer));
+                document.getElementById('aesOutput').value = b64;
+                AnyTool.showToast("Text encrypted with AES-256 GCM! ✓", "success");
+            } catch (e) {
+                AnyTool.showToast("Encryption error: " + e.message, "error");
+            }
+        }
+
+        async function runAesDecrypt() {
+            try {
+                const b64 = document.getElementById('aesInput').value.trim();
+                const pass = document.getElementById('aesPass').value;
+                if (!b64 || !pass) {
+                    AnyTool.showToast("Please enter both ciphertext and password!", "error");
+                    return;
+                }
+                const raw = atob(b64);
+                const buffer = new Uint8Array(raw.length);
+                for (let i = 0; i < raw.length; i++) buffer[i] = raw.charCodeAt(i);
+
+                const salt = buffer.slice(0, 16);
+                const iv = buffer.slice(16, 28);
+                const data = buffer.slice(28);
+
+                const key = await getKey(pass, salt);
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: "AES-GCM", iv }, key, data
+                );
+
+                const dec = new TextDecoder();
+                document.getElementById('aesOutput').value = dec.decode(decrypted);
+                AnyTool.showToast("Text decrypted successfully! ✓", "success");
+            } catch (e) {
+                AnyTool.showToast("Decryption failed. Incorrect passphrase or corrupted data.", "error");
+            }
+        }
+
+        // --- Tool 2: Classic Ciphers ---
+        const morseMap = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+            'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+            'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+            'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+            'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--',
+            '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+            '9': '----.', '0': '-----', ' ': '/'
+        };
+        const reverseMorseMap = Object.entries(morseMap).reduce((acc, [k, v]) => { acc[v] = k; return acc; }, {});
+
+        function runClassicCipher() {
+            const type = document.getElementById('cipherType').value;
+            const input = document.getElementById('cipherInput').value;
+            const shiftRow = document.getElementById('caesarShiftRow');
+            const morseBtn = document.getElementById('morsePlayBtn');
+
+            if (type === 'caesar') {
+                shiftRow.classList.remove('hidden');
+                morseBtn.classList.add('hidden');
+                const shift = parseInt(document.getElementById('caesarShift').value) || 3;
+                document.getElementById('cipherOutput').value = input.replace(/[a-zA-Z]/g, c => {
+                    const code = c.charCodeAt(0);
+                    const base = code >= 65 && code <= 90 ? 65 : 97;
+                    return String.fromCharCode(((code - base + shift) % 26) + base);
+                });
+            } else if (type === 'rot13') {
+                shiftRow.classList.add('hidden');
+                morseBtn.classList.add('hidden');
+                document.getElementById('cipherOutput').value = input.replace(/[a-zA-Z]/g, c => {
+                    const code = c.charCodeAt(0);
+                    const base = code >= 65 && code <= 90 ? 65 : 97;
+                    return String.fromCharCode(((code - base + 13) % 26) + base);
+                });
+            } else if (type === 'morse') {
+                shiftRow.classList.add('hidden');
+                morseBtn.classList.remove('hidden');
+                if (input.includes('.') || input.includes('-')) {
+                    // Decode Morse
+                    const words = input.split(' / ');
+                    const decoded = words.map(w => w.split(' ').map(c => reverseMorseMap[c] || '').join('')).join(' ');
+                    document.getElementById('cipherOutput').value = decoded;
+                } else {
+                    // Encode to Morse
+                    const encoded = input.toUpperCase().split('').map(c => morseMap[c] || c).join(' ');
+                    document.getElementById('cipherOutput').value = encoded;
+                }
+            }
+        }
+
+        function playMorseAudio() {
+            const morse = document.getElementById('cipherOutput').value;
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            let time = ctx.currentTime;
+
+            for (const char of morse) {
+                if (char === '.' || char === '-') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.frequency.value = 650;
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    const duration = char === '.' ? 0.08 : 0.24;
+                    osc.start(time);
+                    osc.stop(time + duration);
+                    time += duration + 0.08;
+                } else if (char === ' ') {
+                    time += 0.2;
+                }
+            }
+        }
+
+        // --- Tool 3: Password Generator ---
+        function generatePass() {
+            const len = parseInt(document.getElementById('passLenSlider').value);
+            let chars = "";
+            if (document.getElementById('incUpper').checked) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            if (document.getElementById('incLower').checked) chars += "abcdefghijklmnopqrstuvwxyz";
+            if (document.getElementById('incNums').checked) chars += "0123456789";
+            if (document.getElementById('incSymbols').checked) chars += "!@#$%^&*()_+-=[]{}|;:,.<>?";
+
+            if (chars.length === 0) chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+            const arr = new Uint32Array(len);
+            crypto.getRandomValues(arr);
+            let pass = "";
+            for (let i = 0; i < len; i++) {
+                pass += chars[arr[i] % chars.length];
+            }
+            document.getElementById('generatedPass').value = pass;
+
+            // Calculate entropy
+            const poolSize = chars.length;
+            const entropy = Math.round(len * (Math.log(poolSize) / Math.log(2)));
+            const bar = document.getElementById('entropyBar');
+            const text = document.getElementById('entropyText');
+
+            if (entropy < 45) {
+                bar.className = "bg-rose-500 h-full rounded-full transition-all";
+                bar.style.width = "30%";
+                text.className = "font-bold text-rose-400";
+                text.innerText = `Weak (${entropy} bits)`;
+            } else if (entropy < 70) {
+                bar.className = "bg-amber-500 h-full rounded-full transition-all";
+                bar.style.width = "60%";
+                text.className = "font-bold text-amber-400";
+                text.innerText = `Moderate (${entropy} bits)`;
+            } else {
+                bar.className = "bg-emerald-500 h-full rounded-full transition-all";
+                bar.style.width = "100%";
+                text.className = "font-bold text-emerald-400";
+                text.innerText = `Very Strong (${entropy} bits)`;
+            }
+        }
+
+        // --- Tool 4: Hash Identifier & Live Hasher ---
+        async function shaHash(str, algo) {
+            const buf = await crypto.subtle.digest(algo, new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function auditHash() {
+            const val = document.getElementById('hashInputText').value.trim();
+            const idBadge = document.getElementById('detectedAlgorithm');
+
+            if (!val) {
+                idBadge.innerText = "Input plain text";
+                return;
+            }
+
+            // Identify hash pattern if valid hex
+            const isHex = /^[0-9a-fA-F]+$/.test(val);
+            if (isHex) {
+                if (val.length === 32) idBadge.innerText = "MD5 or NTLM Hash";
+                else if (val.length === 40) idBadge.innerText = "SHA-1 or RIPEMD-160";
+                else if (val.length === 64) idBadge.innerText = "SHA-256";
+                else if (val.length === 128) idBadge.innerText = "SHA-512";
+                else idBadge.innerText = `Hex String (${val.length * 4} bits)`;
+            } else {
+                idBadge.innerText = "Plain Text String";
+            }
+
+            document.getElementById('outSha256').innerText = await shaHash(val, 'SHA-256');
+            document.getElementById('outSha512').innerText = await shaHash(val, 'SHA-512');
+            document.getElementById('outSha1').innerText = await shaHash(val, 'SHA-1');
+        }
+
+        // --- Tool 5: JWT Decoder ---
+        function decodeJwt() {
+            try {
+                const token = document.getElementById('jwtInput').value.trim();
+                const parts = token.split('.');
+                if (parts.length >= 2) {
+                    const header = JSON.parse(atob(parts[0]));
+                    const payload = JSON.parse(atob(parts[1]));
+                    document.getElementById('jwtHeader').value = JSON.stringify(header, null, 2);
+                    document.getElementById('jwtPayload').value = JSON.stringify(payload, null, 2);
+                }
+            } catch (e) {
+                document.getElementById('jwtHeader').value = "Invalid JWT structure";
+            }
+        }
+
+        // --- Tool 6: Regex Tester ---
+        function testRegex() {
+            try {
+                const pattern = document.getElementById('regexPattern').value;
+                const flags = document.getElementById('regexFlags').value;
+                const text = document.getElementById('regexText').value;
+
+                const re = new RegExp(pattern, flags);
+                const matches = [...text.matchAll(re)];
+                document.getElementById('matchCount').innerText = matches.length;
+
+                const outputBox = document.getElementById('regexMatchOutput');
+                if (matches.length === 0) {
+                    outputBox.innerHTML = '<span class="text-slate-500">No matches found.</span>';
+                } else {
+                    outputBox.innerHTML = matches.map((m, i) => `<div>Match ${i+1}: <span class="bg-cyan-950 text-cyan-300 px-1 rounded">${m[0]}</span> (Index: ${m.index})</div>`).join('');
+                }
+            } catch (e) {
+                document.getElementById('regexMatchOutput').innerHTML = `<span class="text-rose-400">Regex Error: ${e.message}</span>`;
+            }
+        }
+
+        // --- Tool 7: Subnet Calculator ---
+        function calcSubnet() {
+            const ip = document.getElementById('netIp').value.trim();
+            const cidr = parseInt(document.getElementById('netCidr').value);
+            const parts = ip.split('.').map(Number);
+
+            if (parts.length === 4 && parts.every(p => p >= 0 && p <= 255)) {
+                const ipNum = (parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3];
+                const maskNum = -1 << (32 - cidr);
+                const netNum = ipNum & maskNum;
+                const bcastNum = netNum | ~maskNum;
+
+                const toIp = num => [(num >>> 24) & 255, (num >>> 16) & 255, (num >>> 8) & 255, num & 255].join('.');
+
+                document.getElementById('outNetmask').innerText = toIp(maskNum);
+                document.getElementById('outNetAddr').innerText = toIp(netNum);
+                document.getElementById('outBroadcast').innerText = toIp(bcastNum);
+
+                const hosts = Math.max(0, Math.pow(2, 32 - cidr) - 2);
+                document.getElementById('outTotalHosts').innerText = hosts.toLocaleString();
+                document.getElementById('outHostRange').innerText = cidr >= 31 ? 'N/A (Point-to-point)' : `${toIp(netNum + 1)} - ${toIp(bcastNum - 1)}`;
+
+                const isPrivate = (parts[0] === 10) || (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) || (parts[0] === 192 && parts[1] === 168);
+                document.getElementById('outScope').innerText = isPrivate ? "RFC 1918 Private" : "Public Internet";
+            }
+        }
+
+        // --- Tool 8: Network Ports ---
+        const commonPorts = [
+            { port: 21, proto: "TCP", service: "FTP", desc: "File Transfer Protocol" },
+            { port: 22, proto: "TCP", service: "SSH", desc: "Secure Shell remote access" },
+            { port: 23, proto: "TCP", service: "Telnet", desc: "Unencrypted text communications" },
+            { port: 25, proto: "TCP", service: "SMTP", desc: "Simple Mail Transfer Protocol" },
+            { port: 53, proto: "UDP/TCP", service: "DNS", desc: "Domain Name System resolution" },
+            { port: 80, proto: "TCP", service: "HTTP", desc: "Hypertext Transfer Protocol (Web)" },
+            { port: 110, proto: "TCP", service: "POP3", desc: "Post Office Protocol for email" },
+            { port: 123, proto: "UDP", service: "NTP", desc: "Network Time Protocol" },
+            { port: 143, proto: "TCP", service: "IMAP", desc: "Internet Message Access Protocol" },
+            { port: 443, proto: "TCP", service: "HTTPS", desc: "HTTP over TLS/SSL (Secure Web)" },
+            { port: 3306, proto: "TCP", service: "MySQL", desc: "MySQL Database Server" },
+            { port: 3389, proto: "TCP", service: "RDP", desc: "Microsoft Remote Desktop Protocol" },
+            { port: 5432, proto: "TCP", service: "PostgreSQL", desc: "PostgreSQL Database Server" },
+            { port: 6379, proto: "TCP", service: "Redis", desc: "Redis In-Memory Key-Value Store" },
+            { port: 8080, proto: "TCP", service: "HTTP-Alt", desc: "Alternative Web Server / Proxy" }
+        ];
+
+        function filterPorts() {
+            const q = document.getElementById('portSearch').value.toLowerCase().trim();
+            const list = document.getElementById('portsList');
+            const filtered = commonPorts.filter(p => 
+                p.port.toString().includes(q) || p.service.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)
+            );
+
+            list.innerHTML = filtered.map(p => `
+                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div>
+                        <span class="text-cyan-400 font-bold">Port ${p.port}</span>
+                        <span class="text-slate-500 ml-1">(${p.proto})</span>
+                        <div class="text-[10px] text-slate-400">${p.desc}</div>
+                    </div>
+                    <span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded text-[10px] font-bold">${p.service}</span>
+                </div>
+            `).join('');
+        }
+
+        // --- Tool 9: Magic Bytes Analyzer ---
+        const signatures = [
+            { hex: "89504E47", ext: "PNG", mime: "image/png" },
+            { hex: "FFD8FF", ext: "JPG/JPEG", mime: "image/jpeg" },
+            { hex: "25504446", ext: "PDF", mime: "application/pdf" },
+            { hex: "504B0304", ext: "ZIP / DOCX / APK", mime: "application/zip" },
+            { hex: "47494638", ext: "GIF", mime: "image/gif" },
+            { hex: "52494646", ext: "WEBP / WAV / AVI", mime: "image/webp" },
+            { hex: "4D5A", ext: "EXE / DLL (DOS/Windows)", mime: "application/x-dosexec" },
+            { hex: "7F454C46", ext: "ELF (Linux Executable)", mime: "application/x-executable" }
+        ];
+
+        function analyzeMagicBytes(input) {
+            if (input.files.length === 0) return;
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const arr = new Uint8Array(e.target.result);
+                const hex = Array.from(arr).map(b => b.toString(16).toUpperCase().padStart(2, '0')).join('');
+                document.getElementById('magicHex').innerText = hex.slice(0, 16);
+
+                const match = signatures.find(s => hex.startsWith(s.hex));
+                if (match) {
+                    document.getElementById('magicFormat').innerText = match.ext;
+                    document.getElementById('magicMime').innerText = match.mime;
+                } else {
+                    document.getElementById('magicFormat').innerText = "Unknown / Custom Binary";
+                    document.getElementById('magicMime').innerText = "application/octet-stream";
+                }
+            };
+            reader.readAsArrayBuffer(file.slice(0, 16));
+        }
+
+        // --- Tool 10: Hex Dump ---
+        function runHexDump() {
+            const text = document.getElementById('hexDumpInput').value;
+            const bytes = new TextEncoder().encode(text);
+            let out = "";
+
+            for (let i = 0; i < bytes.length; i += 16) {
+                const offset = i.toString(16).padStart(8, '0');
+                const slice = bytes.slice(i, i + 16);
+                const hexParts = Array.from(slice).map(b => b.toString(16).padStart(2, '0')).join(' ');
+                const asciiParts = Array.from(slice).map(b => (b >= 32 && b <= 126) ? String.fromCharCode(b) : '.').join('');
+                out += `${offset}  ${hexParts.padEnd(48, ' ')}  |${asciiParts}|\n`;
+            }
+
+            document.getElementById('hexDumpPre').innerText = out || "Empty input";
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            generatePass();
+            auditHash();
+            testRegex();
+            calcSubnet();
+            filterPorts();
+            runHexDump();
+            runClassicCipher();
+        });
+    </script>
+</body>
+</html>

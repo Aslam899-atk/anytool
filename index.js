@@ -145,6 +145,42 @@ app.get('/python-runner', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'python-runner.html'));
 });
 
+app.get(['/turtle-runner', '/turtle-graphics'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'turtle-runner.html'));
+});
+
+app.get(['/cyber-tools', '/cybersecurity'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cyber-tools.html'));
+});
+
+app.get(['/developer-tools', '/dev-tools'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'developer-tools.html'));
+});
+
+app.get(['/cs-tools', '/computer-science'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cs-tools.html'));
+});
+
+app.get(['/text-tools', '/document-tools'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'text-tools.html'));
+});
+
+app.get(['/calc-tools', '/daily-calculators'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'calc-tools.html'));
+});
+
+app.get(['/number-converter', '/binary-calculator'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'number-converter.html'));
+});
+
+app.get('/privacy', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'privacy.html'));
+});
+
+app.get('/terms', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'terms.html'));
+});
+
 // Sitemap and Robots routes
 app.get('/sitemap.xml', (req, res) => {
     res.type('application/xml');

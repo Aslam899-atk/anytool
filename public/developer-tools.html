@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Tools & Code Utilities Suite - Format, Minify, Convert | AnyTool</title>
+    <meta name="description" content="Free online developer tools: JSON formatter & validator, SQL formatter, HTML/CSS/JS minifier, UUID v4 generator, Cron generator, Markdown live previewer, and Color converter.">
+    <meta name="keywords" content="json formatter, sql formatter, uuid generator, html minifier, css beautifier, cron generator, markdown editor, timestamp converter, developer tools">
+    <link rel="canonical" href="https://anytool.io/developer-tools">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Developer Tools Suite",
+      "url": "https://anytool.io/developer-tools",
+      "description": "Comprehensive developer utilities suite running 100% in-browser.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        .dev-tab-btn.active {
+            background-color: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: #818cf8;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-700 group-hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">AnyTool<span class="text-pink-500">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        🌐 മലയാളം
+                    </button>
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        ☀️ Light
+                    </button>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-400 hover:text-indigo-400 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-indigo-950/60 text-indigo-400 rounded-full text-xs font-bold mb-3 border border-indigo-800/60 shadow-sm">
+            <span>💻 12+ Developer Utilities • Zero Server Lag • Instant Formatting</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
+            Developer Tools & <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Code Studio</span>
+        </h1>
+        <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+            Format JSON, Minify code, generate UUIDs, compose Cron expressions, convert Color formats, and preview Markdown in real-time.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-grow w-full">
+        
+        <!-- Tab Bar -->
+        <div class="bg-slate-900/80 p-2 rounded-2xl border border-slate-800 mb-8 flex flex-wrap gap-2 justify-center">
+            <button onclick="switchDevTab('tab-json')" class="dev-tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                📦 JSON & XML
+            </button>
+            <button onclick="switchDevTab('tab-formatters')" class="dev-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                ⚡ Minifiers & SQL
+            </button>
+            <button onclick="switchDevTab('tab-generators')" class="dev-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🎲 UUID & Cron & Epoch
+            </button>
+            <button onclick="switchDevTab('tab-markdown')" class="dev-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                📝 Markdown Previewer
+            </button>
+            <button onclick="switchDevTab('tab-colors')" class="dev-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🎨 Color Converter
+            </button>
+        </div>
+
+        <!-- ================= TAB 1: JSON & XML ================= -->
+        <div id="tab-json" class="dev-pane space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div class="flex items-center space-x-2.5">
+                        <span class="text-xl">📦</span>
+                        <div>
+                            <h3 class="text-base font-bold text-white">JSON Formatter, Validator & Minifier</h3>
+                            <p class="text-[11px] text-slate-400">Validate syntax, pretty print with custom indentation, or compress into a single line</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="formatJson(2)" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition">Beautify 2-Spaces</button>
+                        <button onclick="formatJson(4)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-300 font-bold text-xs rounded-xl border border-slate-700 transition">4-Spaces</button>
+                        <button onclick="minifyJson()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs rounded-xl border border-slate-700 transition">Minify JSON</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Input Raw JSON</label>
+                        <textarea id="jsonInput" rows="12" placeholder='Paste JSON here e.g. {"name":"AnyTool","active":true}' class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-200 focus:outline-none focus:border-indigo-500"></textarea>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-bold text-slate-400">Output Result</label>
+                            <span id="jsonStatus" class="text-[11px] font-mono text-slate-500">Ready</span>
+                        </div>
+                        <textarea id="jsonOutput" rows="12" readonly class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-indigo-300 focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-2">
+                    <button onclick="AnyTool.copyToClipboard(document.getElementById('jsonOutput').value)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition">Copy Formatted</button>
+                    <button onclick="loadSampleJson()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl border border-slate-700 transition">Load Sample</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 2: MINIFIERS & SQL ================= -->
+        <div id="tab-formatters" class="dev-pane hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- SQL Formatter -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xl">🗄️</span>
+                            <h3 class="text-base font-bold text-white">SQL Query Formatter</h3>
+                        </div>
+                        <button onclick="formatSql()" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl">Format SQL</button>
+                    </div>
+
+                    <textarea id="sqlInput" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-xs font-mono text-slate-200 focus:outline-none">select u.id, u.username, o.total from users u inner join orders o on u.id = o.user_id where o.status = 'completed' order by o.created_at desc limit 10;</textarea>
+
+                    <textarea id="sqlOutput" rows="7" readonly class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+                    
+                    <button onclick="AnyTool.copyToClipboard(document.getElementById('sqlOutput').value)" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-slate-300">Copy Formatted SQL</button>
+                </div>
+
+                <!-- HTML / CSS / JS Minifier -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xl">⚡</span>
+                            <h3 class="text-base font-bold text-white">HTML / CSS / JS Minifier</h3>
+                        </div>
+                        <select id="minifyType" class="bg-slate-950 border border-slate-700 text-xs font-bold text-indigo-400 rounded-xl px-2 py-1">
+                            <option value="html">HTML</option>
+                            <option value="css">CSS</option>
+                            <option value="js">JavaScript</option>
+                        </select>
+                    </div>
+
+                    <textarea id="minifyInput" rows="6" placeholder="Paste code to minify..." class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-xs font-mono text-slate-200 focus:outline-none"><div class="container">
+    <h1>Welcome to AnyTool</h1>
+    <p>Fast, free utilities.</p>
+</div></textarea>
+
+                    <div class="flex justify-between items-center text-xs">
+                        <button onclick="runMinify()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition">Compress / Minify</button>
+                        <span id="compressionRatio" class="text-slate-400 font-mono">Original: 82 bytes</span>
+                    </div>
+
+                    <textarea id="minifyOutput" rows="4" readonly class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-xs font-mono text-emerald-300 focus:outline-none"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: UUID & CRON & EPOCH ================= -->
+        <div id="tab-generators" class="dev-pane hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Tool: UUID v4 Generator -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xl">🆔</span>
+                            <h3 class="text-base font-bold text-white">UUID v4 Generator</h3>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-2">
+                            <label class="text-xs text-slate-400">Count:</label>
+                            <input id="uuidCount" type="number" min="1" max="50" value="5" class="w-16 bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 text-xs text-center font-mono">
+                            <label class="flex items-center space-x-1 text-xs text-slate-400">
+                                <input id="uuidUpper" type="checkbox" class="rounded bg-slate-800">
+                                <span>Upper</span>
+                            </label>
+                        </div>
+
+                        <button onclick="generateUuids()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition">Generate UUIDs</button>
+
+                        <textarea id="uuidOutput" rows="6" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+
+                        <button onclick="AnyTool.copyToClipboard(document.getElementById('uuidOutput').value)" class="w-full py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-slate-300">Copy UUIDs</button>
+                    </div>
+                </div>
+
+                <!-- Tool: Cron Expression Generator & Explainer -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xl">⏰</span>
+                            <h3 class="text-base font-bold text-white">Cron Generator</h3>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <select id="cronPresets" onchange="applyCronPreset()" class="w-full bg-slate-950 border border-slate-700 text-xs text-slate-200 rounded-xl px-3 py-2">
+                            <option value="* * * * *">Every Minute (* * * * *)</option>
+                            <option value="*/5 * * * *">Every 5 Minutes (*/5 * * * *)</option>
+                            <option value="0 * * * *">Every Hour (0 * * * *)</option>
+                            <option value="0 0 * * *">Every Midnight (0 0 * * *)</option>
+                            <option value="0 9 * * 1-5">Weekdays at 9:00 AM (0 9 * * 1-5)</option>
+                            <option value="0 0 1 * *">First Day of Month (0 0 1 * *)</option>
+                        </select>
+
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center">
+                            <span id="cronResult" class="text-base font-mono font-black text-emerald-400">* * * * *</span>
+                        </div>
+
+                        <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800 text-xs text-slate-400">
+                            <strong>Meaning:</strong> <span id="cronHuman" class="text-cyan-300">Runs every minute, every hour, every day.</span>
+                        </div>
+
+                        <button onclick="AnyTool.copyToClipboard(document.getElementById('cronResult').innerText)" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-slate-300">Copy Expression</button>
+                    </div>
+                </div>
+
+                <!-- Tool: Unix Epoch & Timestamp Converter -->
+                <div class="cyber-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xl">⏳</span>
+                            <h3 class="text-base font-bold text-white">Timestamp Converter</h3>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1">Epoch Timestamp</label>
+                            <div class="flex space-x-1">
+                                <input id="epochInput" type="number" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300">
+                                <button onclick="setEpochNow()" class="px-2 bg-slate-800 text-[10px] font-bold rounded-xl text-slate-300 hover:text-white">Now</button>
+                            </div>
+                        </div>
+
+                        <button onclick="convertEpoch()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition">Convert Epoch</button>
+
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-1.5 text-xs font-mono">
+                            <div class="text-slate-400">UTC Date: <span id="epochUtc" class="text-slate-200">-</span></div>
+                            <div class="text-slate-400">Local Time: <span id="epochLocal" class="text-emerald-400">-</span></div>
+                            <div class="text-slate-400">Relative: <span id="epochRel" class="text-amber-400">-</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: MARKDOWN LIVE PREVIEWER ================= -->
+        <div id="tab-markdown" class="dev-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center space-x-2.5">
+                        <span class="text-xl">📝</span>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Markdown Live Editor & HTML Previewer</h3>
+                            <p class="text-[11px] text-slate-400">Real-time GitHub-flavored Markdown rendering with export</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="AnyTool.copyToClipboard(document.getElementById('mdPreview').innerHTML)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-bold rounded-xl border border-slate-700">Copy HTML</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Markdown Source</label>
+                        <textarea id="mdInput" rows="14" oninput="renderMarkdown()" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-200 focus:outline-none focus:border-indigo-500"># Welcome to AnyTool Markdown Editor
+
+This is **bold text**, *italic text*, and `inline code`.
+
+### Features Checklist:
+- [x] In-browser rendering
+- [x] Zero network latency
+- [x] Clean typography
+
+```javascript
+function greet() {
+  console.log("Hello from AnyTool!");
+}
+```
+
+> "One Website – All Digital Tools."
+</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Live Rendered Preview</label>
+                        <div id="mdPreview" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-6 text-sm text-slate-200 h-[300px] overflow-y-auto prose prose-invert prose-sm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 5: COLOR CONVERTER ================= -->
+        <div id="tab-colors" class="dev-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-4 max-w-2xl mx-auto">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center space-x-2.5">
+                        <span class="text-xl">🎨</span>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Color Format Converter & Harmonizer</h3>
+                            <p class="text-[11px] text-slate-400">Convert between HEX, RGB, HSL, and CMYK formats</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <input id="colorPickerNative" type="color" value="#06b6d4" oninput="updateColorFromPicker(this.value)" class="w-16 h-16 rounded-xl cursor-pointer border-none bg-transparent">
+                    <div class="flex-grow space-y-2">
+                        <div class="text-xs text-slate-400">HEX Code:</div>
+                        <input id="colorHex" type="text" value="#06b6d4" oninput="updateColorFromHex(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm font-mono text-cyan-300 font-bold">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <span class="text-slate-500 block mb-1">RGB:</span>
+                        <span id="colorRgb" class="text-slate-200 font-bold">rgb(6, 182, 212)</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <span class="text-slate-500 block mb-1">HSL:</span>
+                        <span id="colorHsl" class="text-slate-200 font-bold">hsl(189, 95%, 43%)</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <span class="text-slate-500 block mb-1">CMYK:</span>
+                        <span id="colorCmyk" class="text-slate-200 font-bold">97%, 14%, 0%, 17%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 px-4 text-center text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free In-Browser Developer Tools</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
+    <script>
+        function switchDevTab(tabId) {
+            document.querySelectorAll('.dev-pane').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.dev-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if (target) target.classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        // --- JSON Formatter ---
+        function formatJson(spaces = 2) {
+            try {
+                const input = document.getElementById('jsonInput').value;
+                const parsed = JSON.parse(input);
+                document.getElementById('jsonOutput').value = JSON.stringify(parsed, null, spaces);
+                document.getElementById('jsonStatus').innerText = "Valid JSON ✓";
+                document.getElementById('jsonStatus').className = "text-[11px] font-mono text-emerald-400";
+            } catch (e) {
+                document.getElementById('jsonStatus').innerText = "Syntax Error: " + e.message;
+                document.getElementById('jsonStatus').className = "text-[11px] font-mono text-rose-400";
+            }
+        }
+
+        function minifyJson() {
+            try {
+                const input = document.getElementById('jsonInput').value;
+                const parsed = JSON.parse(input);
+                document.getElementById('jsonOutput').value = JSON.stringify(parsed);
+                document.getElementById('jsonStatus').innerText = "Minified ✓";
+                document.getElementById('jsonStatus').className = "text-[11px] font-mono text-emerald-400";
+            } catch (e) {
+                document.getElementById('jsonStatus').innerText = "Invalid JSON";
+                document.getElementById('jsonStatus').className = "text-[11px] font-mono text-rose-400";
+            }
+        }
+
+        function loadSampleJson() {
+            const sample = {
+                "platform": "AnyTool.io",
+                "version": "2.0",
+                "categories": ["Cybersecurity", "Developer", "PDF", "Images", "Computer Science"],
+                "features": {
+                    "clientSide": true,
+                    "zeroLogs": true,
+                    "pricing": "100% Free Forever"
+                }
+            };
+            document.getElementById('jsonInput').value = JSON.stringify(sample);
+            formatJson(2);
+        }
+
+        // --- SQL Formatter ---
+        function formatSql() {
+            const raw = document.getElementById('sqlInput').value.trim();
+            const keywords = ["SELECT", "FROM", "WHERE", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "ORDER BY", "GROUP BY", "HAVING", "LIMIT", "INSERT INTO", "VALUES", "UPDATE", "SET", "DELETE FROM"];
+            let formatted = raw;
+
+            keywords.forEach(kw => {
+                const regex = new RegExp(`\\b${kw}\\b`, 'gi');
+                formatted = formatted.replace(regex, `\n${kw}`);
+            });
+
+            document.getElementById('sqlOutput').value = formatted.trim();
+        }
+
+        // --- Code Minifier ---
+        function runMinify() {
+            const type = document.getElementById('minifyType').value;
+            let code = document.getElementById('minifyInput').value;
+            const origLen = code.length;
+
+            if (type === 'html') {
+                code = code.replace(/<!--[\s\S]*?-->/g, '').replace(/>\s+</g, '><').replace(/\s{2,}/g, ' ').trim();
+            } else if (type === 'css') {
+                code = code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s*([\{\}:;,])\s*/g, '$1').replace(/;\}/g, '}').replace(/\s{2,}/g, ' ').trim();
+            } else if (type === 'js') {
+                code = code.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '').replace(/\s*([=+\-*\/{}();,:])\s*/g, '$1').replace(/\s{2,}/g, ' ').trim();
+            }
+
+            document.getElementById('minifyOutput').value = code;
+            const newLen = code.length;
+            const saved = Math.round(((origLen - newLen) / origLen) * 100) || 0;
+            document.getElementById('compressionRatio').innerText = `Reduced by ${saved}% (${origLen}B -> ${newLen}B)`;
+        }
+
+        // --- UUID Generator ---
+        function generateUuids() {
+            const count = Math.min(50, Math.max(1, parseInt(document.getElementById('uuidCount').value) || 1));
+            const upper = document.getElementById('uuidUpper').checked;
+            const list = [];
+
+            for (let i = 0; i < count; i++) {
+                let uuid = crypto.randomUUID();
+                if (upper) uuid = uuid.toUpperCase();
+                list.push(uuid);
+            }
+            document.getElementById('uuidOutput').value = list.join('\n');
+        }
+
+        // --- Cron Presets ---
+        function applyCronPreset() {
+            const val = document.getElementById('cronPresets').value;
+            document.getElementById('cronResult').innerText = val;
+            const map = {
+                "* * * * *": "Runs every single minute.",
+                "*/5 * * * *": "Runs every 5 minutes.",
+                "0 * * * *": "Runs at the start of every hour.",
+                "0 0 * * *": "Runs once a day at midnight (00:00).",
+                "0 9 * * 1-5": "Runs at 9:00 AM every Monday through Friday.",
+                "0 0 1 * *": "Runs at midnight on the first day of each month."
+            };
+            document.getElementById('cronHuman').innerText = map[val] || "Custom schedule";
+        }
+
+        // --- Timestamp ---
+        function setEpochNow() {
+            document.getElementById('epochInput').value = Math.floor(Date.now() / 1000);
+            convertEpoch();
+        }
+
+        function convertEpoch() {
+            const sec = parseInt(document.getElementById('epochInput').value);
+            if (!sec) return;
+            const d = new Date(sec * 1000);
+            document.getElementById('epochUtc').innerText = d.toUTCString();
+            document.getElementById('epochLocal').innerText = d.toLocaleString();
+
+            const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+            if (diff >= 0) {
+                document.getElementById('epochRel').innerText = `${diff} seconds ago`;
+            } else {
+                document.getElementById('epochRel').innerText = `in ${Math.abs(diff)} seconds`;
+            }
+        }
+
+        // --- Markdown Live Preview ---
+        function renderMarkdown() {
+            const md = document.getElementById('mdInput').value;
+            // Simple robust markdown parser
+            let html = md
+                .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-black text-cyan-400 mb-3">$1</h1>')
+                .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold text-white mb-2">$1</h2>')
+                .replace(/^### (.*$)/gim, '<h3 class="text-base font-bold text-indigo-400 mb-2">$1</h3>')
+                .replace(/\*\*(.*?)\*\*/gim, '<strong class="text-cyan-300 font-bold">$1</strong>')
+                .replace(/\*(.*?)\*/gim, '<em class="text-slate-300">$1</em>')
+                .replace(/`([^`]+)`/gim, '<code class="bg-slate-900 text-pink-400 px-1 py-0.5 rounded font-mono text-xs">$1</code>')
+                .replace(/^\> (.*$)/gim, '<blockquote class="border-l-4 border-indigo-500 pl-3 italic text-slate-400 my-2">$1</blockquote>')
+                .replace(/^- \[x\] (.*$)/gim, '<div class="text-emerald-400">✓ $1</div>')
+                .replace(/^- \[ \] (.*$)/gim, '<div class="text-slate-500">○ $1</div>')
+                .replace(/^- (.*$)/gim, '<li class="ml-4 list-disc text-slate-300">$1</li>')
+                .replace(/\n\n/gim, '<p class="my-2"></p>');
+
+            document.getElementById('mdPreview').innerHTML = html;
+        }
+
+        // --- Color Converter ---
+        function hexToRgb(hex) {
+            let c = hex.replace('#', '');
+            if (c.length === 3) c = c.split('').map(x => x + x).join('');
+            const num = parseInt(c, 16);
+            return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+        }
+
+        function updateColorFromPicker(hex) {
+            document.getElementById('colorHex').value = hex;
+            updateColors(hex);
+        }
+
+        function updateColorFromHex(hex) {
+            if (/^#[0-9A-F]{6}$/i.test(hex)) {
+                document.getElementById('colorPickerNative').value = hex;
+                updateColors(hex);
+            }
+        }
+
+        function updateColors(hex) {
+            const [r, g, b] = hexToRgb(hex);
+            document.getElementById('colorRgb').innerText = `rgb(${r}, ${g}, ${b})`;
+
+            // HSL
+            const rN = r / 255, gN = g / 255, bN = b / 255;
+            const max = Math.max(rN, gN, bN), min = Math.min(rN, gN, bN);
+            let h, s, l = (max + min) / 2;
+            if (max === min) { h = s = 0; } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case rN: h = (gN - bN) / d + (gN < bN ? 6 : 0); break;
+                    case gN: h = (bN - rN) / d + 2; break;
+                    case bN: h = (rN - gN) / d + 4; break;
+                }
+                h /= 6;
+            }
+            document.getElementById('colorHsl').innerText = `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`;
+
+            // CMYK
+            const k = 1 - Math.max(rN, gN, bN);
+            const c = (1 - rN - k) / (1 - k) || 0;
+            const m = (1 - gN - k) / (1 - k) || 0;
+            const y = (1 - bN - k) / (1 - k) || 0;
+            document.getElementById('colorCmyk').innerText = `${Math.round(c*100)}%, ${Math.round(m*100)}%, ${Math.round(y*100)}%, ${Math.round(k*100)}%`;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSampleJson();
+            formatSql();
+            generateUuids();
+            setEpochNow();
+            renderMarkdown();
+            updateColors("#06b6d4");
+        });
+    </script>
+</body>
+</html>

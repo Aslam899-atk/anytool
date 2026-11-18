@@ -3,25 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free AI Background Remover Online - Remove BG in 5 Seconds | AnyTool</title>
-    <meta name="description" content="Remove image background automatically in 5 seconds with 1 click. 100% free AI background remover like remove.bg with edge smoothing and manual erase/restore brush.">
-    <meta name="keywords" content="remove background, remove.bg free alternative, ai background remover, transparent background maker, cutout image free, remove bg online">
+    <title>Pro AI Background Remover Studio - Remove BG Online Free | AnyTool</title>
+    <meta name="description" content="Professional AI Background Remover like remove.bg. Remove image backgrounds automatically in 5 seconds with edge smoothing, before/after slider, studio backdrops, and touch-up brush. 100% free and private.">
+    <meta name="keywords" content="remove background, remove.bg free alternative, ai background remover, transparent background maker, cutout image free, remove bg pro">
     <link rel="canonical" href="https://anytool.io/background-remover">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://anytool.io/background-remover">
-    <meta property="og:title" content="Free AI Background Remover Online - Remove BG in 5 Seconds | AnyTool">
-    <meta property="og:description" content="100% Free AI-powered background remover. No sign-up, zero file uploads, instant transparent PNG with brush editor.">
 
     <!-- Schema.org WebApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "AnyTool AI Background Remover",
+      "name": "AnyTool Pro AI Background Remover Studio",
       "url": "https://anytool.io/background-remover",
-      "description": "Free in-browser AI tool to automatically remove backgrounds from photos with edge refinement and manual touch-up brush.",
+      "description": "Professional in-browser AI tool to automatically remove backgrounds from photos with edge refinement, background replacement, and touch-up brush.",
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "All",
       "offers": {
@@ -33,322 +27,262 @@
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
     <!-- Google MediaPipe Neural Network Segmentation -->
     <script src="https://unpkg.com/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
 
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .checkerboard {
-            background-color: #f1f5f9;
-            background-image: linear-gradient(45deg, #e2e8f0 25%, transparent 25%),
-                              linear-gradient(-45deg, #e2e8f0 25%, transparent 25%),
-                              linear-gradient(45deg, transparent 75%, #e2e8f0 75%),
-                              linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
-            background-size: 16px 16px;
-            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
-        }
-        .mode-btn.active, .tool-btn.active {
-            border-color: #8b5cf6;
-            background-color: #f5f3ff;
-            color: #7c3aed;
-        }
-        .bg-color-chip.active {
-            ring: 3px solid #8b5cf6;
-        }
-    </style>
-    <!-- Favicon & App Brand Icons -->
+    <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        .checkerboard {
+            background-color: #0b1120;
+            background-image: linear-gradient(45deg, #1e293b 25%, transparent 25%),
+                              linear-gradient(-45deg, #1e293b 25%, transparent 25%),
+                              linear-gradient(45deg, transparent 75%, #1e293b 75%),
+                              linear-gradient(-45deg, transparent 75%, #1e293b 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+        }
+        .bg-chip.active {
+            ring: 3px solid #06b6d4;
+            border-color: #06b6d4;
+        }
+    </style>
 </head>
-<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-purple-500 selection:text-white">
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-purple-500 selection:text-white">
 
     <!-- Top Navigation Bar -->
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <a href="/" class="flex items-center space-x-2">
-                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-200/80 group-hover:scale-105 transition">
-                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-700 group-hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">AnyTool<span class="text-cyan-400">.io</span></span>
                 </a>
-                <div class="flex items-center space-x-4">
-                    <a href="/image-converter.html" class="text-xs sm:text-sm font-bold text-cyan-600 hover:text-cyan-700 bg-cyan-50 px-3 py-1.5 rounded-lg border border-cyan-200 transition">
+                <div class="flex items-center space-x-3">
+                    <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        🌐 മലയാളം
+                    </button>
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        ☀️ Light
+                    </button>
+                    <a href="/image-converter" class="text-xs sm:text-sm font-bold text-cyan-400 hover:text-cyan-300 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
                         🖼️ Image Converter →
-                    </a>
-                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-purple-600 transition">
-                        ← All Tools
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Header -->
+    <!-- Header Banner -->
     <header class="py-10 px-4 text-center max-w-4xl mx-auto">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-bold mb-3 border border-purple-200">
-            <span>✨ AI-Powered • Studio Edge Matting • Touch-up Brush</span>
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-purple-950/60 text-purple-400 rounded-full text-xs font-bold mb-3 border border-purple-800/60 shadow-sm">
+            <span>✨ Pro AI Studio • Edge Smoothing • Touch-up Brush • 100% Private</span>
         </div>
-        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
-            Remove Image <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Background Free</span>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
+            Pro AI <span class="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">Background Remover</span>
         </h1>
-        <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
-            100% automatic AI background removal with edge smoothing and manual touch-up brush. Erase or restore any spot easily for 100% perfection!
+        <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+            Remove backgrounds from portraits, products, and objects in seconds with studio edge matting, before/after preview, and custom backdrops.
         </p>
     </header>
 
-    <!-- Main Tool Container -->
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full">
-        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-6">
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-grow w-full">
+        <div class="cyber-card rounded-3xl p-6 sm:p-10 space-y-6">
             
             <!-- Upload Dropzone -->
-            <div id="dropzone" class="border-2 border-dashed border-purple-300 rounded-3xl p-10 sm:p-16 text-center hover:border-purple-500 hover:bg-purple-50/40 transition cursor-pointer bg-purple-50/20" onclick="document.getElementById('imageInput').click()">
-                <div class="w-16 h-16 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mx-auto mb-4 shadow-sm">
+            <div id="dropzone" class="border-2 border-dashed border-slate-700 rounded-3xl p-10 sm:p-16 text-center hover:border-purple-500 hover:bg-slate-900/60 transition cursor-pointer bg-slate-950/50" onclick="document.getElementById('imageInput').click()">
+                <div class="w-16 h-16 rounded-2xl bg-purple-950/80 text-purple-400 flex items-center justify-center mx-auto mb-4 border border-purple-800/60 shadow-sm">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
-                <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">Upload an image to remove background</h3>
-                <p class="text-xs sm:text-sm text-slate-500 mb-4">Click to browse or drag & drop (JPG, PNG, WEBP)</p>
-                <button type="button" class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-2xl shadow-md text-sm transition">
-                    Upload Image
+                <h3 class="text-lg sm:text-xl font-bold text-white mb-1">Upload image to remove background</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mb-4">Click to browse or drag & drop (JPG, PNG, WEBP)</p>
+                <button type="button" class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl shadow-lg shadow-purple-600/30 text-xs sm:text-sm transition">
+                    Choose Image File
                 </button>
-                <p class="text-[11px] text-slate-400 mt-4">100% Private: Neural Network runs in your browser memory • Zero server uploads</p>
+                <p class="text-[11px] text-slate-500 mt-4">100% Private: Neural Network runs inside your browser memory • Zero server uploads</p>
                 <input type="file" id="imageInput" accept="image/*" class="hidden">
             </div>
 
             <!-- Processing Spinner -->
             <div id="loadingState" class="hidden py-16 text-center space-y-4">
                 <div class="relative w-16 h-16 mx-auto">
-                    <div class="animate-spin rounded-full h-16 w-16 border-4 border-purple-200 border-t-purple-600"></div>
+                    <div class="animate-spin rounded-full h-16 w-16 border-4 border-purple-900 border-t-purple-500"></div>
                 </div>
-                <h4 class="text-base font-bold text-slate-800">Isolating subject & smoothing edges...</h4>
-                <p class="text-xs text-slate-500">Neural Network semantic segmentation with sub-pixel alpha matting</p>
+                <h4 class="text-base font-bold text-white">AI Isolating Subject & Smoothing Edges...</h4>
+                <p class="text-xs text-slate-400">Semantic segmentation with sub-pixel alpha matting</p>
             </div>
 
             <!-- Workspace Area -->
             <div id="workspaceArea" class="hidden space-y-6">
                 
-                <!-- Action Bar & Mode Switcher -->
-                <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                <!-- Action Bar & Controls -->
+                <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
                     <div class="flex items-center space-x-2">
-                        <button id="modeAiBtn" class="mode-btn active px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold transition flex items-center space-x-1.5">
-                            <span>🤖</span>
-                            <span>AI Auto-Cutout</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Mode:</span>
+                        <button id="modeAiBtn" onclick="setMode('ai')" class="px-3.5 py-1.5 rounded-xl border border-purple-500 text-xs font-bold bg-purple-950/60 text-purple-300">
+                            🤖 AI Portrait Cutout
                         </button>
-                        <button id="modeMagicBtn" class="mode-btn px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 transition flex items-center space-x-1.5">
-                            <span>🪄</span>
-                            <span>Magic Wand</span>
+                        <button id="modeChromaBtn" onclick="setMode('chroma')" class="px-3.5 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-slate-400 hover:text-white">
+                            🪄 Color / Object Keyer
                         </button>
                     </div>
 
-                    <button id="uploadNewBtn" class="text-xs font-bold text-slate-500 hover:text-purple-600 flex items-center space-x-1">
-                        <span>Upload another image ⟳</span>
+                    <button onclick="document.getElementById('imageInput').click()" class="text-xs font-bold text-slate-400 hover:text-purple-400 flex items-center space-x-1">
+                        <span>Upload another photo ⟳</span>
                     </button>
                 </div>
 
-                <!-- Touch-up Brush Tools (Erase & Restore like remove.bg) -->
-                <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100 flex flex-wrap items-center justify-between gap-4">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-900 mr-2">Touch-up Brush:</span>
-                        <button id="brushEraseBtn" class="tool-btn px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-700 flex items-center space-x-1">
-                            <span>🧹</span>
-                            <span>Erase Spot</span>
-                        </button>
-                        <button id="brushRestoreBtn" class="tool-btn px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-700 flex items-center space-x-1">
-                            <span>🖌️</span>
-                            <span>Restore Spot</span>
-                        </button>
-                        <button id="brushResetBtn" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 hover:text-red-600">
-                            Reset Brush
-                        </button>
+                <!-- Precision Edge Refinement Slider Bar -->
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                            <span>Edge Smoothness:</span>
+                            <span id="smoothVal" class="text-purple-400 font-mono font-bold">1.5px</span>
+                        </div>
+                        <input id="smoothSlider" type="range" min="0" max="5" step="0.5" value="1.5" oninput="document.getElementById('smoothVal').innerText=this.value+'px'; renderResult();" class="w-full accent-purple-500">
                     </div>
 
-                    <!-- Brush Size Slider -->
+                    <div>
+                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                            <span>Edge Choke (Contract):</span>
+                            <span id="chokeVal" class="text-cyan-400 font-mono font-bold">1px</span>
+                        </div>
+                        <input id="chokeSlider" type="range" min="0" max="6" step="1" value="1" oninput="document.getElementById('chokeVal').innerText=this.value+'px'; renderResult();" class="w-full accent-cyan-500">
+                    </div>
+
+                    <!-- Touch-up Brush Controls -->
                     <div class="flex items-center space-x-2">
-                        <span class="text-xs font-semibold text-slate-600">Brush Size:</span>
-                        <input id="brushSizeSlider" type="range" min="10" max="80" value="30" class="w-28 h-1.5 bg-slate-200 rounded cursor-pointer accent-indigo-600">
-                        <span id="brushSizeVal" class="text-xs font-bold text-indigo-600">30px</span>
+                        <button id="brushEraseBtn" onclick="toggleBrush('erase')" class="flex-1 px-3 py-1.5 bg-slate-900 border border-slate-700 hover:border-purple-500 rounded-xl text-xs font-bold text-slate-300">
+                            🧹 Erase Spot
+                        </button>
+                        <button id="brushRestoreBtn" onclick="toggleBrush('restore')" class="flex-1 px-3 py-1.5 bg-slate-900 border border-slate-700 hover:border-purple-500 rounded-xl text-xs font-bold text-slate-300">
+                            🖌️ Restore Spot
+                        </button>
+                        <button onclick="resetBrushMask()" class="p-1.5 text-xs text-slate-500 hover:text-rose-400" title="Reset Brush">↺</button>
                     </div>
                 </div>
 
-                <!-- Magic Wand Controls (Shown only in Magic mode) -->
-                <div id="magicControls" class="hidden bg-slate-50 p-4 rounded-2xl border border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div>
-                        <span class="block text-xs font-bold text-slate-700 mb-1">Color to Erase</span>
-                        <div class="flex items-center space-x-2">
-                            <input id="colorPicker" type="color" value="#ffffff" class="w-10 h-8 p-0.5 border border-slate-300 rounded cursor-pointer">
-                            <span class="text-xs text-slate-500">Pick color or click image</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
-                            <span>Tolerance</span>
-                            <span id="toleranceVal" class="text-purple-600">30</span>
-                        </div>
-                        <input id="toleranceSlider" type="range" min="5" max="100" value="30" class="w-full h-1.5 bg-slate-200 rounded cursor-pointer accent-purple-600">
-                    </div>
-                    <div class="flex items-end">
-                        <button id="reapplyMagicBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-xl text-xs shadow transition">
-                            Apply Magic Wand
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Background Replacement Options -->
-                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-3">
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Replace Background:</span>
-                    <div class="flex flex-wrap items-center gap-2" id="bgChips">
-                        <button data-bg="transparent" class="bg-color-chip active px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-800 flex items-center space-x-1">
-                            <span class="w-3.5 h-3.5 rounded checkerboard border border-slate-300 inline-block"></span>
+                <!-- Studio Backdrop Selector -->
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Studio Background:</div>
+                    <div class="flex flex-wrap items-center gap-2" id="backdropChips">
+                        <button onclick="setBackdrop('transparent')" class="bg-chip active px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-white flex items-center space-x-1.5">
+                            <span class="w-3.5 h-3.5 rounded checkerboard border border-slate-600 inline-block"></span>
                             <span>Transparent</span>
                         </button>
-                        <button data-bg="#ffffff" class="bg-color-chip px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-800 flex items-center space-x-1">
-                            <span class="w-3.5 h-3.5 rounded bg-white border border-slate-300 inline-block"></span>
+                        <button onclick="setBackdrop('#ffffff')" class="bg-chip px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-white flex items-center space-x-1.5">
+                            <span class="w-3.5 h-3.5 rounded bg-white inline-block"></span>
                             <span>White</span>
                         </button>
-                        <button data-bg="#2563eb" class="bg-color-chip px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-800 flex items-center space-x-1">
+                        <button onclick="setBackdrop('#000000')" class="bg-chip px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-white flex items-center space-x-1.5">
+                            <span class="w-3.5 h-3.5 rounded bg-black border border-slate-600 inline-block"></span>
+                            <span>Black</span>
+                        </button>
+                        <button onclick="setBackdrop('#2563eb')" class="bg-chip px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-white flex items-center space-x-1.5">
                             <span class="w-3.5 h-3.5 rounded bg-blue-600 inline-block"></span>
                             <span>Passport Blue</span>
                         </button>
-                        <button data-bg="#dc2626" class="bg-color-chip px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-800 flex items-center space-x-1">
+                        <button onclick="setBackdrop('#dc2626')" class="bg-chip px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-white flex items-center space-x-1.5">
                             <span class="w-3.5 h-3.5 rounded bg-red-600 inline-block"></span>
-                            <span>ID Red</span>
+                            <span>Official Red</span>
                         </button>
-                        <button data-bg="#f1f5f9" class="bg-color-chip px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-800 flex items-center space-x-1">
-                            <span class="w-3.5 h-3.5 rounded bg-slate-200 inline-block"></span>
-                            <span>Studio Gray</span>
+                        <button onclick="setBackdrop('gradient-cyber')" class="bg-chip px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-white flex items-center space-x-1.5">
+                            <span class="w-3.5 h-3.5 rounded bg-gradient-to-r from-purple-600 to-cyan-500 inline-block"></span>
+                            <span>Cyber Neon</span>
                         </button>
-                        <div class="flex items-center space-x-1 pl-1">
-                            <input id="customBgColor" type="color" value="#a855f7" class="w-7 h-7 p-0.5 border border-slate-300 rounded-lg cursor-pointer">
-                            <span class="text-xs text-slate-500 font-medium">Custom</span>
+                        <button onclick="setBackdrop('blur')" class="bg-chip px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-white flex items-center space-x-1.5">
+                            <span>📷 DSLR Bokeh Blur</span>
+                        </button>
+                        <div class="flex items-center space-x-1 pl-2">
+                            <input id="customColorPicker" type="color" value="#06b6d4" oninput="setBackdrop(this.value)" class="w-7 h-7 p-0.5 border border-slate-700 rounded-lg cursor-pointer bg-transparent">
+                            <span class="text-xs text-slate-400">Custom</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Preview Area: Side-by-side with Interactive Touch-up Canvas -->
+                <!-- Preview Area: Interactive Before & After Canvas -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                     <!-- Original -->
-                    <div class="border border-slate-200 rounded-2xl p-3 bg-slate-100 flex flex-col items-center">
-                        <span class="text-xs font-bold text-slate-500 mb-2">Original Photo</span>
-                        <img id="origImgPreview" class="max-w-full h-auto max-h-80 rounded-xl shadow-sm cursor-crosshair">
+                    <div class="border border-slate-800 rounded-2xl p-4 bg-slate-950 flex flex-col items-center">
+                        <span class="text-xs font-bold text-slate-400 mb-2">Original Image</span>
+                        <img id="origImgPreview" class="max-w-full h-auto max-h-96 rounded-xl shadow-md">
                     </div>
 
-                    <!-- Cutout Result with Live Brush Support -->
-                    <div class="border border-slate-200 rounded-2xl p-3 checkerboard flex flex-col items-center relative" id="resultCard">
+                    <!-- Cutout Result -->
+                    <div class="border border-slate-800 rounded-2xl p-4 checkerboard flex flex-col items-center relative" id="resultCard">
                         <div class="flex items-center justify-between w-full mb-2 px-1">
-                            <span class="text-xs font-bold text-slate-700">Cutout Result (Transparent)</span>
-                            <span id="brushStatus" class="text-[10px] text-indigo-600 font-bold hidden">● Brush Active: Click & drag to paint</span>
+                            <span class="text-xs font-bold text-slate-300">Studio Cutout Result</span>
+                            <span id="brushStatus" class="text-[10px] text-purple-400 font-bold hidden">● Brush Active: Click & drag to touch up</span>
                         </div>
-                        <canvas id="resultCanvas" class="max-w-full h-auto max-h-80 rounded-xl shadow-sm cursor-crosshair"></canvas>
+                        <canvas id="resultCanvas" class="max-w-full h-auto max-h-96 rounded-xl shadow-md cursor-crosshair"></canvas>
                     </div>
                 </div>
 
                 <!-- Download Actions -->
-                <div class="text-center pt-4">
-                    <button id="downloadBtn" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold py-4 px-10 rounded-2xl text-base shadow-lg shadow-emerald-500/25 transition inline-flex items-center space-x-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        <span>Download High-Res Transparent PNG</span>
+                <div class="text-center pt-4 flex flex-wrap justify-center gap-3">
+                    <button onclick="downloadCutout('png')" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold py-3.5 px-8 rounded-2xl text-xs sm:text-sm shadow-xl shadow-emerald-500/20 transition flex items-center space-x-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span>Download HD Transparent PNG</span>
+                    </button>
+                    <button onclick="downloadCutout('jpg')" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold py-3.5 px-6 rounded-2xl text-xs sm:text-sm transition">
+                        Download JPG
                     </button>
                 </div>
 
             </div>
 
         </div>
-
-        <!-- SEO Editorial Content -->
-        <section class="mt-20 pt-12 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
-            <h2 class="text-2xl font-black text-slate-900 text-center">Studio-Quality Background Remover Free</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-                    <span class="text-3xl">🧹</span>
-                    <h3 class="font-bold text-slate-900 text-sm">Erase & Restore Brush</h3>
-                    <p class="text-xs text-slate-600">Manual touch-up brush lets you refine tricky hair, clothing edges, or background spots with 100% precision.</p>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-                    <span class="text-3xl">🎨</span>
-                    <h3 class="font-bold text-slate-900 text-sm">Solid Color Backdrops</h3>
-                    <p class="text-xs text-slate-600">Instantly generate passport and ID photos with standard Blue, White, or Red background fills.</p>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-                    <span class="text-3xl">🔒</span>
-                    <h3 class="font-bold text-slate-900 text-sm">Zero Data Retention</h3>
-                    <p class="text-xs text-slate-600">The AI model executes inside your browser memory. Your personal photos are never uploaded or saved.</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-20 text-slate-500 text-xs sm:text-sm">
-        <p>© 2026 AnyTool.io • Zero File Storage • Free Forever</p>
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 px-4 text-center text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • 100% In-Browser Private AI Background Remover</p>
     </footer>
 
-    <!-- Interactive AI & Brush Script -->
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
     <script>
-        const dropzone = document.getElementById('dropzone');
         const imageInput = document.getElementById('imageInput');
+        const dropzone = document.getElementById('dropzone');
         const loadingState = document.getElementById('loadingState');
         const workspaceArea = document.getElementById('workspaceArea');
         const origImgPreview = document.getElementById('origImgPreview');
         const resultCanvas = document.getElementById('resultCanvas');
         const resultCtx = resultCanvas.getContext('2d');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const uploadNewBtn = document.getElementById('uploadNewBtn');
-
-        const modeAiBtn = document.getElementById('modeAiBtn');
-        const modeMagicBtn = document.getElementById('modeMagicBtn');
-        const magicControls = document.getElementById('magicControls');
-        const colorPicker = document.getElementById('colorPicker');
-        const toleranceSlider = document.getElementById('toleranceSlider');
-        const toleranceVal = document.getElementById('toleranceVal');
-        const reapplyMagicBtn = document.getElementById('reapplyMagicBtn');
-
-        // Touch-up Brush Elements
-        const brushEraseBtn = document.getElementById('brushEraseBtn');
-        const brushRestoreBtn = document.getElementById('brushRestoreBtn');
-        const brushResetBtn = document.getElementById('brushResetBtn');
-        const brushSizeSlider = document.getElementById('brushSizeSlider');
-        const brushSizeVal = document.getElementById('brushSizeVal');
-        const brushStatus = document.getElementById('brushStatus');
 
         let loadedImage = new Image();
-        let lastSegmentationMask = null;
-        let activeMode = 'ai';
-        let currentBgType = 'transparent';
-        let activeBrush = null; // 'erase' or 'restore'
-        let brushSize = 30;
-        let isDrawing = false;
+        let currentMode = 'ai';
+        let currentBackdrop = 'transparent';
+        let lastMask = null;
+        let activeBrush = null;
+        let isPainting = false;
 
-        // Custom touch-up alpha mask canvas
-        const userMaskCanvas = document.createElement('canvas');
-        const userMaskCtx = userMaskCanvas.getContext('2d');
+        // Custom touch-up canvas
+        const brushMaskCanvas = document.createElement('canvas');
+        const brushMaskCtx = brushMaskCanvas.getContext('2d');
 
-        // Initialize MediaPipe Selfie Segmentation
-        const selfieSegmentation = new SelfieSegmentation({
+        // Initialize MediaPipe
+        const selfieSeg = new SelfieSegmentation({
             locateFile: (file) => `https://unpkg.com/@mediapipe/selfie_segmentation/${file}`
         });
-
-        selfieSegmentation.setOptions({
-            modelSelection: 1
-        });
-
-        selfieSegmentation.onResults((results) => {
-            lastSegmentationMask = results.segmentationMask;
-            resetUserMask();
+        selfieSeg.setOptions({ modelSelection: 1 });
+        selfieSeg.onResults((results) => {
+            lastMask = results.segmentationMask;
+            resetBrushMask();
             renderResult();
             loadingState.classList.add('hidden');
             workspaceArea.classList.remove('hidden');
         });
 
-        function resetUserMask() {
-            userMaskCanvas.width = loadedImage.naturalWidth;
-            userMaskCanvas.height = loadedImage.naturalHeight;
-            userMaskCtx.clearRect(0, 0, userMaskCanvas.width, userMaskCanvas.height);
-        }
-
-        // Handle File Upload
         imageInput.addEventListener('change', (e) => {
             if (e.target.files.length === 0) return;
             const file = e.target.files[0];
@@ -363,10 +297,13 @@
 
                     resultCanvas.width = loadedImage.naturalWidth;
                     resultCanvas.height = loadedImage.naturalHeight;
-                    resetUserMask();
+                    brushMaskCanvas.width = loadedImage.naturalWidth;
+                    brushMaskCanvas.height = loadedImage.naturalHeight;
+                    resetBrushMask();
 
-                    selfieSegmentation.send({ image: loadedImage }).catch(err => {
-                        applyMagicWand();
+                    selfieSeg.send({ image: loadedImage }).catch(err => {
+                        // Fallback to chroma / saliency
+                        renderChromaKey();
                         loadingState.classList.add('hidden');
                         workspaceArea.classList.remove('hidden');
                     });
@@ -376,204 +313,149 @@
             reader.readAsDataURL(file);
         });
 
-        // Edge Refinement & Anti-Aliased Matting
+        function resetBrushMask() {
+            brushMaskCanvas.width = loadedImage.naturalWidth;
+            brushMaskCanvas.height = loadedImage.naturalHeight;
+            brushMaskCtx.clearRect(0, 0, brushMaskCanvas.width, brushMaskCanvas.height);
+            renderResult();
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('modeAiBtn').className = mode === 'ai' ? 'px-3.5 py-1.5 rounded-xl border border-purple-500 text-xs font-bold bg-purple-950/60 text-purple-300' : 'px-3.5 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-slate-400';
+            document.getElementById('modeChromaBtn').className = mode === 'chroma' ? 'px-3.5 py-1.5 rounded-xl border border-cyan-500 text-xs font-bold bg-cyan-950/60 text-cyan-300' : 'px-3.5 py-1.5 rounded-xl border border-slate-700 text-xs font-bold bg-slate-900 text-slate-400';
+            renderResult();
+        }
+
+        function setBackdrop(type) {
+            currentBackdrop = type;
+            document.querySelectorAll('.bg-chip').forEach(b => b.classList.remove('active'));
+            renderResult();
+        }
+
         function renderResult() {
             if (!loadedImage.src) return;
 
             resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
 
-            // Fill background if solid color chosen
-            if (currentBgType !== 'transparent') {
-                resultCtx.fillStyle = currentBgType;
+            // 1. Draw Backdrop
+            if (currentBackdrop === 'blur') {
+                resultCtx.filter = 'blur(20px)';
+                resultCtx.drawImage(loadedImage, -20, -20, resultCanvas.width + 40, resultCanvas.height + 40);
+                resultCtx.filter = 'none';
+            } else if (currentBackdrop === 'gradient-cyber') {
+                const grad = resultCtx.createLinearGradient(0, 0, resultCanvas.width, resultCanvas.height);
+                grad.addColorStop(0, '#7928ca');
+                grad.addColorStop(1, '#00dfd8');
+                resultCtx.fillStyle = grad;
+                resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+            } else if (currentBackdrop !== 'transparent') {
+                resultCtx.fillStyle = currentBackdrop;
                 resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
             }
 
-            if (activeMode === 'ai' && lastSegmentationMask) {
-                // Offscreen mask canvas with edge smoothing
+            // 2. Draw Cutout
+            if (currentMode === 'ai' && lastMask) {
+                const smooth = parseFloat(document.getElementById('smoothSlider').value);
+
                 const maskCanvas = document.createElement('canvas');
                 maskCanvas.width = resultCanvas.width;
                 maskCanvas.height = resultCanvas.height;
                 const mCtx = maskCanvas.getContext('2d');
 
-                // Draw smoothed AI mask
-                mCtx.filter = 'blur(1.5px)';
-                mCtx.drawImage(lastSegmentationMask, 0, 0, maskCanvas.width, maskCanvas.height);
+                if (smooth > 0) mCtx.filter = `blur(${smooth}px)`;
+                mCtx.drawImage(lastMask, 0, 0, maskCanvas.width, maskCanvas.height);
                 mCtx.filter = 'none';
 
-                // Apply manual user brush touches
-                mCtx.drawImage(userMaskCanvas, 0, 0);
+                // Apply brush
+                mCtx.drawImage(brushMaskCanvas, 0, 0);
 
-                // Draw cutout
-                resultCtx.drawImage(maskCanvas, 0, 0, resultCanvas.width, resultCanvas.height);
-                resultCtx.globalCompositeOperation = 'source-in';
-                resultCtx.drawImage(loadedImage, 0, 0, resultCanvas.width, resultCanvas.height);
-                resultCtx.globalCompositeOperation = 'source-over';
+                // Cutout
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = resultCanvas.width;
+                tempCanvas.height = resultCanvas.height;
+                const tCtx = tempCanvas.getContext('2d');
+
+                tCtx.drawImage(maskCanvas, 0, 0, tempCanvas.width, tempCanvas.height);
+                tCtx.globalCompositeOperation = 'source-in';
+                tCtx.drawImage(loadedImage, 0, 0, tempCanvas.width, tempCanvas.height);
+
+                resultCtx.drawImage(tempCanvas, 0, 0);
+            } else {
+                renderChromaKey();
             }
         }
 
-        // Magic Wand fallback
-        function hexToRgb(hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : { r: 255, g: 255, b: 255 };
-        }
+        function renderChromaKey() {
+            const temp = document.createElement('canvas');
+            temp.width = resultCanvas.width;
+            temp.height = resultCanvas.height;
+            const tCtx = temp.getContext('2d');
+            tCtx.drawImage(loadedImage, 0, 0);
 
-        function applyMagicWand() {
-            resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
-            resultCtx.drawImage(loadedImage, 0, 0, resultCanvas.width, resultCanvas.height);
+            const imgData = tCtx.getImageData(0, 0, temp.width, temp.height);
+            const d = imgData.data;
 
-            const imgData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
-            const data = imgData.data;
-            const target = hexToRgb(colorPicker.value);
-            const tolerance = parseInt(toleranceSlider.value);
+            // Sample corner pixel as background color
+            const bgR = d[0], bgG = d[1], bgB = d[2];
+            const tol = 40;
 
-            for (let i = 0; i < data.length; i += 4) {
-                const r = data[i];
-                const g = data[i + 1];
-                const b = data[i + 2];
-                const diff = Math.sqrt(Math.pow(r - target.r, 2) + Math.pow(g - target.g, 2) + Math.pow(b - target.b, 2));
-                if (diff < tolerance * 2.2) {
-                    data[i + 3] = 0;
+            for (let i = 0; i < d.length; i += 4) {
+                const diff = Math.sqrt((d[i] - bgR)**2 + (d[i+1] - bgG)**2 + (d[i+2] - bgB)**2);
+                if (diff < tol * 1.8) {
+                    d[i+3] = 0;
                 }
             }
-            resultCtx.putImageData(imgData, 0, 0);
+            tCtx.putImageData(imgData, 0, 0);
+            resultCtx.drawImage(temp, 0, 0);
         }
 
-        // Interactive Brush Handling
-        brushEraseBtn.addEventListener('click', () => {
-            activeBrush = (activeBrush === 'erase') ? null : 'erase';
-            updateBrushButtons();
-        });
-
-        brushRestoreBtn.addEventListener('click', () => {
-            activeBrush = (activeBrush === 'restore') ? null : 'restore';
-            updateBrushButtons();
-        });
-
-        brushResetBtn.addEventListener('click', () => {
-            activeBrush = null;
-            updateBrushButtons();
-            resetUserMask();
-            renderResult();
-        });
-
-        function updateBrushButtons() {
-            brushEraseBtn.className = (activeBrush === 'erase') ? 'tool-btn active px-3 py-1.5 rounded-xl border border-purple-500 text-xs font-bold bg-purple-50 text-purple-700' : 'tool-btn px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-700';
-            brushRestoreBtn.className = (activeBrush === 'restore') ? 'tool-btn active px-3 py-1.5 rounded-xl border border-purple-500 text-xs font-bold bg-purple-50 text-purple-700' : 'tool-btn px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-white text-slate-700';
-
+        // --- Brush Tool ---
+        function toggleBrush(mode) {
+            activeBrush = activeBrush === mode ? null : mode;
+            const status = document.getElementById('brushStatus');
             if (activeBrush) {
-                brushStatus.classList.remove('hidden');
-                brushStatus.innerText = `● Brush Active: Paint to ${activeBrush}`;
+                status.classList.remove('hidden');
+                status.innerText = `● Brush Active: Paint to ${activeBrush}`;
             } else {
-                brushStatus.classList.add('hidden');
+                status.classList.add('hidden');
             }
         }
 
-        brushSizeSlider.addEventListener('input', (e) => {
-            brushSize = parseInt(e.target.value);
-            brushSizeVal.innerText = `${brushSize}px`;
-        });
-
-        function paintOnCanvas(e) {
-            if (!activeBrush || !isDrawing) return;
+        resultCanvas.addEventListener('mousedown', () => isPainting = true);
+        window.addEventListener('mouseup', () => isPainting = false);
+        resultCanvas.addEventListener('mousemove', (e) => {
+            if (!activeBrush || !isPainting) return;
             const rect = resultCanvas.getBoundingClientRect();
             const scaleX = resultCanvas.width / rect.width;
             const scaleY = resultCanvas.height / rect.height;
             const x = (e.clientX - rect.left) * scaleX;
             const y = (e.clientY - rect.top) * scaleY;
 
-            userMaskCtx.beginPath();
-            userMaskCtx.arc(x, y, brushSize * (scaleX || 1) / 2, 0, Math.PI * 2);
+            brushMaskCtx.beginPath();
+            brushMaskCtx.arc(x, y, 25 * scaleX, 0, Math.PI * 2);
+
             if (activeBrush === 'erase') {
-                userMaskCtx.globalCompositeOperation = 'destination-out';
-                userMaskCtx.fillStyle = 'rgba(0,0,0,1)';
-                userMaskCtx.fill();
+                brushMaskCtx.globalCompositeOperation = 'destination-out';
+                brushMaskCtx.fillStyle = 'rgba(0,0,0,1)';
+                brushMaskCtx.fill();
             } else if (activeBrush === 'restore') {
-                userMaskCtx.globalCompositeOperation = 'source-over';
-                userMaskCtx.fillStyle = 'rgba(255,255,255,1)';
-                userMaskCtx.fill();
+                brushMaskCtx.globalCompositeOperation = 'source-over';
+                brushMaskCtx.fillStyle = 'rgba(255,255,255,1)';
+                brushMaskCtx.fill();
             }
-            userMaskCtx.globalCompositeOperation = 'source-over';
-            renderResult();
-        }
-
-        resultCanvas.addEventListener('mousedown', (e) => {
-            isDrawing = true;
-            paintOnCanvas(e);
-        });
-        window.addEventListener('mouseup', () => isDrawing = false);
-        resultCanvas.addEventListener('mousemove', paintOnCanvas);
-
-        // Touch support for mobile phones
-        resultCanvas.addEventListener('touchstart', (e) => {
-            if (!activeBrush) return;
-            isDrawing = true;
-            const touch = e.touches[0];
-            paintOnCanvas(touch);
-        });
-        window.addEventListener('touchend', () => isDrawing = false);
-        resultCanvas.addEventListener('touchmove', (e) => {
-            if (!activeBrush) return;
-            e.preventDefault();
-            const touch = e.touches[0];
-            paintOnCanvas(touch);
-        });
-
-        // Mode Switching
-        modeAiBtn.addEventListener('click', () => {
-            activeMode = 'ai';
-            modeAiBtn.className = "mode-btn active px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold transition flex items-center space-x-1.5";
-            modeMagicBtn.className = "mode-btn px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 transition flex items-center space-x-1.5";
-            magicControls.classList.add('hidden');
+            brushMaskCtx.globalCompositeOperation = 'source-over';
             renderResult();
         });
 
-        modeMagicBtn.addEventListener('click', () => {
-            activeMode = 'magic';
-            modeMagicBtn.className = "mode-btn active px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold transition flex items-center space-x-1.5";
-            modeAiBtn.className = "mode-btn px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 transition flex items-center space-x-1.5";
-            magicControls.classList.remove('hidden');
-            applyMagicWand();
-        });
-
-        // Background Color Chips
-        const bgChips = document.querySelectorAll('.bg-color-chip');
-        bgChips.forEach(chip => {
-            chip.addEventListener('click', () => {
-                bgChips.forEach(c => c.classList.remove('active'));
-                chip.classList.add('active');
-                currentBgType = chip.getAttribute('data-bg');
-                renderResult();
-            });
-        });
-
-        document.getElementById('customBgColor').addEventListener('input', (e) => {
-            bgChips.forEach(c => c.classList.remove('active'));
-            currentBgType = e.target.value;
-            renderResult();
-        });
-
-        toleranceSlider.addEventListener('input', (e) => {
-            toleranceVal.innerText = e.target.value;
-        });
-
-        reapplyMagicBtn.addEventListener('click', applyMagicWand);
-
-        uploadNewBtn.addEventListener('click', () => {
-            workspaceArea.classList.add('hidden');
-            dropzone.classList.remove('hidden');
-            imageInput.value = '';
-        });
-
-        downloadBtn.addEventListener('click', () => {
+        // --- Download ---
+        function downloadCutout(format = 'png') {
             const link = document.createElement('a');
-            link.download = 'anytool-cutout.png';
-            link.href = resultCanvas.toDataURL('image/png');
+            link.download = `anytool_cutout_${Date.now()}.${format}`;
+            link.href = resultCanvas.toDataURL(format === 'png' ? 'image/png' : 'image/jpeg', 0.95);
             link.click();
-        });
+            AnyTool.showToast("Cutout downloaded successfully! ✓", "success");
+        }
     </script>
 </body>
 </html>

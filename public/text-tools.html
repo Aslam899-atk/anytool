@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document & Text Tools Suite - Word Counter, Case Converter, CSV to JSON | AnyTool</title>
+    <meta name="description" content="Free online text utilities: Word and character counter, case converter (camel, snake, title), duplicate line remover, text sorter, CSV to JSON converter, and text diff checker.">
+    <meta name="keywords" content="word counter, case converter, remove duplicate lines, text sorter, csv to json, json to csv, text diff checker, find and replace online">
+    <link rel="canonical" href="https://anytool.io/text-tools">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Document & Text Tools Suite",
+      "url": "https://anytool.io/text-tools",
+      "description": "Comprehensive document and text manipulation utilities running 100% in-browser.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        .text-tab-btn.active {
+            background-color: rgba(244, 63, 94, 0.2);
+            border-color: #f43f5e;
+            color: #fb7185;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-700 group-hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-rose-400 to-pink-500 bg-clip-text text-transparent">AnyTool<span class="text-cyan-400">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        🌐 മലയാളം
+                    </button>
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+                        ☀️ Light
+                    </button>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-400 hover:text-rose-400 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="py-10 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-rose-950/60 text-rose-400 rounded-full text-xs font-bold mb-3 border border-rose-800/60 shadow-sm">
+            <span>📝 8+ Document & Text Manipulation Tools • Private & Instant</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
+            Document & <span class="bg-gradient-to-r from-rose-400 via-pink-400 to-amber-400 bg-clip-text text-transparent">Text Tools Suite</span>
+        </h1>
+        <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+            Analyze word count, transform letter casing, clean duplicate lines, convert CSV to JSON, and inspect text diffs.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-grow w-full">
+        
+        <!-- Tab Bar -->
+        <div class="bg-slate-900/80 p-2 rounded-2xl border border-slate-800 mb-8 flex flex-wrap gap-2 justify-center">
+            <button onclick="switchTextTab('tab-counter')" class="text-tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                📊 Word & Character Counter
+            </button>
+            <button onclick="switchTextTab('tab-case')" class="text-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🔤 Case Converter
+            </button>
+            <button onclick="switchTextTab('tab-cleaner')" class="text-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🧹 Remove Duplicates & Sort
+            </button>
+            <button onclick="switchTextTab('tab-csv')" class="text-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                📑 CSV ⟷ JSON Converter
+            </button>
+            <button onclick="switchTextTab('tab-diff')" class="text-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-transparent text-slate-300 hover:text-white transition">
+                🔍 Text Diff Checker
+            </button>
+        </div>
+
+        <!-- ================= TAB 1: WORD COUNTER ================= -->
+        <div id="tab-counter" class="text-pane space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6">
+                <!-- Live Metric Statistics Bar -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-center">
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase font-mono">Words</div>
+                        <div id="statWords" class="text-xl font-black text-rose-400 font-mono">0</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase font-mono">Characters</div>
+                        <div id="statChars" class="text-xl font-black text-cyan-400 font-mono">0</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase font-mono">No Spaces</div>
+                        <div id="statCharsNoSpace" class="text-xl font-black text-emerald-400 font-mono">0</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase font-mono">Sentences</div>
+                        <div id="statSentences" class="text-xl font-black text-purple-400 font-mono">0</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase font-mono">Paragraphs</div>
+                        <div id="statParas" class="text-xl font-black text-amber-400 font-mono">0</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase font-mono">Read Time</div>
+                        <div id="statReadTime" class="text-xl font-black text-indigo-400 font-mono">0s</div>
+                    </div>
+                </div>
+
+                <div>
+                    <textarea id="wordCounterInput" rows="10" oninput="analyzeTextStats()" placeholder="Type or paste your essay, article, or document here to see live word and character metrics..." class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm font-sans text-slate-200 focus:outline-none focus:border-rose-500"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-2">
+                    <button onclick="document.getElementById('wordCounterInput').value=''; analyzeTextStats();" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-slate-300">Clear Text</button>
+                    <button onclick="AnyTool.copyToClipboard(document.getElementById('wordCounterInput').value)" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-xl transition">Copy Text</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 2: CASE CONVERTER ================= -->
+        <div id="tab-case" class="text-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1">Input Text</label>
+                    <textarea id="caseInput" rows="5" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-200 focus:outline-none focus:border-rose-500">Transform your text into any programming casing or formal typography.</textarea>
+                </div>
+
+                <!-- Case Action Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="convertCase('upper')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-slate-200">UPPERCASE</button>
+                    <button onclick="convertCase('lower')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-slate-200">lowercase</button>
+                    <button onclick="convertCase('title')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-slate-200">Title Case</button>
+                    <button onclick="convertCase('sentence')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-slate-200">Sentence case</button>
+                    <button onclick="convertCase('camel')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-cyan-400">camelCase</button>
+                    <button onclick="convertCase('snake')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-emerald-400">snake_case</button>
+                    <button onclick="convertCase('kebab')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-amber-400">kebab-case</button>
+                    <button onclick="convertCase('constant')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-purple-400">CONSTANT_CASE</button>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1">Converted Output</label>
+                    <textarea id="caseOutput" rows="5" readonly class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-rose-300 focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="AnyTool.copyToClipboard(document.getElementById('caseOutput').value)" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-xl transition">Copy Converted Text</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: REMOVE DUPLICATES & SORT ================= -->
+        <div id="tab-cleaner" class="text-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <h3 class="text-base font-bold text-white">Line Cleaner, Deduplicator & Sorter</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="deduplicateLines()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl">Remove Duplicates</button>
+                        <button onclick="sortLines(true)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold text-xs rounded-xl border border-slate-700">Sort A → Z</button>
+                        <button onclick="sortLines(false)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold text-xs rounded-xl border border-slate-700">Sort Z → A</button>
+                        <button onclick="reverseLines()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs rounded-xl border border-slate-700">Reverse Lines</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Input Lines</label>
+                        <textarea id="cleanerInput" rows="10" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-200 focus:outline-none">Apple
+Orange
+Banana
+Apple
+Grape
+Banana
+Mango</textarea>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-bold text-slate-400">Cleaned Result</label>
+                            <span id="cleanerStats" class="text-[11px] font-mono text-slate-500">7 lines</span>
+                        </div>
+                        <textarea id="cleanerOutput" rows="10" readonly class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-emerald-300 focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="AnyTool.copyToClipboard(document.getElementById('cleanerOutput').value)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 text-slate-300">Copy Result</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: CSV TO JSON ================= -->
+        <div id="tab-csv" class="text-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <h3 class="text-base font-bold text-white">CSV ⟷ JSON Converter</h3>
+                    <div class="flex space-x-2">
+                        <button onclick="convertCsvToJson()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl transition">Convert CSV to JSON →</button>
+                        <button onclick="convertJsonToCsv()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs rounded-xl border border-slate-700 transition">← Convert JSON to CSV</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">CSV Data</label>
+                        <textarea id="csvInput" rows="10" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-200 focus:outline-none">id,name,role,country
+1,Alice,Security Engineer,USA
+2,Bob,Full Stack Dev,UK
+3,Charlie,Product Designer,Canada</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">JSON Data</label>
+                        <textarea id="csvJsonOutput" rows="10" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-cyan-300 focus:outline-none"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 5: TEXT DIFF ================= -->
+        <div id="tab-diff" class="text-pane hidden space-y-6">
+            <div class="cyber-card p-6 rounded-3xl space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h3 class="text-base font-bold text-white">Text Difference (Diff) Checker</h3>
+                    <button onclick="runTextDiff()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl transition">Compare Texts</button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Original Text (A)</label>
+                        <textarea id="diffTextA" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-xs font-mono text-slate-200 focus:outline-none">The quick brown fox jumps over the lazy dog.
+Version 1.0 released.
+Free tools for everyone.</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Modified Text (B)</label>
+                        <textarea id="diffTextB" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-xs font-mono text-slate-200 focus:outline-none">The fast brown fox jumps over the sleeping dog.
+Version 2.0 released.
+Free tools for everyone worldwide.</textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1">Line-by-Line Difference Comparison</label>
+                    <div id="diffOutputContainer" class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono space-y-1 max-h-60 overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 px-4 text-center text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free In-Browser Document & Text Tools</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
+    <script>
+        function switchTextTab(tabId) {
+            document.querySelectorAll('.text-pane').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.text-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if (target) target.classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        // --- Word Counter ---
+        function analyzeTextStats() {
+            const text = document.getElementById('wordCounterInput').value;
+            const words = text.trim() === '' ? 0 : (text.trim().match(/\S+/g) || []).length;
+            const chars = text.length;
+            const charsNoSpace = text.replace(/\s+/g, '').length;
+            const sentences = text.trim() === '' ? 0 : (text.match(/[\w|\)][.?!]+(\s|$)/g) || []).length;
+            const paras = text.trim() === '' ? 0 : text.split(/\n+/).filter(p => p.trim() !== '').length;
+            const readMinutes = Math.ceil(words / 200);
+
+            document.getElementById('statWords').innerText = words.toLocaleString();
+            document.getElementById('statChars').innerText = chars.toLocaleString();
+            document.getElementById('statCharsNoSpace').innerText = charsNoSpace.toLocaleString();
+            document.getElementById('statSentences').innerText = sentences.toLocaleString();
+            document.getElementById('statParas').innerText = paras.toLocaleString();
+            document.getElementById('statReadTime').innerText = readMinutes < 1 ? '< 1m' : `${readMinutes}m`;
+        }
+
+        // --- Case Converter ---
+        function convertCase(mode) {
+            const text = document.getElementById('caseInput').value;
+            let out = text;
+
+            if (mode === 'upper') out = text.toUpperCase();
+            else if (mode === 'lower') out = text.toLowerCase();
+            else if (mode === 'title') {
+                out = text.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+            } else if (mode === 'sentence') {
+                out = text.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, c => c.toUpperCase());
+            } else if (mode === 'camel') {
+                out = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+            } else if (mode === 'snake') {
+                out = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)?.map(x => x.toLowerCase()).join('_') || text;
+            } else if (mode === 'kebab') {
+                out = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)?.map(x => x.toLowerCase()).join('-') || text;
+            } else if (mode === 'constant') {
+                out = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)?.map(x => x.toUpperCase()).join('_') || text;
+            }
+
+            document.getElementById('caseOutput').value = out;
+        }
+
+        // --- Cleaner & Sorter ---
+        function deduplicateLines() {
+            const raw = document.getElementById('cleanerInput').value;
+            const lines = raw.split('\n');
+            const unique = [...new Set(lines)];
+            document.getElementById('cleanerOutput').value = unique.join('\n');
+            document.getElementById('cleanerStats').innerText = `Removed ${lines.length - unique.length} duplicates (${unique.length} remaining)`;
+        }
+
+        function sortLines(asc = true) {
+            const raw = document.getElementById('cleanerInput').value;
+            const lines = raw.split('\n');
+            lines.sort((a, b) => asc ? a.localeCompare(b) : b.localeCompare(a));
+            document.getElementById('cleanerOutput').value = lines.join('\n');
+            document.getElementById('cleanerStats').innerText = `Sorted ${lines.length} lines`;
+        }
+
+        function reverseLines() {
+            const raw = document.getElementById('cleanerInput').value;
+            const lines = raw.split('\n').reverse();
+            document.getElementById('cleanerOutput').value = lines.join('\n');
+        }
+
+        // --- CSV to JSON ---
+        function convertCsvToJson() {
+            const csv = document.getElementById('csvInput').value.trim();
+            const lines = csv.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            if (lines.length < 2) return;
+
+            const headers = lines[0].split(',').map(h => h.trim());
+            const list = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const parts = lines[i].split(',').map(p => p.trim());
+                const obj = {};
+                headers.forEach((h, idx) => {
+                    obj[h] = parts[idx] !== undefined ? parts[idx] : null;
+                });
+                list.push(obj);
+            }
+            document.getElementById('csvJsonOutput').value = JSON.stringify(list, null, 2);
+        }
+
+        function convertJsonToCsv() {
+            try {
+                const jsonStr = document.getElementById('csvJsonOutput').value;
+                const arr = JSON.parse(jsonStr);
+                if (!Array.isArray(arr) || arr.length === 0) return;
+
+                const headers = Object.keys(arr[0]);
+                let csv = headers.join(',') + '\n';
+
+                arr.forEach(row => {
+                    csv += headers.map(h => JSON.stringify(row[h] || '')).join(',') + '\n';
+                });
+                document.getElementById('csvInput').value = csv.trim();
+            } catch (e) {
+                AnyTool.showToast("Invalid JSON array to convert to CSV", "error");
+            }
+        }
+
+        // --- Text Diff ---
+        function runTextDiff() {
+            const linesA = document.getElementById('diffTextA').value.split('\n');
+            const linesB = document.getElementById('diffTextB').value.split('\n');
+            const max = Math.max(linesA.length, linesB.length);
+            const container = document.getElementById('diffOutputContainer');
+            let html = "";
+
+            for (let i = 0; i < max; i++) {
+                const a = linesA[i];
+                const b = linesB[i];
+
+                if (a === b) {
+                    html += `<div class="p-1 text-slate-400">  ${a || ''}</div>`;
+                } else {
+                    if (a !== undefined) html += `<div class="p-1 bg-rose-950/60 text-rose-300 border-l-2 border-rose-500">- ${a}</div>`;
+                    if (b !== undefined) html += `<div class="p-1 bg-emerald-950/60 text-emerald-300 border-l-2 border-emerald-500">+ ${b}</div>`;
+                }
+            }
+            container.innerHTML = html || '<span class="text-slate-500">No differences detected.</span>';
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            analyzeTextStats();
+            convertCase('upper');
+            deduplicateLines();
+            convertCsvToJson();
+            runTextDiff();
+        });
+    </script>
+</body>
+</html>
