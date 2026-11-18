@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://any-tools.onrender.com/sitemap.xml
 Sitemap: https://anytool.io/sitemap.xml
