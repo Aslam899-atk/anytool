@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Python & Turtle Runner - Run Python in Browser Free | AnyTool</title>
-    <meta name="description" content="Run Python code and interactive Turtle graphics natively inside your browser. 100% free, instant execution, zero installation required.">
-    <meta name="keywords" content="python runner online, turtle graphics online, run python in browser, free python compiler, learn python turtle online">
+    <title>Online Python Code Runner - Run Python in Browser Free | AnyTool</title>
+    <meta name="description" content="Fast, free, online Python 3 compiler and execution environment. Run algorithms, functions, loops, and scripts directly in your browser with zero installation.">
+    <meta name="keywords" content="python runner online, run python in browser, free online python compiler, python code editor, online python terminal">
     <link rel="canonical" href="https://anytool.io/python-runner">
 
     <!-- Schema.org WebApplication -->
@@ -13,9 +13,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "AnyTool Python & Turtle Runner",
+      "name": "AnyTool Online Python Runner",
       "url": "https://anytool.io/python-runner",
-      "description": "Interactive in-browser Python 3 execution environment with live Turtle graphics rendering.",
+      "description": "Interactive in-browser Python 3 execution environment with live console output.",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "All",
       "offers": {
@@ -25,10 +25,13 @@
       }
     }
     </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Skulpt for in-browser Python & Turtle -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Skulpt for in-browser Python 3 -->
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
     <!-- Favicon & App Brand Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -36,145 +39,307 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
     <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-200">
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <a href="/" class="flex items-center space-x-2 text-indigo-600 hover:text-indigo-700">
-                    <span class="text-2xl font-black tracking-tight">AnyTool<span class="text-pink-500">.io</span></span>
+                <a href="/" class="flex items-center space-x-2.5 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-200/80 group-hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
                 </a>
-                <a href="/" class="text-sm font-semibold text-gray-600 hover:text-indigo-600 flex items-center">
-                    ← Back to All Tools
-                </a>
+                <div class="flex items-center space-x-3">
+                    <a href="/turtle-runner" class="text-xs sm:text-sm font-bold text-teal-700 hover:text-teal-800 bg-teal-50 px-3.5 py-1.5 rounded-xl border border-teal-200 transition flex items-center space-x-1.5">
+                        <span>🐢</span>
+                        <span>Turtle Graphics Studio →</span>
+                    </a>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+                        ← All Tools
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Header -->
-    <header class="bg-indigo-600 text-white py-8 px-4 text-center">
-        <h1 class="text-3xl font-extrabold mb-2">Python & Turtle Runner</h1>
-        <p class="text-indigo-100 max-w-xl mx-auto text-sm sm:text-base">
-            Execute Python code and interactive Turtle graphics natively inside your browser. No downloads or installations needed!
+    <header class="py-8 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold mb-3 border border-indigo-200">
+            <span>⚡ In-Browser Python 3 Compiler • Zero Setup • Instant Output</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-2">
+            Online <span class="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Python Code Runner</span>
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+            Write, test, and execute Python 3 code directly in your browser with real-time console terminal output.
         </p>
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 flex-grow w-full">
+        <!-- Control Bar -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+            <!-- Sample Code Selector -->
             <div class="flex items-center space-x-2">
-                <label for="sampleCode" class="text-sm font-medium text-gray-700">Choose Sample:</label>
-                <select id="sampleCode" class="border border-gray-300 rounded px-3 py-1.5 text-sm bg-white focus:ring-2 focus:ring-indigo-500">
-                    <option value="turtle-spiral">Turtle: Colorful Spiral</option>
-                    <option value="turtle-star">Turtle: Vibrant Star</option>
-                    <option value="basic-python">Python: Loops & Math</option>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-600">📂 Sample Code:</span>
+                <select id="codeSampleSelect" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    <option value="math">🧮 Math & Factorial</option>
+                    <option value="fibonacci">🔢 Fibonacci Sequence</option>
+                    <option value="primes">🔍 Prime Numbers Sieve</option>
+                    <option value="sorting">📊 Sorting & Search Algorithm</option>
+                    <option value="oop">🏛️ Object Oriented Programming (OOP)</option>
+                    <option value="jsonDict">📦 Dictionaries & Data Processing</option>
+                    <option value="blank">📝 Blank Python Template</option>
                 </select>
             </div>
-            <div class="flex space-x-3">
-                <button id="runBtn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-bold text-sm shadow flex items-center transition">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Run Code
+
+            <!-- Action Buttons -->
+            <div class="flex items-center space-x-2.5">
+                <button id="runCodeBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-xl shadow-md text-xs sm:text-sm flex items-center space-x-2 transition duration-200">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                    <span>Run Python (Ctrl+Enter)</span>
                 </button>
-                <button id="clearBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold text-sm transition">
-                    Clear Canvas
+                <button id="clearConsoleBtn" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-4 py-2.5 rounded-xl text-xs sm:text-sm transition">
+                    Clear Terminal
+                </button>
+                <button id="copyCodeBtn" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm transition">
+                    Copy Code
                 </button>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Code Editor Box -->
-            <div class="bg-gray-900 rounded-xl overflow-hidden shadow-lg flex flex-col h-[520px]">
-                <div class="bg-gray-800 px-4 py-2.5 flex items-center justify-between border-b border-gray-700">
-                    <span class="text-xs font-mono text-gray-300">main.py</span>
-                    <span class="text-xs text-green-400 font-mono">Python 3 (In-Browser)</span>
+        <!-- 2-Column Grid: Code Editor & Console Output -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- Code Editor Box (7 cols) -->
+            <div class="lg:col-span-7 bg-slate-900 rounded-3xl overflow-hidden shadow-xl border border-slate-800 flex flex-col h-[560px]">
+                <div class="bg-slate-800/90 px-4 py-3 flex items-center justify-between border-b border-slate-700/80">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span class="text-xs font-mono text-slate-300 ml-2 font-medium">script.py</span>
+                    </div>
+                    <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/50">Python 3 (In-Browser)</span>
                 </div>
-                <textarea id="pythonCode" class="w-full flex-grow p-4 bg-gray-900 text-green-300 font-mono text-sm resize-none focus:outline-none" spellcheck="false"></textarea>
+                
+                <textarea id="codeEditor" class="w-full flex-grow p-4 bg-slate-900 text-slate-100 font-mono text-xs sm:text-sm resize-none focus:outline-none selection:bg-indigo-700 selection:text-white leading-relaxed" spellcheck="false"></textarea>
+
+                <div class="bg-slate-800/70 px-4 py-2 border-t border-slate-700 text-[11px] font-mono text-slate-400 flex justify-between items-center">
+                    <span id="editorInfo">Lines: 15 • UTF-8</span>
+                    <span>Press Ctrl + Enter to execute</span>
+                </div>
             </div>
 
-            <!-- Output Box & Turtle Canvas -->
-            <div class="flex flex-col gap-4 h-[520px]">
-                <!-- Turtle Canvas Window -->
-                <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-2 flex flex-col flex-1 overflow-hidden relative">
-                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-2 flex justify-between">
-                        <span>Turtle Graphic Output</span>
-                        <span id="runStatus" class="text-indigo-600 font-normal">Ready</span>
+            <!-- Terminal Output Box (5 cols) -->
+            <div class="lg:col-span-5 bg-slate-950 rounded-3xl overflow-hidden shadow-xl border border-slate-800 flex flex-col h-[560px]">
+                <div class="bg-slate-900 px-4 py-3 flex items-center justify-between border-b border-slate-800">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-mono font-bold text-slate-400">🖥️ Terminal Console</span>
                     </div>
-                    <div id="turtleCanvasContainer" class="flex-grow flex items-center justify-center bg-gray-50 rounded border border-gray-100 overflow-auto">
-                        <div id="mycanvas"></div>
-                    </div>
+                    <span id="execTimer" class="text-[11px] font-mono text-slate-400">Idle</span>
                 </div>
 
-                <!-- Text Terminal Console -->
-                <div class="bg-gray-900 text-gray-100 rounded-xl shadow p-4 h-40 overflow-y-auto font-mono text-xs border border-gray-800">
-                    <div class="text-gray-400 border-b border-gray-800 pb-1 mb-2 font-bold">Terminal Console Output:</div>
-                    <pre id="outputConsole" class="whitespace-pre-wrap text-emerald-400">Press 'Run Code' to see console logs...</pre>
+                <div class="flex-grow p-4 overflow-y-auto font-mono text-xs sm:text-sm space-y-1">
+                    <pre id="consoleOutput" class="text-emerald-400 whitespace-pre-wrap leading-relaxed">Python 3.10 In-Browser Interpreter Ready.
+Click "Run Python" to execute your program.</pre>
+                </div>
+
+                <div class="bg-slate-900/80 px-4 py-2 border-t border-slate-800 text-[11px] font-mono text-slate-500 flex justify-between items-center">
+                    <span>STDOUT / STDERR</span>
+                    <button id="copyOutputBtn" class="text-indigo-400 hover:text-indigo-300">Copy Output</button>
                 </div>
             </div>
+
         </div>
+
+        <!-- Documentation & Tips -->
+        <section class="mt-16 pt-10 border-t border-slate-200 max-w-4xl mx-auto space-y-6">
+            <h2 class="text-xl font-black text-slate-900 text-center">Built-in Python 3 Capabilities</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-2xl">⚡</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Pure Client-Side Speed</h3>
+                    <p class="text-slate-600">Your code executes directly on your machine's CPU through WebAssembly and JavaScript compilation. Zero network lag.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-2xl">🔒</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Safe Sandboxing</h3>
+                    <p class="text-slate-600">Code runs inside an isolated browser sandbox with zero risk to your operating system or local files.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                    <span class="text-2xl">🐢</span>
+                    <h3 class="font-bold text-slate-900 text-sm">Want Graphics?</h3>
+                    <p class="text-slate-600">If you want to create visual art or turtle drawings, check out our dedicated <a href="/turtle-runner" class="text-teal-600 font-bold underline">Turtle Graphics Studio</a>.</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-6 text-center text-sm text-gray-500 mt-12">
-        <p>© 2026 AnyTool.io • Zero Data Retention • 100% Free</p>
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-12 text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free Python Runner • 100% In-Browser Execution</p>
     </footer>
 
+    <!-- Script Execution -->
     <script>
+        const codeEditor = document.getElementById('codeEditor');
+        const codeSampleSelect = document.getElementById('codeSampleSelect');
+        const runCodeBtn = document.getElementById('runCodeBtn');
+        const clearConsoleBtn = document.getElementById('clearConsoleBtn');
+        const copyCodeBtn = document.getElementById('copyCodeBtn');
+        const copyOutputBtn = document.getElementById('copyOutputBtn');
+        const consoleOutput = document.getElementById('consoleOutput');
+        const execTimer = document.getElementById('execTimer');
+        const editorInfo = document.getElementById('editorInfo');
+
         const samples = {
-            'turtle-spiral': `import turtle
+            math: `# Python Math & Recursive Factorial
+import math
 
-t = turtle.Turtle()
-t.speed(0)
-colors = ['red', 'purple', 'blue', 'green', 'orange', 'yellow']
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
 
-for x in range(120):
-    t.pencolor(colors[x % 6])
-    t.width(x // 30 + 1)
-    t.forward(x * 2)
-    t.left(59)
-
-print("Turtle spiral completed successfully!")
-`,
-            'turtle-star': `import turtle
-
-t = turtle.Turtle()
-t.speed(3)
-t.pencolor("purple")
-t.fillcolor("cyan")
-
-t.begin_fill()
-for _ in range(5):
-    t.forward(120)
-    t.right(144)
-t.end_fill()
-
-print("Star drawing finished!")
-`,
-            'basic-python': `# Python in browser test
-print("Welcome to AnyTool Python Runner!")
-
-total = 0
+print("=== Factorials ===")
 for i in range(1, 11):
-    total += i
-    print(f"Adding {i}, subtotal = {total}")
+    print(f"{i}! = {factorial(i)}")
 
-print("Final Sum 1 to 10 is:", total)
+print("\\n=== Math Constants ===")
+print("Pi:", math.pi)
+print("Euler's e:", math.e)
+print("Square root of 144:", math.sqrt(144))
+`,
+
+            fibonacci: `# Fibonacci Sequence Generator
+def generate_fibonacci(limit):
+    seq = [0, 1]
+    while len(seq) < limit:
+        seq.append(seq[-1] + seq[-2])
+    return seq
+
+terms = 20
+result = generate_fibonacci(terms)
+
+print(f"First {terms} Fibonacci numbers:")
+for index, val in enumerate(result, 1):
+    print(f"Term {index:2d}: {val}")
+`,
+
+            primes: `# Sieve of Eratosthenes Prime Finder
+def find_primes(max_num):
+    sieve = [True] * (max_num + 1)
+    sieve[0] = sieve[1] = False
+    
+    for i in range(2, int(max_num ** 0.5) + 1):
+        if sieve[i]:
+            for j in range(i*i, max_num + 1, i):
+                sieve[j] = False
+                
+    return [i for i, is_prime in enumerate(sieve) if is_prime]
+
+limit = 100
+primes = find_primes(limit)
+print(f"Prime numbers up to {limit}:")
+print(primes)
+print(f"Total count: {len(primes)}")
+`,
+
+            sorting: `# Bubble Sort & Linear Search
+def bubble_sort(arr):
+    n = len(arr)
+    data = arr.copy()
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if data[j] > data[j + 1]:
+                data[j], data[j + 1] = data[j + 1], data[j]
+    return data
+
+numbers = [64, 34, 25, 12, 22, 11, 90, 5, 77]
+print("Original Array:", numbers)
+
+sorted_arr = bubble_sort(numbers)
+print("Sorted Array:  ", sorted_arr)
+`,
+
+            oop: `# Object-Oriented Programming: Bank Account
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        print(f"Deposited \${amount}. New balance: \${self.balance}")
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            print(f"Insufficient funds! Available: \${self.balance}")
+        else:
+            self.balance -= amount
+            print(f"Withdrew \${amount}. Remaining: \${self.balance}")
+
+acct = BankAccount("Alice", 100)
+acct.deposit(50)
+acct.withdraw(70)
+acct.withdraw(120)
+`,
+
+            jsonDict: `# Python Dictionaries & Statistics
+data = [
+    {"name": "Laptop", "price": 999, "stock": 14},
+    {"name": "Mouse", "price": 25, "stock": 150},
+    {"name": "Keyboard", "price": 75, "stock": 45},
+    {"name": "Monitor", "price": 299, "stock": 20}
+]
+
+print("=== Inventory Report ===")
+total_value = sum(item["price"] * item["stock"] for item in data)
+
+for item in data:
+    val = item["price"] * item["stock"]
+    print(f"- {item['name']:10s}: \${item['price']} (In Stock: {item['stock']:3d}) -> Total: \${val}")
+
+print("-" * 40)
+print(f"Total Inventory Value: \${total_value:,}")
+`,
+
+            blank: `# Write your custom Python 3 code here!
+def greet(name):
+    return f"Hello, {name}! Welcome to AnyTool Python Runner."
+
+print(greet("Developer"))
 `
         };
 
-        const codeArea = document.getElementById('pythonCode');
-        const consoleEl = document.getElementById('outputConsole');
-        const sampleSelect = document.getElementById('sampleCode');
-        const runStatus = document.getElementById('runStatus');
+        // Initialize editor
+        codeEditor.value = samples.math;
+        updateLineCount();
 
-        codeArea.value = samples['turtle-spiral'];
+        function updateLineCount() {
+            const lines = codeEditor.value.split('\n').length;
+            editorInfo.innerText = `Lines: ${lines} • UTF-8`;
+        }
 
-        sampleSelect.addEventListener('change', () => {
-            codeArea.value = samples[sampleSelect.value] || '';
+        codeEditor.addEventListener('input', updateLineCount);
+
+        codeSampleSelect.addEventListener('change', (e) => {
+            if (samples[e.target.value]) {
+                codeEditor.value = samples[e.target.value];
+                updateLineCount();
+            }
         });
 
+        // Skulpt Output Handlers
         function outf(text) {
-            consoleEl.innerText += text;
+            consoleOutput.innerText += text;
         }
 
         function builtinRead(x) {
@@ -184,40 +349,73 @@ print("Final Sum 1 to 10 is:", total)
             return Sk.builtinFiles["files"][x];
         }
 
-        document.getElementById('runBtn').addEventListener('click', () => {
-            const prog = codeArea.value;
-            consoleEl.innerText = '';
-            document.getElementById('mycanvas').innerHTML = '';
-            runStatus.innerText = 'Running...';
-            runStatus.className = 'text-amber-600 font-semibold animate-pulse';
+        function runPythonCode() {
+            const startTime = performance.now();
+            consoleOutput.innerText = "";
+            execTimer.innerText = "Running...";
+            execTimer.className = "text-[11px] font-mono text-amber-400";
 
-            Sk.pre = "outputConsole";
+            Sk.pre = "consoleOutput";
             Sk.configure({
                 output: outf,
-                read: builtinRead
+                read: builtinRead,
+                inputfun: function(promptText) {
+                    return window.prompt(promptText || "Enter input for Python:");
+                },
+                inputfunTakesPrompt: true
             });
 
-            (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
+            const prog = codeEditor.value;
 
             const myPromise = Sk.misceval.asyncToPromise(() => {
                 return Sk.importMainWithBody("<stdin>", false, prog, true);
             });
 
             myPromise.then(() => {
-                runStatus.innerText = 'Execution Complete ✓';
-                runStatus.className = 'text-green-600 font-semibold';
+                const elapsed = (performance.now() - startTime).toFixed(1);
+                execTimer.innerText = `Done in ${elapsed} ms`;
+                execTimer.className = "text-[11px] font-mono text-emerald-400";
             }, (err) => {
-                consoleEl.innerText += "\nError: " + err.toString();
-                runStatus.innerText = 'Error';
-                runStatus.className = 'text-red-600 font-semibold';
+                const elapsed = (performance.now() - startTime).toFixed(1);
+                execTimer.innerText = `Error (${elapsed} ms)`;
+                execTimer.className = "text-[11px] font-mono text-rose-400";
+                consoleOutput.innerText += "\n" + err.toString();
+            });
+        }
+
+        runCodeBtn.addEventListener('click', runPythonCode);
+
+        // Keyboard Shortcut: Ctrl + Enter
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                runPythonCode();
+            }
+        });
+
+        clearConsoleBtn.addEventListener('click', () => {
+            consoleOutput.innerText = "Console cleared.\n";
+            execTimer.innerText = "Idle";
+            execTimer.className = "text-[11px] font-mono text-slate-400";
+        });
+
+        copyCodeBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(codeEditor.value).then(() => {
+                copyCodeBtn.innerText = "Copied! ✓";
+                setTimeout(() => copyCodeBtn.innerText = "Copy Code", 2000);
             });
         });
 
-        document.getElementById('clearBtn').addEventListener('click', () => {
-            document.getElementById('mycanvas').innerHTML = '';
-            consoleEl.innerText = 'Console cleared.';
-            runStatus.innerText = 'Ready';
-            runStatus.className = 'text-indigo-600 font-normal';
+        copyOutputBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(consoleOutput.innerText).then(() => {
+                copyOutputBtn.innerText = "Copied! ✓";
+                setTimeout(() => copyOutputBtn.innerText = "Copy Output", 2000);
+            });
+        });
+
+        // Run default sample on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runPythonCode, 200);
         });
     </script>
 </body>

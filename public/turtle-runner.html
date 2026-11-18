@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Python Turtle Graphics Studio - Draw & Animate Free | AnyTool</title>
+    <meta name="description" content="Dedicated Python Turtle Graphics studio. Create colorful spirals, mandalas, geometric art, and fractals online. Free, instant browser rendering, export drawing as PNG.">
+    <meta name="keywords" content="python turtle online, turtle graphics simulator, turtle art generator, run python turtle in browser, free turtle code runner">
+    <link rel="canonical" href="https://anytool.io/turtle-runner">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Python Turtle Graphics Studio",
+      "url": "https://anytool.io/turtle-runner",
+      "description": "Interactive online studio for Python Turtle graphics art, animation, and export.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Skulpt for Python Turtle in browser -->
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+    <!-- Favicon & App Brand Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        #turtleCanvas canvas {
+            display: block;
+            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-teal-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-2.5 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-200/80 group-hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <a href="/python-runner" class="text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3.5 py-1.5 rounded-xl border border-indigo-200 transition flex items-center space-x-1.5">
+                        <span>🐍</span>
+                        <span>Python Code Runner →</span>
+                    </a>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-teal-600 transition">
+                        ← All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-8 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-xs font-bold mb-3 border border-teal-200">
+            <span>🐢 Visual Python Art Studio • Zero Install • Export Drawing</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-2">
+            Python <span class="bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">Turtle Graphics Studio</span>
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+            Design stunning procedural artwork, spirals, fractals, and geometric shapes with Python Turtle right in your browser.
+        </p>
+    </header>
+
+    <!-- Main Studio Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 flex-grow w-full">
+        <!-- Controls & Template Bar -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+            <!-- Templates Dropdown -->
+            <div class="flex items-center space-x-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-600">🎨 Art Preset:</span>
+                <select id="templateSelect" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                    <option value="spiral">🌈 Rainbow Color Spiral</option>
+                    <option value="mandala">☸️ Sacred Geometry Mandala</option>
+                    <option value="starburst">⭐ Neon Starburst</option>
+                    <option value="flower">🌸 Vibrant Flower Petals</option>
+                    <option value="fractalTree">🌳 Recursive Fractal Tree</option>
+                    <option value="olympic">⭕ Olympic Rings</option>
+                    <option value="custom">✏️ Blank Custom Turtle</option>
+                </select>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center space-x-2.5">
+                <button id="runBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold px-5 py-2.5 rounded-xl shadow-md text-xs sm:text-sm flex items-center space-x-2 transition duration-200">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                    <span>Run Turtle</span>
+                </button>
+                <button id="clearBtn" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-4 py-2.5 rounded-xl text-xs sm:text-sm transition">
+                    Clear Canvas
+                </button>
+                <button id="exportBtn" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm flex items-center space-x-1.5 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span>Export PNG</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Studio Grid: Code Editor (Left) & Large Visual Canvas (Right) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- Code Editor Box (5 cols) -->
+            <div class="lg:col-span-5 bg-slate-900 rounded-3xl overflow-hidden shadow-xl border border-slate-800 flex flex-col h-[580px]">
+                <div class="bg-slate-800/90 px-4 py-3 flex items-center justify-between border-b border-slate-700/80">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span class="text-xs font-mono text-slate-300 ml-2 font-medium">turtle_art.py</span>
+                    </div>
+                    <span class="text-[11px] font-mono text-teal-400 bg-teal-950/60 px-2 py-0.5 rounded border border-teal-800/50">Python 3 Turtle</span>
+                </div>
+                
+                <textarea id="turtleCode" class="w-full flex-grow p-4 bg-slate-900 text-teal-300 font-mono text-xs sm:text-sm resize-none focus:outline-none selection:bg-teal-700 selection:text-white" spellcheck="false"></textarea>
+
+                <!-- Status Bar -->
+                <div class="bg-slate-800/70 px-4 py-2 border-t border-slate-700 text-[11px] font-mono text-slate-400 flex justify-between items-center">
+                    <span id="execStatus">Status: Ready</span>
+                    <span>Skulpt Turtle Engine</span>
+                </div>
+            </div>
+
+            <!-- Visual Canvas Box (7 cols) -->
+            <div class="lg:col-span-7 bg-white rounded-3xl shadow-xl border border-slate-200/80 p-6 flex flex-col items-center justify-center min-h-[580px] relative">
+                <div class="w-full flex items-center justify-between mb-3 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    <span>Turtle Drawing Canvas</span>
+                    <span id="canvasDims" class="text-teal-600 font-mono">500 x 500 px</span>
+                </div>
+
+                <!-- Skulpt Canvas Target Container -->
+                <div id="turtleCanvas" class="w-full h-full flex items-center justify-center overflow-auto rounded-2xl bg-slate-50 border border-slate-200/60 p-2 min-h-[480px]"></div>
+
+                <!-- Text Output / Error Log (Hidden if empty) -->
+                <div id="outputContainer" class="hidden w-full mt-4 p-3 bg-slate-900 rounded-xl text-xs font-mono text-slate-300 max-h-32 overflow-y-auto">
+                    <pre id="outputPre" class="whitespace-pre-wrap"></pre>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Feature Guide & Ideas -->
+        <section class="mt-16 pt-10 border-t border-slate-200 max-w-5xl mx-auto">
+            <h2 class="text-xl font-black text-slate-900 text-center mb-8">Turtle Commands Quick Cheat-Sheet</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
+                    <span class="font-bold text-teal-700 font-mono text-sm">Movement:</span>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.forward(100)</code> - Move forward 100px</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.backward(50)</code> - Move backward 50px</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.goto(x, y)</code> - Jump to coordinates</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
+                    <span class="font-bold text-teal-700 font-mono text-sm">Turns & Angles:</span>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.right(90)</code> - Turn right 90 degrees</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.left(45)</code> - Turn left 45 degrees</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.circle(60)</code> - Draw circle radius 60</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
+                    <span class="font-bold text-teal-700 font-mono text-sm">Styling & Colors:</span>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.pencolor("red")</code> - Change pen color</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.width(3)</code> - Change stroke thickness</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.speed(0)</code> - Set fastest draw speed</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-12 text-slate-500 text-xs sm:text-sm">
+        <p>© 2026 AnyTool.io • Free Python Turtle Studio • Runs in your browser</p>
+    </footer>
+
+    <!-- Turtle Execution Engine -->
+    <script>
+        const turtleCodeArea = document.getElementById('turtleCode');
+        const templateSelect = document.getElementById('templateSelect');
+        const runBtn = document.getElementById('runBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const execStatus = document.getElementById('execStatus');
+        const outputContainer = document.getElementById('outputContainer');
+        const outputPre = document.getElementById('outputPre');
+
+        const templates = {
+            spiral: `import turtle
+
+t = turtle.Turtle()
+t.speed(0)
+turtle.bgcolor("#0f172a")
+
+colors = ["#38bdf8", "#818cf8", "#c084fc", "#f472b6", "#fb7185", "#34d399"]
+
+for i in range(120):
+    t.pencolor(colors[i % len(colors)])
+    t.width(i / 30 + 1)
+    t.forward(i * 2.5)
+    t.left(59)
+
+t.hideturtle()
+turtle.done()`,
+
+            mandala: `import turtle
+
+t = turtle.Turtle()
+t.speed(0)
+turtle.bgcolor("#090d16")
+
+colors = ["#22d3ee", "#38bdf8", "#818cf8", "#a855f7"]
+
+for i in range(36):
+    t.pencolor(colors[i % 4])
+    t.width(2)
+    t.circle(70)
+    t.left(10)
+
+for i in range(72):
+    t.pencolor("#ec4899")
+    t.width(1.5)
+    t.circle(35)
+    t.left(5)
+
+t.hideturtle()
+turtle.done()`,
+
+            starburst: `import turtle
+
+t = turtle.Turtle()
+t.speed(0)
+turtle.bgcolor("#050811")
+t.pencolor("#38bdf8")
+t.width(2)
+
+for i in range(50):
+    t.forward(i * 4)
+    t.right(144)
+    if i % 2 == 0:
+        t.pencolor("#f43f5e")
+    else:
+        t.pencolor("#06b6d4")
+
+t.hideturtle()
+turtle.done()`,
+
+            flower: `import turtle
+
+t = turtle.Turtle()
+t.speed(0)
+turtle.bgcolor("#ffffff")
+
+t.pencolor("#e11d48")
+t.fillcolor("#f43f5e")
+
+for i in range(36):
+    t.begin_fill()
+    t.circle(50, 60)
+    t.left(120)
+    t.circle(50, 60)
+    t.end_fill()
+    t.left(10)
+
+t.hideturtle()
+turtle.done()`,
+
+            fractalTree: `import turtle
+
+t = turtle.Turtle()
+t.speed(0)
+t.left(90)
+t.penup()
+t.backward(120)
+t.pendown()
+turtle.bgcolor("#f8fafc")
+
+def draw_tree(branch_len, pen_size):
+    if branch_len > 8:
+        t.width(pen_size)
+        if branch_len < 25:
+            t.pencolor("#10b981")
+        else:
+            t.pencolor("#854d0e")
+        t.forward(branch_len)
+        t.right(22)
+        draw_tree(branch_len - 12, max(1, pen_size - 1))
+        t.left(44)
+        draw_tree(branch_len - 12, max(1, pen_size - 1))
+        t.right(22)
+        t.backward(branch_len)
+
+draw_tree(80, 7)
+t.hideturtle()
+turtle.done()`,
+
+            olympic: `import turtle
+
+t = turtle.Turtle()
+t.speed(3)
+t.width(6)
+turtle.bgcolor("#ffffff")
+
+rings = [
+    (-110, 0, "#0284c7"),  # Blue
+    (0, 0, "#0f172a"),      # Black
+    (110, 0, "#e11d48"),    # Red
+    (-55, -45, "#eab308"),  # Yellow
+    (55, -45, "#16a34a")    # Green
+]
+
+for x, y, col in rings:
+    t.penup()
+    t.goto(x, y - 45)
+    t.pendown()
+    t.pencolor(col)
+    t.circle(45)
+
+t.hideturtle()
+turtle.done()`,
+
+            custom: `import turtle
+
+t = turtle.Turtle()
+t.speed(5)
+turtle.bgcolor("#f8fafc")
+
+# Write your turtle commands here!
+t.color("#0d9488")
+t.width(3)
+
+for _ in range(4):
+    t.forward(100)
+    t.right(90)
+
+turtle.done()`
+        };
+
+        // Load default template
+        turtleCodeArea.value = templates.spiral;
+
+        templateSelect.addEventListener('change', (e) => {
+            if (templates[e.target.value]) {
+                turtleCodeArea.value = templates[e.target.value];
+                runTurtleCode();
+            }
+        });
+
+        function outf(text) {
+            outputContainer.classList.remove('hidden');
+            outputPre.innerText += text;
+        }
+
+        function builtinRead(x) {
+            if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined) {
+                throw "File not found: '" + x + "'";
+            }
+            return Sk.builtinFiles["files"][x];
+        }
+
+        function runTurtleCode() {
+            execStatus.innerText = "Status: Running...";
+            execStatus.className = "text-amber-400";
+            outputPre.innerText = "";
+            outputContainer.classList.add('hidden');
+
+            const prog = turtleCodeArea.value;
+
+            // Clear previous canvas
+            const canvasContainer = document.getElementById("turtleCanvas");
+            canvasContainer.innerHTML = '';
+
+            (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtleCanvas';
+            Sk.TurtleGraphics.width = 500;
+            Sk.TurtleGraphics.height = 500;
+
+            Sk.pre = "outputPre";
+            Sk.configure({ output: outf, read: builtinRead });
+
+            const myPromise = Sk.misceval.asyncToPromise(() => {
+                return Sk.importMainWithBody("<stdin>", false, prog, true);
+            });
+
+            myPromise.then(() => {
+                execStatus.innerText = "Status: Finished Drawing ✓";
+                execStatus.className = "text-emerald-400";
+            }, (err) => {
+                execStatus.innerText = "Status: Error";
+                execStatus.className = "text-rose-400";
+                outf(err.toString());
+            });
+        }
+
+        runBtn.addEventListener('click', runTurtleCode);
+
+        clearBtn.addEventListener('click', () => {
+            const canvasContainer = document.getElementById("turtleCanvas");
+            canvasContainer.innerHTML = '';
+            outputPre.innerText = '';
+            outputContainer.classList.add('hidden');
+            execStatus.innerText = "Status: Cleared";
+            execStatus.className = "text-slate-400";
+        });
+
+        // Export Turtle Canvas to PNG Image
+        exportBtn.addEventListener('click', () => {
+            const canvas = document.querySelector('#turtleCanvas canvas');
+            if (!canvas) {
+                alert("Please run your turtle drawing first before exporting!");
+                return;
+            }
+            const link = document.createElement('a');
+            link.download = 'anytool_turtle_art.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        // Auto-run initial spiral
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runTurtleCode, 300);
+        });
+    </script>
+</body>
+</html>
