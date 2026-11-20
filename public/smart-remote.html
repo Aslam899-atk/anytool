@@ -29,7 +29,7 @@
         /* Mobile Canvas Viewport */
         .phone-mockup {
             width: 360px;
-            min-height: 640px;
+            min-height: 680px;
             background: linear-gradient(170deg, #0b1120 0%, #030712 100%);
             border: 10px solid #1e293b;
             border-radius: 44px;
@@ -43,12 +43,13 @@
         .remote-canvas {
             position: relative;
             width: 100%;
-            height: 520px;
+            height: 560px;
             background-size: 20px 20px;
             background-image: 
                 linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         /* Canvas Remote Button Element */
@@ -62,10 +63,11 @@
             justify-content: center;
             font-weight: 700;
             box-shadow: 0 4px 14px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.2);
+            user-select: none;
         }
         .canvas-btn:active {
-            transform: scale(0.94);
-            filter: brightness(1.2);
+            transform: scale(0.93);
+            filter: brightness(1.25);
         }
         .canvas-btn.selected {
             outline: 2px dashed #06b6d4;
@@ -121,13 +123,13 @@
     <!-- Header Intro -->
     <header class="pt-8 pb-4 px-4 text-center max-w-4xl mx-auto space-y-3">
         <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold tracking-wide uppercase">
-            <span>✨ No Physical Remote Needed • Zero-Remote DIY Studio</span>
+            <span>✨ Zero-Remote DIY Studio • 100% Free Custom Builder</span>
         </div>
         <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            Build Your Own <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 bg-clip-text text-transparent">Custom Phone Remote</span>
+            Build Your Own <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 bg-clip-text text-transparent">Phone Remote</span>
         </h1>
         <p class="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
-            വീട്ടിൽ പഴയ റിമോട്ട് ഒന്നും വേണ്ട! നിങ്ങളുടെ ഫോണിൽ ഒരു ബ്ലാങ്ക് സ്ക്രീനിൽ തുടങ്ങി ഇഷ്ടമുള്ള ബട്ടൺ ടൈപ്പ്, കളർ, IR Hex Code എന്നിവ കൊടുത്ത് എവിടെ വേണമെങ്കിലും വലിച്ച് വെച്ച് (Drag & Move) സ്വന്തം റിമോട്ട് ഉണ്ടാക്കാം.
+            വീട്ടിൽ പഴയ റിമോട്ട് ഒന്നും വേണ്ട! നിങ്ങളുടെ ഫോണിൽ ഒരു ബ്ലാങ്ക് സ്ക്രീനിൽ തുടങ്ങി ഇഷ്ടമുള്ള ബട്ടൺ ടൈപ്പ്, കളർ, IR Hex Code എന്നിവ നൽകി എവിടെ വേണമെങ്കിലും വലിച്ച് വെച്ച് (Drag & Move) സ്വന്തം റിമോട്ട് ഉണ്ടാക്കാം.
         </p>
     </header>
 
@@ -139,25 +141,180 @@
             <!-- LEFT: Component Builder & Customization Controls (7 Cols) -->
             <div class="lg:col-span-7 space-y-6">
                 
+                <!-- NEW: Quick 1-Click Multi-Button Library -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <div class="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 text-black rounded-xl font-black text-xs">
+                                ⚡ FAST
+                            </div>
+                            <div>
+                                <h2 class="text-base font-bold text-white">Quick Add Buttons (ഒറ്റ ക്ലിക്കിൽ ബട്ടണുകൾ ചേർക്കാം)</h2>
+                                <p class="text-xs text-slate-400">Click any button below to instantly spawn on your phone</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded-full border border-cyan-800/80">30+ Presets</span>
+                    </div>
+
+                    <!-- Category Tab Switcher -->
+                    <div class="flex flex-wrap gap-1.5 text-xs">
+                        <button onclick="showQuickCat('tv')" id="qcat-tv" class="qcat-btn px-3 py-1.5 rounded-xl bg-cyan-500 text-black font-extrabold transition">📺 TV & Media</button>
+                        <button onclick="showQuickCat('ac')" id="qcat-ac" class="qcat-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold transition">❄️ AC & Cooling</button>
+                        <button onclick="showQuickCat('numpad')" id="qcat-numpad" class="qcat-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold transition">🔢 Number Pad (0-9)</button>
+                        <button onclick="showQuickCat('ott')" id="qcat-ott" class="qcat-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold transition">🎬 OTT Apps</button>
+                        <button onclick="showQuickCat('smarthome')" id="qcat-smarthome" class="qcat-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold transition">💡 Lights & Fan</button>
+                    </div>
+
+                    <!-- Quick Buttons Container (TV) -->
+                    <div id="qbox-tv" class="qbox-panel grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <button onclick="quickAdd('TV PWR', 'circle', '#ef4444', '#7f1d1d', '0xE0E040BF')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-red-400 flex items-center space-x-1.5 transition">
+                            <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                            <span>TV Power</span>
+                        </button>
+                        <button onclick="quickAdd('MUTE', 'square', '#1e293b', '#0f172a', 'KEY_MUTE')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-slate-300 flex items-center space-x-1.5 transition">
+                            <span>🔇 Mute</span>
+                        </button>
+                        <button onclick="quickAdd('INPUT', 'pill', '#3b82f6', '#1e3a8a', 'KEY_SOURCE')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-blue-300 flex items-center space-x-1.5 transition">
+                            <span>🔌 Input/HDMI</span>
+                        </button>
+                        <button onclick="quickAdd('HOME', 'pill', '#06b6d4', '#164e63', 'KEY_HOME')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-cyan-300 flex items-center space-x-1.5 transition">
+                            <span>🏠 Home Menu</span>
+                        </button>
+                        <button onclick="quickAdd('VOL +', 'square', '#1e293b', '#0f172a', 'VOL_UP')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-emerald-400 flex items-center space-x-1.5 transition">
+                            <span>🔊 Vol Up</span>
+                        </button>
+                        <button onclick="quickAdd('VOL -', 'square', '#1e293b', '#0f172a', 'VOL_DOWN')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-emerald-400 flex items-center space-x-1.5 transition">
+                            <span>🔉 Vol Down</span>
+                        </button>
+                        <button onclick="quickAdd('CH ▲', 'square', '#1e293b', '#0f172a', 'CH_UP')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-cyan-400 flex items-center space-x-1.5 transition">
+                            <span>▲ Channel +</span>
+                        </button>
+                        <button onclick="quickAdd('CH ▼', 'square', '#1e293b', '#0f172a', 'CH_DOWN')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-cyan-400 flex items-center space-x-1.5 transition">
+                            <span>▼ Channel -</span>
+                        </button>
+                        <button onclick="quickAdd('BACK', 'pill', '#334155', '#1e293b', 'KEY_BACK')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-slate-300 flex items-center space-x-1.5 transition">
+                            <span>↩️ Return / Back</span>
+                        </button>
+                        <button onclick="quickAdd('EXIT', 'pill', '#334155', '#1e293b', 'KEY_EXIT')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-slate-300 flex items-center space-x-1.5 transition">
+                            <span>🚪 Exit</span>
+                        </button>
+                        <button onclick="quickAdd('INFO', 'square', '#1e293b', '#0f172a', 'KEY_INFO')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-amber-300 flex items-center space-x-1.5 transition">
+                            <span>ℹ️ Info Guide</span>
+                        </button>
+                        <button onclick="quickAdd('SETTINGS', 'pill', '#475569', '#1e293b', 'KEY_SETTINGS')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-slate-200 flex items-center space-x-1.5 transition">
+                            <span>⚙️ Settings</span>
+                        </button>
+                    </div>
+
+                    <!-- Quick Buttons Container (AC) -->
+                    <div id="qbox-ac" class="qbox-panel hidden grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <button onclick="quickAdd('AC PWR', 'circle', '#06b6d4', '#164e63', 'AC_POWER')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-cyan-400 flex items-center space-x-1.5 transition">
+                            <span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span>
+                            <span>AC Power</span>
+                        </button>
+                        <button onclick="quickAdd('❄️ 18°C Turbo', 'pill', '#0284c7', '#075985', 'AC_TURBO_18C')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-cyan-200 flex items-center space-x-1.5 transition">
+                            <span>❄️ 18°C Turbo</span>
+                        </button>
+                        <button onclick="quickAdd('❄️ 22°C Cool', 'pill', '#06b6d4', '#0e7490', 'AC_COOL_22C')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-cyan-300 flex items-center space-x-1.5 transition">
+                            <span>❄️ 22°C Cool</span>
+                        </button>
+                        <button onclick="quickAdd('❄️ 24°C Eco', 'pill', '#10b981', '#064e3b', 'AC_ECO_24C')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-emerald-300 flex items-center space-x-1.5 transition">
+                            <span>🌿 24°C Eco</span>
+                        </button>
+                        <button onclick="quickAdd('TEMP +', 'square', '#1e293b', '#0f172a', 'AC_TEMP_UP')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-white flex items-center space-x-1.5 transition">
+                            <span>🔺 Temp +</span>
+                        </button>
+                        <button onclick="quickAdd('TEMP -', 'square', '#1e293b', '#0f172a', 'AC_TEMP_DOWN')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-white flex items-center space-x-1.5 transition">
+                            <span>🔻 Temp -</span>
+                        </button>
+                        <button onclick="quickAdd('FAN AUTO', 'pill', '#334155', '#1e293b', 'AC_FAN_AUTO')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-slate-300 flex items-center space-x-1.5 transition">
+                            <span>💨 Fan Auto</span>
+                        </button>
+                        <button onclick="quickAdd('SWING', 'pill', '#334155', '#1e293b', 'AC_SWING_ON')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-slate-300 flex items-center space-x-1.5 transition">
+                            <span>↔️ Swing</span>
+                        </button>
+                    </div>
+
+                    <!-- Quick Buttons Container (Numpad) -->
+                    <div id="qbox-numpad" class="qbox-panel hidden space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400">Add whole 0-9 Numpad to Canvas at once:</span>
+                            <button onclick="spawnEntireNumpad()" class="px-3 py-1 bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold text-xs rounded-xl transition">
+                                + Spawn All 10 Keys
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-5 sm:grid-cols-10 gap-1.5">
+                            <button onclick="quickAdd('1', 'square', '#1e293b', '#0f172a', 'KEY_1', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">1</button>
+                            <button onclick="quickAdd('2', 'square', '#1e293b', '#0f172a', 'KEY_2', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">2</button>
+                            <button onclick="quickAdd('3', 'square', '#1e293b', '#0f172a', 'KEY_3', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">3</button>
+                            <button onclick="quickAdd('4', 'square', '#1e293b', '#0f172a', 'KEY_4', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">4</button>
+                            <button onclick="quickAdd('5', 'square', '#1e293b', '#0f172a', 'KEY_5', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">5</button>
+                            <button onclick="quickAdd('6', 'square', '#1e293b', '#0f172a', 'KEY_6', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">6</button>
+                            <button onclick="quickAdd('7', 'square', '#1e293b', '#0f172a', 'KEY_7', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">7</button>
+                            <button onclick="quickAdd('8', 'square', '#1e293b', '#0f172a', 'KEY_8', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">8</button>
+                            <button onclick="quickAdd('9', 'square', '#1e293b', '#0f172a', 'KEY_9', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">9</button>
+                            <button onclick="quickAdd('0', 'square', '#1e293b', '#0f172a', 'KEY_0', 44, 44)" class="p-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-center">0</button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Buttons Container (OTT Apps) -->
+                    <div id="qbox-ott" class="qbox-panel hidden grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <button onclick="quickAdd('Netflix', 'pill', '#b91c1c', '#7f1d1d', 'APP_NETFLIX')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-red-400 flex items-center space-x-1.5 transition">
+                            <span>🔴 Netflix</span>
+                        </button>
+                        <button onclick="quickAdd('YouTube', 'pill', '#dc2626', '#991b1b', 'APP_YOUTUBE')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-red-500 flex items-center space-x-1.5 transition">
+                            <span>▶️ YouTube</span>
+                        </button>
+                        <button onclick="quickAdd('Prime Video', 'pill', '#2563eb', '#1e40af', 'APP_PRIME')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-blue-400 flex items-center space-x-1.5 transition">
+                            <span>📦 Prime</span>
+                        </button>
+                        <button onclick="quickAdd('Hotstar', 'pill', '#0284c7', '#0369a1', 'APP_HOTSTAR')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-cyan-300 flex items-center space-x-1.5 transition">
+                            <span>⭐ Hotstar</span>
+                        </button>
+                        <button onclick="quickAdd('Spotify', 'pill', '#10b981', '#064e3b', 'APP_SPOTIFY')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-emerald-400 flex items-center space-x-1.5 transition">
+                            <span>🎵 Spotify</span>
+                        </button>
+                        <button onclick="quickAdd('JioCinema', 'pill', '#db2777', '#831843', 'APP_JIOCINEMA')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-pink-400 flex items-center space-x-1.5 transition">
+                            <span>🎬 JioCinema</span>
+                        </button>
+                    </div>
+
+                    <!-- Quick Buttons Container (Smart Home Lights & Fan) -->
+                    <div id="qbox-smarthome" class="qbox-panel hidden grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <button onclick="quickAdd('LIGHT ON', 'circle', '#f59e0b', '#78350f', 'LIGHT_POWER_ON')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-amber-300 flex items-center space-x-1.5 transition">
+                            <span>💡 Light ON</span>
+                        </button>
+                        <button onclick="quickAdd('LIGHT OFF', 'circle', '#334155', '#1e293b', 'LIGHT_POWER_OFF')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-slate-400 flex items-center space-x-1.5 transition">
+                            <span>🌑 Light OFF</span>
+                        </button>
+                        <button onclick="quickAdd('FAN SPD 1', 'square', '#06b6d4', '#164e63', 'FAN_SPEED_1')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-cyan-300 flex items-center space-x-1.5 transition">
+                            <span>🌀 Fan Speed 1</span>
+                        </button>
+                        <button onclick="quickAdd('FAN SPD 5', 'square', '#06b6d4', '#164e63', 'FAN_SPEED_5')" class="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl text-xs font-bold text-cyan-300 flex items-center space-x-1.5 transition">
+                            <span>🌪️ Fan Max (5)</span>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Step 1: Create New Custom Button Tool -->
                 <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-xl space-y-5">
                     
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                         <div class="flex items-center space-x-2.5">
                             <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-xl">
-                                <i data-lucide="plus-square" class="w-5 h-5"></i>
+                                <i data-lucide="sliders" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <h2 class="text-base font-bold text-white">1. Add New Button to Phone Canvas</h2>
-                                <p class="text-xs text-slate-400">Choose Shape, Label, Color & Signal Protocol</p>
+                                <h2 class="text-base font-bold text-white">Custom Button Builder (സ്വന്തം ബട്ടൺ ഉണ്ടാക്കാം)</h2>
+                                <p class="text-xs text-slate-400">Design any custom shape, name, color & signal code</p>
                             </div>
                         </div>
-                        <span class="text-[11px] font-mono text-cyan-400 bg-cyan-950/60 px-2.5 py-1 rounded-full border border-cyan-800/60">Drag & Drop Ready</span>
+                        <span class="text-[11px] font-mono text-cyan-400 bg-cyan-950/60 px-2.5 py-1 rounded-full border border-cyan-800/60">Fully Custom</span>
                     </div>
 
                     <!-- Shape & Type Selector -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Button Shape & Type / ബട്ടൺ ടൈപ്പ്</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Button Shape & Type / ബട്ടൺ രൂപം</label>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                             <button type="button" onclick="selectShape('circle')" id="shape-circle" class="shape-opt p-3 rounded-2xl border-2 border-cyan-500 bg-cyan-500/10 text-cyan-300 font-bold text-xs flex flex-col items-center justify-center space-y-1.5 transition">
                                 <div class="w-6 h-6 rounded-full border-2 border-cyan-400"></div>
@@ -185,18 +342,13 @@
                             <input id="inputBtnLabel" type="text" value="Power" placeholder="e.g. Power, Vol +, HDMI 1, AC 24°C" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 font-semibold">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Icon Preset (ചിഹ്നം)</label>
-                            <select id="inputBtnIcon" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 font-semibold">
-                                <option value="power">⚡ Power (Red/Green)</option>
-                                <option value="volume-2">🔊 Volume Up</option>
-                                <option value="volume-1">🔉 Volume Down</option>
-                                <option value="volume-x">🔇 Mute</option>
-                                <option value="chevron-up">▲ Nav Up</option>
-                                <option value="chevron-down">▼ Nav Down</option>
-                                <option value="tv">📺 Source / HDMI</option>
-                                <option value="wind">❄️ AC Cool / Temp</option>
-                                <option value="home">🏠 Home Menu</option>
-                                <option value="none">📝 Text Only (No Icon)</option>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Appliance Category</label>
+                            <select id="inputDeviceCat" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 font-semibold">
+                                <option value="tv">📺 Smart TV / Set-top Box</option>
+                                <option value="ac">❄️ Air Conditioner (AC)</option>
+                                <option value="audio">🔊 Audio / Soundbar</option>
+                                <option value="lights">💡 Smart Lights / Fan</option>
+                                <option value="custom">⚡ Other Appliance</option>
                             </select>
                         </div>
                     </div>
@@ -205,7 +357,6 @@
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Choose Button Color / ബട്ടൺ കളർ</label>
                         <div class="flex flex-wrap items-center gap-2.5" id="colorPalette">
-                            <!-- Predefined color dots -->
                             <button type="button" onclick="selectColor('#ef4444', '#7f1d1d')" class="color-dot w-8 h-8 rounded-full bg-red-500 border-2 border-white ring-2 ring-red-500 transition scale-110" data-color="#ef4444"></button>
                             <button type="button" onclick="selectColor('#06b6d4', '#164e63')" class="color-dot w-8 h-8 rounded-full bg-cyan-500 border-2 border-transparent transition" data-color="#06b6d4"></button>
                             <button type="button" onclick="selectColor('#3b82f6', '#1e3a8a')" class="color-dot w-8 h-8 rounded-full bg-blue-500 border-2 border-transparent transition" data-color="#3b82f6"></button>
@@ -213,7 +364,6 @@
                             <button type="button" onclick="selectColor('#8b5cf6', '#4c1d95')" class="color-dot w-8 h-8 rounded-full bg-purple-500 border-2 border-transparent transition" data-color="#8b5cf6"></button>
                             <button type="button" onclick="selectColor('#f59e0b', '#78350f')" class="color-dot w-8 h-8 rounded-full bg-amber-500 border-2 border-transparent transition" data-color="#f59e0b"></button>
                             <button type="button" onclick="selectColor('#1e293b', '#0f172a')" class="color-dot w-8 h-8 rounded-full bg-slate-800 border-2 border-transparent transition" data-color="#1e293b"></button>
-                            <!-- Custom HTML Color Input -->
                             <div class="flex items-center space-x-1.5 ml-2">
                                 <input type="color" id="customColorPicker" value="#06b6d4" onchange="customColorChosen(this.value)" class="w-8 h-8 rounded-full bg-transparent border-0 cursor-pointer">
                                 <span class="text-[11px] text-slate-400 font-mono">Custom Hex</span>
@@ -228,7 +378,7 @@
                                 <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i>
                                 <span>IR Code / Protocol (No physical remote needed)</span>
                             </label>
-                            <span class="text-[10px] text-slate-500 font-mono">Auto-generates Pronto / NEC Hex</span>
+                            <span class="text-[10px] text-slate-500 font-mono">Auto Pronto / NEC Hex</span>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
@@ -245,9 +395,6 @@
                                 <input id="irCodeInput" type="text" value="0x0000000000E0E040BF" placeholder="Hex Code or WiFi Endpoint" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-500">
                             </div>
                         </div>
-                        <p class="text-[11px] text-slate-400">
-                            💡 നിങ്ങൾക്കിഷ്ടമുള്ള ഉപകരണത്തിന്റെ സിഗ്നൽ ഇതിൽ നിഷ്പ്രയാസം സെറ്റ് ചെയ്യാം. പഴയ റിമോട്ട് കൈയ്യിൽ ഇല്ലെങ്കിലും ലോകത്തിലെ ഏത് ബ്രാൻഡിന്റെയും കോഡുകൾ റെഡിയാണ്.
-                        </p>
                     </div>
 
                     <!-- Action: Push Button onto Canvas -->
@@ -258,7 +405,7 @@
                         </button>
                         <button type="button" onclick="loadTemplate('tv_combo')" class="py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-2xl border border-slate-700 transition flex items-center justify-center space-x-1.5">
                             <i data-lucide="layout-template" class="w-4 h-4 text-cyan-400"></i>
-                            <span>Load Smart TV + AC Combo</span>
+                            <span>Reset Default Template</span>
                         </button>
                     </div>
 
@@ -329,7 +476,7 @@
                 
                 <div class="text-center mb-3">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Interactive Phone Screen</span>
-                    <p class="text-[11px] text-cyan-400">Tap buttons to trigger signal • Drag to rearrange</p>
+                    <p class="text-[11px] text-cyan-400">Tap buttons to trigger signal • Drag freely to rearrange</p>
                 </div>
 
                 <!-- Phone Hardware Mockup -->
@@ -380,50 +527,7 @@
                         </button>
                     </div>
                     <p class="text-[11px] text-slate-500 text-center max-w-xs">
-                        🔒 Layouts save automatically to your browser cache. Zero servers, 100% private.
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Section 3: In-Depth "Why This Fixes Everything" Guide (Malayalam & English) -->
-        <div class="mt-16 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-10 space-y-8">
-            
-            <div class="max-w-3xl">
-                <span class="text-cyan-400 font-bold text-xs uppercase tracking-wider">Zero-Remote Philosophy</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-                    പഴയ റിമോട്ട് നഷ്ടപ്പെട്ടാലും എങ്ങനെ സ്വന്തം ഫോണിലേക്ക് മാറ്റാം?
-                </h2>
-                <p class="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
-                    പലപ്പോഴും വീട്ടിലെ പഴയ റിമോട്ട് കേടാവുകയോ നഷ്ടപ്പെടുകയോ ചെയ്യുമ്പോൾ ഇന്റർനെറ്റിൽ തിരഞ്ഞാൽ കൃത്യമായ റിമോട്ട് ആപ്പ് കിട്ടാറില്ല. കാരണം ഓരോ കമ്പനിയും വ്യത്യസ്തമായ കോഡുകളാണ് ഉപയോഗിക്കുന്നത്. ഈ പ്രശ്നം പരിഹരിക്കാനാണ് <strong>AnyTool Custom Studio</strong>:
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-300">
-                
-                <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
-                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold mb-3">1</div>
-                    <h3 class="font-bold text-white text-sm">ഇഷ്ടമുള്ള ബട്ടണുകൾ മാത്രം വെക്കാം</h3>
-                    <p class="text-slate-400 leading-relaxed">
-                        യഥാർത്ഥ റിമോട്ടിൽ 40-50 ബട്ടണുകൾ ഉണ്ടെങ്കിലും നമ്മൾ ഉപയോഗിക്കുന്നത് Power, Volume, Channels, OTT ആപ്പുകൾ എന്നിവ മാത്രമാണ്. ഫോൺ സ്ക്രീനിൽ ആവശ്യമുള്ള ബട്ടണുകൾ മാത്രം വലുപ്പത്തിലും ഇഷ്ടമുള്ള നിറത്തിലും വെക്കാം.
-                    </p>
-                </div>
-
-                <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
-                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold mb-3">2</div>
-                    <h3 class="font-bold text-white text-sm">ഒരു സ്ക്രീനിൽ എല്ലാ ഉപകരണങ്ങളും (All-in-One)</h3>
-                    <p class="text-slate-400 leading-relaxed">
-                        ടിവിക്ക് വേറെ റിമോട്ട്, എസിക്ക് വേറെ, സെറ്റ്-ടോപ്പ് ബോക്സിന് വേറെ എന്ന അവസ്ഥ ഒഴിവാക്കാം. മുകളിലെ ക്യാൻവാസിൽ ടിവിയുടെ വോളിയവും എസിയുടെ കൂളിംഗ് ബട്ടണും ഒരൊറ്റ സ്ക്രീനിൽ ഒരുമിച്ച് വെച്ച് നിയന്ത്രിക്കാം.
-                    </p>
-                </div>
-
-                <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold mb-3">3</div>
-                    <h3 class="font-bold text-white text-sm">IR Blaster & WiFi Auto Detect</h3>
-                    <p class="text-slate-400 leading-relaxed">
-                        Xiaomi, Redmi, Vivo ഫോണുകളിലെ IR Blaster വഴിയും, പുതിയ സ്മാർട്ട് ടിവികളിൽ Home WiFi വഴിയും, IR ഇല്ലാത്ത ഫോണുകളിൽ ₹100 രൂപയുടെ Type-C ഡോങ്കിൾ വഴിയും ഇത് പ്രവർത്തിക്കും.
+                        🔒 Layouts save automatically to your phone browser. Zero servers, 100% private.
                     </p>
                 </div>
 
@@ -455,6 +559,71 @@
         let currentBgDark = '#7f1d1d';
         let selectedButtonEl = null;
         let buttonCounter = 0;
+
+        // Quick Category Tab Switcher
+        function showQuickCat(cat) {
+            document.querySelectorAll('.qcat-btn').forEach(b => {
+                b.classList.remove('bg-cyan-500', 'text-black', 'font-extrabold');
+                b.classList.add('bg-slate-800', 'text-slate-300', 'font-bold');
+            });
+            const activeTab = document.getElementById(`qcat-${cat}`);
+            if (activeTab) {
+                activeTab.classList.remove('bg-slate-800', 'text-slate-300', 'font-bold');
+                activeTab.classList.add('bg-cyan-500', 'text-black', 'font-extrabold');
+            }
+
+            document.querySelectorAll('.qbox-panel').forEach(p => p.classList.add('hidden'));
+            const activePanel = document.getElementById(`qbox-${cat}`);
+            if (activePanel) {
+                activePanel.classList.remove('hidden');
+            }
+        }
+
+        // Quick Add single button helper
+        function quickAdd(label, shape, color, bgDark, code, w = null, h = null) {
+            spawnButtonToCanvas({
+                label: label,
+                shape: shape,
+                color: color,
+                bgDark: bgDark,
+                code: code,
+                w: w,
+                h: h
+            });
+        }
+
+        // Spawn Entire 0-9 Numpad
+        function spawnEntireNumpad() {
+            const startX = 60;
+            const startY = 320;
+            const size = 46;
+            const gap = 12;
+
+            const numbers = [
+                ['1', '2', '3'],
+                ['4', '5', '6'],
+                ['7', '8', '9'],
+                ['*', '0', '#']
+            ];
+
+            numbers.forEach((row, rIdx) => {
+                row.forEach((num, cIdx) => {
+                    spawnButtonToCanvas({
+                        label: num,
+                        shape: 'square',
+                        color: '#1e293b',
+                        bgDark: '#0f172a',
+                        code: `KEY_${num}`,
+                        x: startX + (cIdx * (size + gap)),
+                        y: startY + (rIdx * (size + gap)),
+                        w: size,
+                        h: size
+                    });
+                });
+            });
+
+            logSignal('Spawned full 0-9 number keypad on phone canvas!');
+        }
 
         // Shape Selection
         function selectShape(shape) {
@@ -531,8 +700,8 @@
             const color = opt ? opt.color : currentColor;
             const bgDark = opt ? opt.bgDark : currentBgDark;
             const code = opt ? opt.code : document.getElementById('irCodeInput').value;
-            const x = opt ? opt.x : 30 + ((buttonCounter * 25) % 180);
-            const y = opt ? opt.y : 30 + ((buttonCounter * 35) % 320);
+            const x = opt && opt.x !== undefined ? opt.x : 20 + ((buttonCounter * 30) % 200);
+            const y = opt && opt.y !== undefined ? opt.y : 20 + ((buttonCounter * 40) % 360);
 
             const btn = document.createElement('div');
             btn.className = 'canvas-btn text-white text-xs select-none';
@@ -555,8 +724,8 @@
                 btn.style.height = opt && opt.h ? `${opt.h}px` : '42px';
                 btn.style.borderRadius = '24px';
             } else if (shape === 'square') {
-                btn.style.width = opt && opt.w ? `${opt.w}px` : '54px';
-                btn.style.height = opt && opt.h ? `${opt.h}px` : '54px';
+                btn.style.width = opt && opt.w ? `${opt.w}px` : '52px';
+                btn.style.height = opt && opt.h ? `${opt.h}px` : '52px';
                 btn.style.borderRadius = '14px';
             } else if (shape === 'rocker') {
                 btn.style.width = opt && opt.w ? `${opt.w}px` : '50px';
@@ -573,7 +742,7 @@
                 transmitSignal(btn.dataset.label, btn.dataset.code);
             });
 
-            // Drag Action (Pointer events for Touch and Mouse)
+            // Drag Action
             setupDraggable(btn);
 
             canvas.appendChild(btn);
@@ -706,31 +875,35 @@
             clearCanvasButtons();
             if (tpl === 'tv_combo') {
                 // TV Power (Top Left)
-                spawnButtonToCanvas({ label: 'TV PWR', shape: 'circle', color: '#ef4444', bgDark: '#7f1d1d', code: '0xE0E040BF', x: 30, y: 30, w: 55, h: 55 });
+                spawnButtonToCanvas({ label: 'TV PWR', shape: 'circle', color: '#ef4444', bgDark: '#7f1d1d', code: '0xE0E040BF', x: 25, y: 20, w: 52, h: 52 });
                 // AC Power (Top Right)
-                spawnButtonToCanvas({ label: 'AC PWR', shape: 'circle', color: '#06b6d4', bgDark: '#164e63', code: 'VOLTAS_AC_COOL_24C', x: 265, y: 30, w: 55, h: 55 });
+                spawnButtonToCanvas({ label: 'AC PWR', shape: 'circle', color: '#06b6d4', bgDark: '#164e63', code: 'VOLTAS_AC_COOL_24C', x: 265, y: 20, w: 52, h: 52 });
                 // DTH Set Top Box
-                spawnButtonToCanvas({ label: 'Set-Top Box', shape: 'pill', color: '#3b82f6', bgDark: '#1e3a8a', code: 'DTH_POWER', x: 105, y: 37, w: 140, h: 42 });
+                spawnButtonToCanvas({ label: 'Set-Top Box', shape: 'pill', color: '#3b82f6', bgDark: '#1e3a8a', code: 'DTH_POWER', x: 95, y: 25, w: 150, h: 42 });
+
+                // D-Pad Navigation Area
+                spawnButtonToCanvas({ label: '▲', shape: 'square', color: '#334155', bgDark: '#1e293b', code: 'NAV_UP', x: 147, y: 100, w: 46, h: 42 });
+                spawnButtonToCanvas({ label: '◀', shape: 'square', color: '#334155', bgDark: '#1e293b', code: 'NAV_LEFT', x: 92, y: 150, w: 46, h: 42 });
+                spawnButtonToCanvas({ label: 'OK', shape: 'circle', color: '#0ea5e9', bgDark: '#0369a1', code: 'KEY_OK', x: 145, y: 147, w: 50, h: 50 });
+                spawnButtonToCanvas({ label: '▶', shape: 'square', color: '#334155', bgDark: '#1e293b', code: 'NAV_RIGHT', x: 202, y: 150, w: 46, h: 42 });
+                spawnButtonToCanvas({ label: '▼', shape: 'square', color: '#334155', bgDark: '#1e293b', code: 'NAV_DOWN', x: 147, y: 202, w: 46, h: 42 });
 
                 // Vol Rocker (Left)
-                spawnButtonToCanvas({ label: 'VOL +', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_UP', x: 45, y: 130, w: 55, h: 50 });
-                spawnButtonToCanvas({ label: 'VOL -', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_DOWN', x: 45, y: 190, w: 55, h: 50 });
+                spawnButtonToCanvas({ label: 'VOL +', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_UP', x: 25, y: 120, w: 50, h: 46 });
+                spawnButtonToCanvas({ label: 'VOL -', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_DOWN', x: 25, y: 175, w: 50, h: 46 });
 
                 // Channel Rocker (Right)
-                spawnButtonToCanvas({ label: 'CH ▲', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_UP', x: 250, y: 130, w: 55, h: 50 });
-                spawnButtonToCanvas({ label: 'CH ▼', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_DOWN', x: 250, y: 190, w: 55, h: 50 });
+                spawnButtonToCanvas({ label: 'CH ▲', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_UP', x: 265, y: 120, w: 50, h: 46 });
+                spawnButtonToCanvas({ label: 'CH ▼', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_DOWN', x: 265, y: 175, w: 50, h: 46 });
 
-                // D-Pad Center OK
-                spawnButtonToCanvas({ label: 'OK', shape: 'circle', color: '#0ea5e9', bgDark: '#0369a1', code: 'KEY_OK', x: 147, y: 160, w: 60, h: 60 });
-
-                // AC Temp Buttons
-                spawnButtonToCanvas({ label: '❄️ AC 22°C', shape: 'pill', color: '#06b6d4', bgDark: '#0e7490', code: 'AC_22C', x: 30, y: 280, w: 135, h: 44 });
-                spawnButtonToCanvas({ label: '❄️ AC 24°C', shape: 'pill', color: '#06b6d4', bgDark: '#0e7490', code: 'AC_24C', x: 185, y: 280, w: 135, h: 44 });
+                // AC Quick Cooling
+                spawnButtonToCanvas({ label: '❄️ 22°C Cool', shape: 'pill', color: '#06b6d4', bgDark: '#0e7490', code: 'AC_22C', x: 25, y: 270, w: 140, h: 40 });
+                spawnButtonToCanvas({ label: '🌿 24°C Eco', shape: 'pill', color: '#10b981', bgDark: '#064e3b', code: 'AC_24C', x: 175, y: 270, w: 140, h: 40 });
 
                 // OTT Shortcuts
-                spawnButtonToCanvas({ label: 'Netflix', shape: 'pill', color: '#b91c1c', bgDark: '#7f1d1d', code: 'APP_NETFLIX', x: 30, y: 350, w: 90, h: 38 });
-                spawnButtonToCanvas({ label: 'YouTube', shape: 'pill', color: '#dc2626', bgDark: '#991b1b', code: 'APP_YOUTUBE', x: 130, y: 350, w: 90, h: 38 });
-                spawnButtonToCanvas({ label: 'Prime', shape: 'pill', color: '#2563eb', bgDark: '#1e40af', code: 'APP_PRIME', x: 230, y: 350, w: 90, h: 38 });
+                spawnButtonToCanvas({ label: 'Netflix', shape: 'pill', color: '#b91c1c', bgDark: '#7f1d1d', code: 'APP_NETFLIX', x: 25, y: 325, w: 90, h: 36 });
+                spawnButtonToCanvas({ label: 'YouTube', shape: 'pill', color: '#dc2626', bgDark: '#991b1b', code: 'APP_YOUTUBE', x: 125, y: 325, w: 90, h: 36 });
+                spawnButtonToCanvas({ label: 'Prime', shape: 'pill', color: '#2563eb', bgDark: '#1e40af', code: 'APP_PRIME', x: 225, y: 325, w: 90, h: 36 });
 
                 logSignal('Loaded "Smart TV + AC Combo" zero-remote template!');
             }
