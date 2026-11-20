@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- 7. GOOGLE AUTH & USER MODE ENGINE ---
 AnyTool.Auth = {
   currentUser: null,
-  googleClientId: null,
+  googleClientId: '323551612032-hhef4g97ee9k60ipk1s0a80fbmcnlvck.apps.googleusercontent.com',
   currentProfileTab: 'profile',
 
   pendingAction: null,
@@ -678,15 +678,25 @@ AnyTool.Auth = {
 
     modal.classList.remove('hidden');
 
-    // Attempt official Google GIS render
+    // Render Google GIS button
+    this.renderGoogleGisButton();
+  },
+
+  renderGoogleGisButton() {
     if (window.google && window.google.accounts && window.google.accounts.id && this.googleClientId) {
       try {
         const wrapper = document.getElementById('googleBtnWrapper');
         if (wrapper) {
-          window.google.accounts.id.renderButton(
-            wrapper,
-            { theme: 'filled_blue', size: 'large', shape: 'pill', width: 260 }
-          );
+          wrapper.innerHTML = '';
+          window.google.accounts.id.renderButton(wrapper, {
+            type: 'standard',
+            theme: 'filled_blue',
+            size: 'large',
+            text: 'continue_with',
+            shape: 'pill',
+            width: 280,
+            logo_alignment: 'left'
+          });
         }
       } catch (e) {
         console.warn('GIS render error:', e);

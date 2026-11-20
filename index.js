@@ -151,7 +151,7 @@ function saveUsers(users) {
 // Get Google Auth config (Client ID)
 app.get('/api/auth/config', (req, res) => {
     res.json({
-        clientId: process.env.GOOGLE_CLIENT_ID || '1029384756-anytool-google-auth.apps.googleusercontent.com'
+        clientId: process.env.GOOGLE_CLIENT_ID || '323551612032-hhef4g97ee9k60ipk1s0a80fbmcnlvck.apps.googleusercontent.com'
     });
 });
 
