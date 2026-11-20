@@ -592,20 +592,36 @@
             renderToolsGrid(e.target.value);
         });
 
-        // Feedback Form
+        // Feedback & Report Form (Requires Google Sign-In)
         document.getElementById('fbForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            // Require Google Login before submitting
+            if (!AnyTool.Auth || !AnyTool.Auth.currentUser) {
+                AnyTool.Auth.requireLogin(() => {
+                    document.getElementById('fbForm').dispatchEvent(new Event('submit', { cancelable: true }));
+                }, "Please sign in with Google to send your feedback or report an issue. This helps us follow up with you!");
+                return;
+            }
+
             const message = document.getElementById('fbMsg').value.trim();
             const category = document.getElementById('fbCat').value;
-            const contact = document.getElementById('fbContact').value.trim();
+            const user = AnyTool.Auth.currentUser;
+            const contact = (user.name ? user.name + ' (' + (user.email || 'Google User') + ')' : document.getElementById('fbContact').value.trim()) || 'Anonymous';
 
             try {
                 await fetch('/api/feedback', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ category, message, contact })
+                    body: JSON.stringify({ 
+                        category, 
+                        message, 
+                        contact,
+                        userMode: user.mode || 'standard',
+                        userId: user.id || user.sub
+                    })
                 });
-                AnyTool.showToast("Thank you for your feedback! ✓", "success");
+                AnyTool.showToast("Thank you! Feedback received from " + user.name + " ✓", "success");
                 document.getElementById('fbMsg').value = '';
             } catch (err) {
                 AnyTool.showToast("Feedback noted! ✓", "success");

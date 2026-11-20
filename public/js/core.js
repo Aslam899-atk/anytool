@@ -299,6 +299,8 @@ AnyTool.Auth = {
   googleClientId: null,
   currentProfileTab: 'profile',
 
+  pendingAction: null,
+
   init() {
     // 1. Load saved user from localStorage
     try {
@@ -318,6 +320,82 @@ AnyTool.Auth = {
 
     // 4. Apply current user mode
     this.applyUserMode(this.currentUser ? (this.currentUser.mode || 'standard') : 'guest');
+
+    // 5. FIRST-TIME WEB OPEN PROMPT (One time only)
+    this.checkFirstVisitPrompt();
+
+    // 6. Listen for feedback, suggestions, and issue reporting to require Google Login
+    this.attachFeedbackInterceptors();
+  },
+
+  checkFirstVisitPrompt() {
+    // If already signed in, don't show
+    if (this.currentUser) return;
+
+    // Check if user has already seen the first-time prompt
+    const hasSeen = localStorage.getItem('anytool_first_visit_prompt_seen');
+    if (!hasSeen) {
+      // Mark as seen so it only happens ONE TIME EVER
+      localStorage.setItem('anytool_first_visit_prompt_seen', 'true');
+
+      // Slight delay so the homepage loads smoothly first
+      setTimeout(() => {
+        if (!this.currentUser) {
+          this.openLoginModal({
+            title: "Welcome to AnyTool.io! 👋",
+            subtitle: "One Website – All Digital Tools. Sign in with Google to sync bookmarks, access Pro developer modes, or continue exploring as Guest.",
+            showGuestSkip: true
+          });
+        }
+      }, 800);
+    }
+  },
+
+  attachFeedbackInterceptors() {
+    // Intercept feedback/report submissions across any page
+    document.addEventListener('submit', (e) => {
+      const form = e.target;
+      if (form && (form.id === 'fbForm' || form.classList.contains('feedback-form'))) {
+        if (!this.currentUser) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          
+          this.pendingAction = () => {
+            // Auto fill sender contact if available
+            const contactInput = form.querySelector('#fbContact');
+            if (contactInput && this.currentUser) {
+              contactInput.value = this.currentUser.name + ' (' + (this.currentUser.email || '') + ')';
+            }
+            // Trigger actual submit
+            if (typeof form.requestSubmit === 'function') {
+              form.requestSubmit();
+            } else {
+              form.submit();
+            }
+          };
+
+          this.openLoginModal({
+            title: "Sign in with Google to Submit 💬",
+            subtitle: "Please connect with your Google account to share feedback, report a bug, or suggest a new tool. This allows us to notify you when your requested tool is ready!",
+            showGuestSkip: false
+          });
+        }
+      }
+    }, true);
+  },
+
+  requireLogin(actionCallback, reasonText = "Please sign in with Google to continue.") {
+    if (this.currentUser) {
+      if (actionCallback) actionCallback();
+      return true;
+    }
+    this.pendingAction = actionCallback;
+    this.openLoginModal({
+      title: "Google Sign-In Required",
+      subtitle: reasonText,
+      showGuestSkip: false
+    });
+    return false;
   },
 
   async fetchGoogleConfig() {
@@ -404,6 +482,11 @@ AnyTool.Auth = {
     this.renderNavWidget();
     this.applyUserMode(this.currentUser.mode || 'standard');
     this.closeModal('anytoolAuthModal');
+    if (this.pendingAction) {
+      const action = this.pendingAction;
+      this.pendingAction = null;
+      setTimeout(() => action(), 300);
+    }
     AnyTool.showToast(`Welcome, ${this.currentUser.name}! (Mode: ${this.getModeLabel(this.currentUser.mode)})`, 'success');
   },
 
@@ -523,7 +606,10 @@ AnyTool.Auth = {
     }
   },
 
-  openLoginModal() {
+  openLoginModal(options = {}) {
+    const title = options.title || "Sign in to AnyTool.io";
+    const subtitle = options.subtitle || "Sign in with your Google Account to sync bookmarks, unlock Pro Developer mode, and see the active community members.";
+    const showGuestSkip = options.showGuestSkip !== false;
     let modal = document.getElementById('anytoolAuthModal');
     if (!modal) {
       modal = document.createElement('div');
@@ -545,7 +631,7 @@ AnyTool.Auth = {
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
             </svg>
           </div>
-          <h3 class="text-xl font-black text-white">Sign in to AnyTool.io</h3>
+          <h3 class="text-xl font-black text-white">${title}</h3>
           <p class="text-xs text-slate-400 leading-relaxed">
             Sign in with your Google Account to sync bookmarks, unlock Pro Developer mode, and see the active community members.
           </p>
@@ -581,7 +667,12 @@ AnyTool.Auth = {
           </button>
         </form>
 
-        <div class="mt-4 pt-3 border-t border-slate-800/80 text-center">
+        <div class="mt-4 pt-3 border-t border-slate-800/80 text-center space-y-2">
+          ${showGuestSkip ? `
+            <button type="button" onclick="AnyTool.Auth.closeModal('anytoolAuthModal')" class="w-full py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition">
+              Skip for now & Continue as Guest →
+            </button>
+          ` : ''}
           <span class="text-[10px] text-slate-500 flex items-center justify-center space-x-1">
             <span>🔒</span>
             <span>100% Privacy Protected • Zero Spam</span>
