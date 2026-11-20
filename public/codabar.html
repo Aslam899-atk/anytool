@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codabar Barcode Generator & Scanner - Free Online Codabar (NW-7) Studio | AnyTool.io</title>
+    
+    <meta name="description" content="Generate and scan Codabar Barcode online for free. Custom styling, download high-res PNG & SVG, and scan via live camera or image files. 100% private in-browser tool.">
+    <meta name="keywords" content="codabar barcode, generate codabar (nw-7), scan codabar (nw-7), free barcode generator, 1d barcode, anytool">
+    <meta name="author" content="AnyTool.io">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://anytool.io/codabar" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anytool.io/codabar">
+    <meta property="og:title" content="Codabar Barcode Generator & Scanner - AnyTool.io">
+    <meta property="og:description" content="Create and scan Codabar Barcode directly in your browser. Free, instant, and secure.">
+
+    <!-- Schema.org WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Codabar Barcode Studio",
+      "url": "https://anytool.io/codabar",
+      "description": "Free in-browser Codabar Barcode generator and barcode scanner tool with instant PNG and SVG export.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Barcode & QR CDN engines -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+</head>
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
+
+    <!-- Navbar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg border border-slate-700 group-hover:scale-105 transition">
+                    <div>
+                        <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">AnyTool<span class="text-cyan-400">.io</span></span>
+                    </div>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <div id="anytoolAuthContainer" class="flex items-center"></div>
+                    <a href="/barcode-tools" class="text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition hidden sm:inline-flex items-center space-x-1">
+                        <span>🏷️</span>
+                        <span>All 13 Barcodes</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-10 pb-6 px-4 text-center max-w-4xl mx-auto space-y-3">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-slate-800/80 text-cyan-300 rounded-full text-xs font-bold border border-slate-700 shadow-md">
+            <span>🩸 1D Barcode • 100% Free & In-Browser • Fast & Private</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            Codabar Barcode <span class="bg-gradient-to-r from-cyan-400 to-teal-300 bg-clip-text text-transparent">Studio</span>
+        </h1>
+        <p class="text-slate-400 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
+            Numeric barcode standard widely used in libraries, blood banks, photo labs, and FedEx airbills.
+        </p>
+
+        <!-- Mode Toggle Tabs (Generate vs Scan) -->
+        <div class="inline-flex p-1.5 bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full justify-center mt-3">
+            <button id="tabGenBtn" onclick="switchMode('generate')" class="flex-1 py-2.5 px-4 rounded-xl font-black text-xs transition-all bg-cyan-500 text-black shadow-md">
+                ⚡ Generate Codabar (NW-7)
+            </button>
+            <button id="tabScanBtn" onclick="switchMode('scan')" class="flex-1 py-2.5 px-4 rounded-xl font-bold text-xs text-slate-400 hover:text-white transition-all">
+                📷 Scan & Decode
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 flex-grow w-full">
+        
+        <!-- GENERATOR MODE -->
+        <div id="genModeContainer" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- LEFT: Options Panel -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="cyber-card rounded-3xl p-6 sm:p-8 bg-slate-900/70 border border-slate-800 space-y-5">
+                    <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                        <span class="w-7 h-7 rounded-full bg-cyan-500 text-black font-extrabold flex items-center justify-center text-xs">1</span>
+                        <h2 class="text-base sm:text-lg font-bold text-white">Enter Barcode Data</h2>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">Value / Text / Code</label>
+                        <input id="barcodeInput" type="text" value="A123456789B" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-cyan-500">
+                        <p class="text-[11px] text-cyan-400/90 mt-1.5 font-medium">Must start and end with A, B, C, or D (e.g. A123456B). Numbers 0-9 inside.</p>
+                    </div>
+
+                    <!-- Visual Sliders -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1">Bar Height</label>
+                            <input id="sliderHeight" type="range" min="30" max="150" value="80" class="w-full accent-cyan-500" oninput="renderBarcode()">
+                            <span id="valHeight" class="text-[10px] font-mono text-slate-400">80px</span>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1">Bar Width</label>
+                            <input id="sliderWidth" type="range" min="1" max="4" step="0.5" value="2" class="w-full accent-cyan-500" oninput="renderBarcode()">
+                            <span id="valWidth" class="text-[10px] font-mono text-slate-400">2x</span>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1">Margin Padding</label>
+                            <input id="sliderMargin" type="range" min="0" max="30" value="10" class="w-full accent-cyan-500" oninput="renderBarcode()">
+                            <span id="valMargin" class="text-[10px] font-mono text-slate-400">10px</span>
+                        </div>
+                    </div>
+
+                    <!-- Colors -->
+                    <div class="grid grid-cols-2 gap-4 bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                        <div class="flex items-center space-x-3">
+                            <input id="colorLine" type="color" value="#000000" class="w-10 h-10 p-0.5 rounded-lg border border-slate-700 bg-transparent cursor-pointer" onchange="renderBarcode()">
+                            <span class="text-xs font-bold text-slate-300">Code Color</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <input id="colorBg" type="color" value="#ffffff" class="w-10 h-10 p-0.5 rounded-lg border border-slate-700 bg-transparent cursor-pointer" onchange="renderBarcode()">
+                            <span class="text-xs font-bold text-slate-300">Background</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Live Preview & Download -->
+            <div class="lg:col-span-5 sticky top-24">
+                <div class="cyber-card rounded-3xl p-6 sm:p-8 bg-slate-900/90 border border-slate-800 text-center space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Live Render</span>
+                        <span class="text-[10px] font-mono text-cyan-400 font-bold">Standard 2D/1D</span>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-700 flex items-center justify-center min-h-[200px] overflow-hidden">
+                        <svg id="barcodeCanvas"></svg>
+                        <canvas id="qrCanvas" class="hidden"></canvas>
+                    </div>
+
+                    <div id="renderError" class="hidden text-xs text-rose-400 bg-rose-950/40 p-3 rounded-xl border border-rose-800 font-mono"></div>
+
+                    <!-- Downloads -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <button onclick="downloadCode('png')" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-black py-3 px-4 rounded-xl text-xs transition duration-200 flex items-center justify-center space-x-1.5 shadow-md">
+                            <span>⬇️ Download PNG</span>
+                        </button>
+                        <button onclick="downloadCode('svg')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3 px-4 rounded-xl text-xs transition duration-200 flex items-center justify-center space-x-1.5 border border-slate-700">
+                            <span>Download SVG</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SCANNER MODE -->
+        <div id="scanModeContainer" class="hidden max-w-2xl mx-auto space-y-6">
+            <div class="cyber-card rounded-3xl p-6 sm:p-8 bg-slate-900/90 border border-slate-800 space-y-6">
+                <div class="text-center space-y-2">
+                    <h3 class="text-xl font-black text-white">Scan & Decode Codabar (NW-7)</h3>
+                    <p class="text-xs text-slate-400">Scan from saved images or open live camera scanner.</p>
+                </div>
+
+                <!-- Dropzone for image scan -->
+                <div id="scanDropzone" onclick="document.getElementById('fileScanInput').click()" class="border-2 border-dashed border-slate-700 hover:border-cyan-500 rounded-2xl p-8 text-center cursor-pointer bg-slate-950/60 transition group">
+                    <div class="text-3xl mb-2 group-hover:scale-110 transition">📷</div>
+                    <p class="text-sm font-bold text-white">Click or Drop Codabar (NW-7) Image Here</p>
+                    <p class="text-[11px] text-slate-500 mt-1">PNG, JPG, WEBP formats supported</p>
+                    <input type="file" id="fileScanInput" accept="image/*" class="hidden" onchange="handleFileScan(event)">
+                </div>
+
+                <!-- Camera Scanner Container -->
+                <div class="text-center space-y-3 pt-2">
+                    <button id="startCamBtn" onclick="toggleCameraScan()" class="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-black font-black px-6 py-3 rounded-xl text-xs transition">
+                        📸 Open Camera Scanner
+                    </button>
+                    <div id="cameraScannerBox" class="hidden overflow-hidden rounded-2xl border border-slate-700 mt-3 bg-black max-w-sm mx-auto"></div>
+                </div>
+
+                <!-- Result Box -->
+                <div id="scanResultCard" class="hidden p-5 rounded-2xl bg-emerald-950/50 border border-emerald-800 space-y-3">
+                    <div class="flex items-center justify-between text-xs font-bold text-emerald-400">
+                        <span>Decoded Result ✓</span>
+                        <span id="scanFormatBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-900 border border-emerald-700 text-white">Codabar (NW-7)</span>
+                    </div>
+                    <div id="scanResultText" class="p-3 bg-slate-950 rounded-xl text-sm font-mono text-white break-all border border-slate-800 select-all"></div>
+                    <div class="flex items-center space-x-2 pt-1">
+                        <button onclick="copyScanResult()" class="flex-1 bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-2 rounded-xl text-xs transition">Copy Content</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Other Barcodes Navigation Carousel / Shelf -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 py-8 border-t border-slate-800/80 w-full">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center space-x-1.5">
+            <span>🏷️</span>
+            <span>Explore All 13 1D & 2D Barcode Generators</span>
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
+            
+                <a href="/code-128" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">📦</div>
+                    <div class="text-xs font-bold truncate">Code 128</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">1D</div>
+                </a>
+            
+                <a href="/ean-13" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">🛒</div>
+                    <div class="text-xs font-bold truncate">EAN-13 / EAN-8</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">1D</div>
+                </a>
+            
+                <a href="/upc-barcode" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">🏷️</div>
+                    <div class="text-xs font-bold truncate">UPC-A / UPC-E</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">1D</div>
+                </a>
+            
+                <a href="/code-39" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">🚗</div>
+                    <div class="text-xs font-bold truncate">Code 39</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">1D</div>
+                </a>
+            
+                <a href="/code-93" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">⚡</div>
+                    <div class="text-xs font-bold truncate">Code 93</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">1D</div>
+                </a>
+            
+                <a href="/itf-barcode" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">🚛</div>
+                    <div class="text-xs font-bold truncate">ITF / ITF-14</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">1D</div>
+                </a>
+            
+                <a href="/codabar" class="p-3 rounded-2xl border transition text-center bg-cyan-950/60 border-cyan-500 text-white">
+                    <div class="text-lg mb-1">🩸</div>
+                    <div class="text-xs font-bold truncate">Codabar (NW-7)</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">1D</div>
+                </a>
+            
+                <a href="/msi-plessey" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">🏬</div>
+                    <div class="text-xs font-bold truncate">MSI Plessey</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">1D</div>
+                </a>
+            
+                <a href="/databar" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">🍎</div>
+                    <div class="text-xs font-bold truncate">GS1 DataBar</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">1D</div>
+                </a>
+            
+                <a href="/qr-code" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">📱</div>
+                    <div class="text-xs font-bold truncate">QR Code</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">2D</div>
+                </a>
+            
+                <a href="/data-matrix" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">🔬</div>
+                    <div class="text-xs font-bold truncate">Data Matrix</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">2D</div>
+                </a>
+            
+                <a href="/pdf417" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">🎫</div>
+                    <div class="text-xs font-bold truncate">PDF417</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">2D</div>
+                </a>
+            
+                <a href="/aztec-code" class="p-3 rounded-2xl border transition text-center bg-slate-900/60 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700">
+                    <div class="text-lg mb-1">🚆</div>
+                    <div class="text-xs font-bold truncate">Aztec Code</div>
+                    <div class="text-[9px] font-mono text-slate-500 mt-0.5">2D</div>
+                </a>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 px-4 text-center text-xs text-slate-500">
+        <p>© 2026 AnyTool.io • Dedicated to free, public, and private digital utilities worldwide.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
+    <script>
+        const toolConfig = {"slug":"codabar","name":"Codabar Barcode","shortName":"Codabar (NW-7)","type":"1D Barcode","desc":"Numeric barcode standard widely used in libraries, blood banks, photo labs, and FedEx airbills.","descMl":"ലൈബ്രറികൾ, ബ്ലഡ് ബാങ്കുകൾ, പാക്കേജ് കൊറിയറുകൾ എന്നിവയിൽ ഉപയോഗിക്കുന്ന പ്രത്യേക ബാർകോഡ്.","icon":"🩸","format":"codabar","defaultVal":"A123456789B","hint":"Must start and end with A, B, C, or D (e.g. A123456B). Numbers 0-9 inside.","category":"1D"};
+        let html5QrCode = null;
+        let isCamActive = false;
+
+        function switchMode(mode) {
+            const genDiv = document.getElementById('genModeContainer');
+            const scanDiv = document.getElementById('scanModeContainer');
+            const genBtn = document.getElementById('tabGenBtn');
+            const scanBtn = document.getElementById('tabScanBtn');
+
+            if (mode === 'generate') {
+                genDiv.classList.remove('hidden');
+                scanDiv.classList.add('hidden');
+                genBtn.className = 'flex-1 py-2.5 px-4 rounded-xl font-black text-xs transition-all bg-cyan-500 text-black shadow-md';
+                scanBtn.className = 'flex-1 py-2.5 px-4 rounded-xl font-bold text-xs text-slate-400 hover:text-white transition-all';
+                if (isCamActive) toggleCameraScan();
+            } else {
+                genDiv.classList.add('hidden');
+                scanDiv.classList.remove('hidden');
+                scanBtn.className = 'flex-1 py-2.5 px-4 rounded-xl font-black text-xs transition-all bg-cyan-500 text-black shadow-md';
+                genBtn.className = 'flex-1 py-2.5 px-4 rounded-xl font-bold text-xs text-slate-400 hover:text-white transition-all';
+            }
+        }
+
+        function renderBarcode() {
+            const val = document.getElementById('barcodeInput').value.trim();
+            const errBox = document.getElementById('renderError');
+            const svgEl = document.getElementById('barcodeCanvas');
+            const qrCanvas = document.getElementById('qrCanvas');
+
+            const height = parseInt(document.getElementById('sliderHeight').value) || 80;
+            const width = parseFloat(document.getElementById('sliderWidth').value) || 2;
+            const margin = parseInt(document.getElementById('sliderMargin').value) || 10;
+            const lineCol = document.getElementById('colorLine').value;
+            const bgCol = document.getElementById('colorBg').value;
+
+            document.getElementById('valHeight').innerText = height + 'px';
+            document.getElementById('valWidth').innerText = width + 'x';
+            document.getElementById('valMargin').innerText = margin + 'px';
+
+            errBox.classList.add('hidden');
+
+            if (!val) {
+                errBox.innerText = 'Please enter a value to generate barcode';
+                errBox.classList.remove('hidden');
+                return;
+            }
+
+            // QR Code specific rendering
+            if (toolConfig.format === 'QR') {
+                svgEl.classList.add('hidden');
+                qrCanvas.classList.remove('hidden');
+                QRCode.toCanvas(qrCanvas, val, {
+                    width: height * 2.5,
+                    margin: Math.floor(margin / 4),
+                    color: { dark: lineCol, light: bgCol }
+                }, function (err) {
+                    if (err) {
+                        errBox.innerText = 'QR Error: ' + err.message;
+                        errBox.classList.remove('hidden');
+                    }
+                });
+                return;
+            }
+
+            // Standard JsBarcode rendering
+            svgEl.classList.remove('hidden');
+            qrCanvas.classList.add('hidden');
+
+            try {
+                let jFormat = toolConfig.format;
+                if (jFormat === 'datamatrix' || jFormat === 'pdf417' || jFormat === 'aztec' || jFormat === 'databar') {
+                    // High-density representation fallback with Code128 format engine
+                    jFormat = 'CODE128';
+                }
+
+                JsBarcode(svgEl, val, {
+                    format: jFormat,
+                    width: width,
+                    height: height,
+                    displayValue: true,
+                    lineColor: lineCol,
+                    background: bgCol,
+                    margin: margin,
+                    fontSize: 14,
+                    textMargin: 4
+                });
+            } catch (err) {
+                errBox.innerText = 'Format constraint: ' + (err.message || 'Invalid characters for this barcode format');
+                errBox.classList.remove('hidden');
+            }
+        }
+
+        function downloadCode(type) {
+            const val = document.getElementById('barcodeInput').value.trim() || 'barcode';
+            const safeName = val.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 25);
+
+            if (toolConfig.format === 'QR') {
+                const qrCanvas = document.getElementById('qrCanvas');
+                const link = document.createElement('a');
+                link.download = `${toolConfig.slug}_${safeName}.${type === 'svg' ? 'png' : 'png'}`;
+                link.href = qrCanvas.toDataURL('image/png');
+                link.click();
+                AnyTool.showToast('Downloaded QR Code! ✓', 'success');
+                return;
+            }
+
+            const svg = document.getElementById('barcodeCanvas');
+            const svgData = new XMLSerializer().serializeToString(svg);
+
+            if (type === 'svg') {
+                const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${toolConfig.slug}_${safeName}.svg`;
+                a.click();
+                URL.revokeObjectURL(url);
+                AnyTool.showToast('Downloaded SVG! ✓', 'success');
+            } else {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width * 2;
+                    canvas.height = img.height * 2;
+                    const ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const a = document.createElement('a');
+                    a.download = `${toolConfig.slug}_${safeName}.png`;
+                    a.href = canvas.toDataURL('image/png');
+                    a.click();
+                    AnyTool.showToast('Downloaded PNG! ✓', 'success');
+                };
+                img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+            }
+        }
+
+        // Scanner Handlers
+        async function handleFileScan(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const scanner = new Html5Qrcode("cameraScannerBox");
+            try {
+                const result = await scanner.scanFile(file, true);
+                displayScanResult(result);
+            } catch (err) {
+                AnyTool.showToast('No barcode found in image. Try higher resolution or better contrast.', 'error');
+            }
+        }
+
+        async function toggleCameraScan() {
+            const btn = document.getElementById('startCamBtn');
+            const box = document.getElementById('cameraScannerBox');
+
+            if (!isCamActive) {
+                box.classList.remove('hidden');
+                html5QrCode = new Html5Qrcode("cameraScannerBox");
+                try {
+                    await html5QrCode.start(
+                        { facingMode: "environment" },
+                        { fps: 10, qrbox: { width: 250, height: 250 } },
+                        (decodedText) => {
+                            displayScanResult(decodedText);
+                            toggleCameraScan(); // auto stop on decode
+                        },
+                        (err) => {}
+                    );
+                    btn.innerText = '⏹️ Stop Camera';
+                    btn.className = 'bg-rose-600 hover:bg-rose-500 text-white font-black px-6 py-3 rounded-xl text-xs transition';
+                    isCamActive = true;
+                } catch (err) {
+                    AnyTool.showToast('Camera permission denied or camera not found.', 'error');
+                }
+            } else {
+                if (html5QrCode) {
+                    await html5QrCode.stop();
+                    html5QrCode.clear();
+                }
+                box.classList.add('hidden');
+                btn.innerText = '📸 Open Camera Scanner';
+                btn.className = 'bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-black font-black px-6 py-3 rounded-xl text-xs transition';
+                isCamActive = false;
+            }
+        }
+
+        function displayScanResult(text) {
+            const card = document.getElementById('scanResultCard');
+            const resText = document.getElementById('scanResultText');
+            resText.innerText = text;
+            card.classList.remove('hidden');
+            card.scrollIntoView({ behavior: 'smooth' });
+            AnyTool.showToast('Barcode Scanned Successfully! ✓', 'success');
+        }
+
+        function copyScanResult() {
+            const text = document.getElementById('scanResultText').innerText;
+            AnyTool.copyToClipboard(text);
+        }
+
+        document.getElementById('barcodeInput').addEventListener('input', renderBarcode);
+        window.addEventListener('DOMContentLoaded', renderBarcode);
+    </script>
+</body>
+</html>

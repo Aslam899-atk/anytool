@@ -271,6 +271,20 @@ app.get(['/qr-code-generator', '/qr-generator', '/qr-tools', '/qr-scanner', '/qr
     res.sendFile(path.join(__dirname, 'public', 'qr-tools.html'));
 });
 
+app.get('/code-128', (req, res) => res.sendFile(path.join(__dirname, 'public', 'code-128.html')));
+app.get('/ean-13', (req, res) => res.sendFile(path.join(__dirname, 'public', 'ean-13.html')));
+app.get('/upc-barcode', (req, res) => res.sendFile(path.join(__dirname, 'public', 'upc-barcode.html')));
+app.get('/code-39', (req, res) => res.sendFile(path.join(__dirname, 'public', 'code-39.html')));
+app.get('/code-93', (req, res) => res.sendFile(path.join(__dirname, 'public', 'code-93.html')));
+app.get('/itf-barcode', (req, res) => res.sendFile(path.join(__dirname, 'public', 'itf-barcode.html')));
+app.get('/codabar', (req, res) => res.sendFile(path.join(__dirname, 'public', 'codabar.html')));
+app.get('/msi-plessey', (req, res) => res.sendFile(path.join(__dirname, 'public', 'msi-plessey.html')));
+app.get('/databar', (req, res) => res.sendFile(path.join(__dirname, 'public', 'databar.html')));
+app.get('/qr-code', (req, res) => res.sendFile(path.join(__dirname, 'public', 'qr-code.html')));
+app.get('/data-matrix', (req, res) => res.sendFile(path.join(__dirname, 'public', 'data-matrix.html')));
+app.get('/pdf417', (req, res) => res.sendFile(path.join(__dirname, 'public', 'pdf417.html')));
+app.get('/aztec-code', (req, res) => res.sendFile(path.join(__dirname, 'public', 'aztec-code.html')));
+
 app.get(['/barcode-tools', '/barcode-generator', '/barcode-scanner'], (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'barcode-tools.html'));
 });
