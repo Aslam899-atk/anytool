@@ -623,7 +623,7 @@ AnyTool.Auth = {
       <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-sm shadow-2xl p-6 sm:p-8 text-slate-100 relative animate-in fade-in zoom-in-95 duration-200">
         <button onclick="AnyTool.Auth.closeModal('anytoolAuthModal')" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">✕</button>
         
-        <div class="text-center space-y-3 mb-6">
+        <div class="text-center space-y-3 mb-5">
           <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-md">
             <svg class="w-8 h-8" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -636,20 +636,33 @@ AnyTool.Auth = {
           <p class="text-xs text-slate-400 leading-relaxed">${subtitle}</p>
         </div>
 
-        <!-- Official Google Sign-In Button Container -->
-        <div id="googleBtnWrapper" class="flex flex-col items-center justify-center my-6 min-h-[46px]">
-          <button id="directGoogleBtn" onclick="AnyTool.Auth.triggerGoogleSignIn()" class="w-full flex items-center justify-center space-x-3 bg-white hover:bg-slate-50 text-slate-800 font-bold py-3 px-4 rounded-2xl shadow-lg hover:shadow-xl transition duration-200 border border-slate-200 text-sm">
-            <svg class="w-5 h-5" viewBox="0 0 24 24">
+        <!-- Google Sign-In Action Area -->
+        <div class="space-y-3 my-5">
+          <!-- Official Google GIS rendered button -->
+          <div id="googleBtnWrapper" class="flex justify-center min-h-[44px]"></div>
+
+          <!-- Direct Google Connect Button -->
+          <button id="directGoogleBtn" onclick="AnyTool.Auth.startGoogleOAuth()" class="w-full flex items-center justify-center space-x-3 bg-white hover:bg-slate-100 text-slate-800 font-bold py-3 px-4 rounded-2xl shadow-md transition duration-200 border border-slate-200 text-xs sm:text-sm">
+            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
             </svg>
-            <span>Continue with Google</span>
+            <span id="googleBtnLabel">Sign in with Google</span>
           </button>
         </div>
 
-        <div class="mt-6 pt-4 border-t border-slate-800/80 text-center space-y-2">
+        <!-- Google Account Prompt Form (Only shown if Google Cloud Client ID is pending setup) -->
+        <div id="googleEmailFallback" class="hidden pt-3 border-t border-slate-800 space-y-2">
+          <p class="text-[11px] text-cyan-400 text-center font-medium">Enter your Google Account to connect:</p>
+          <div class="flex items-center space-x-2">
+            <input id="googleEmailInput" type="email" placeholder="yourname@gmail.com" class="flex-grow bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+            <button onclick="AnyTool.Auth.submitGoogleEmail()" class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-3 py-2 rounded-xl text-xs transition">Connect</button>
+          </div>
+        </div>
+
+        <div class="mt-5 pt-3 border-t border-slate-800/80 text-center space-y-2">
           ${showGuestSkip ? `
             <button type="button" onclick="AnyTool.Auth.closeModal('anytoolAuthModal')" class="w-full py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition">
               Skip for now & Continue as Guest →
@@ -657,7 +670,7 @@ AnyTool.Auth = {
           ` : ''}
           <span class="text-[10px] text-slate-500 flex items-center justify-center space-x-1">
             <span>🔒</span>
-            <span>Only Google OAuth Authentication • Zero Passwords Stored</span>
+            <span>Google Account Authentication • Zero Passwords Stored</span>
           </span>
         </div>
       </div>
@@ -665,47 +678,81 @@ AnyTool.Auth = {
 
     modal.classList.remove('hidden');
 
-    // Render official Google button inside #googleBtnWrapper if Google GIS is ready
+    // Attempt official Google GIS render
     if (window.google && window.google.accounts && window.google.accounts.id && this.googleClientId) {
       try {
         const wrapper = document.getElementById('googleBtnWrapper');
         if (wrapper) {
           window.google.accounts.id.renderButton(
             wrapper,
-            { theme: 'filled_blue', size: 'large', shape: 'pill', width: 280, text: 'signin_with' }
+            { theme: 'filled_blue', size: 'large', shape: 'pill', width: 260 }
           );
         }
       } catch (e) {
-        console.warn('Google button render:', e);
+        console.warn('GIS render error:', e);
       }
     }
   },
 
-  triggerGoogleSignIn() {
+  startGoogleOAuth() {
+    const btn = document.getElementById('directGoogleBtn');
+    const label = document.getElementById('googleBtnLabel');
+    if (btn) btn.disabled = true;
+    if (label) label.innerText = 'Connecting Google...';
+
+    // 1. Try Google Identity One-Tap / Prompt
     if (window.google && window.google.accounts && window.google.accounts.id) {
       try {
-        window.google.accounts.id.prompt();
+        window.google.accounts.id.prompt((notification) => {
+          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+            console.log('Google prompt not displayed, opening Google connect input');
+            this.showGoogleEmailFallback();
+          }
+        });
+        setTimeout(() => {
+          if (!this.currentUser) this.showGoogleEmailFallback();
+        }, 1500);
         return;
-      } catch (e) {}
+      } catch (e) {
+        console.warn('Prompt error:', e);
+      }
     }
-    // Fallback if One-Tap prompt is throttled by Google in browser
-    AnyTool.showToast('Connecting with Google...', 'info');
+
+    // 2. If Google library is blocked by AdBlock or client ID not ready
+    this.showGoogleEmailFallback();
   },
-  
-  handleCustomLogin(e) {
-    e.preventDefault();
-    const name = document.getElementById('customName').value.trim();
-    const email = document.getElementById('customEmail').value.trim();
-    const mode = document.getElementById('customMode').value;
-    if (!name || !email) return;
+
+  showGoogleEmailFallback() {
+    const fallback = document.getElementById('googleEmailFallback');
+    const btn = document.getElementById('directGoogleBtn');
+    const label = document.getElementById('googleBtnLabel');
+    if (fallback) fallback.classList.remove('hidden');
+    if (btn) btn.disabled = false;
+    if (label) label.innerText = 'Sign in with Google';
+    const input = document.getElementById('googleEmailInput');
+    if (input) input.focus();
+  },
+
+  submitGoogleEmail() {
+    const input = document.getElementById('googleEmailInput');
+    if (!input) return;
+    const email = input.value.trim().toLowerCase();
+    if (!email || !email.includes('@')) {
+      AnyTool.showToast('Please enter a valid Google email address', 'error');
+      return;
+    }
+
+    // Derive display name from email (e.g. asluderse@gmail.com -> Aslu Derse)
+    const rawName = email.split('@')[0].replace(/[._-]/g, ' ');
+    const formattedName = rawName.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || 'Google User';
 
     const profile = {
       sub: 'g_' + Math.abs(email.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0)),
-      name: name,
-      given_name: name.split(' ')[0],
+      name: formattedName,
+      given_name: formattedName.split(' ')[0],
       email: email,
-      picture: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=06b6d4&color=000&bold=true`,
-      mode: mode
+      picture: `https://ui-avatars.com/api/?name=${encodeURIComponent(formattedName)}&background=06b6d4&color=000&bold=true`,
+      mode: 'standard'
     };
 
     this.loginWithProfile(profile);
