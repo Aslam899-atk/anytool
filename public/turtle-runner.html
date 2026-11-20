@@ -167,25 +167,29 @@
 
         <!-- Feature Guide & Ideas -->
         <section class="mt-16 pt-10 border-t border-slate-200 max-w-5xl mx-auto">
-            <h2 class="text-xl font-black text-slate-900 text-center mb-8">Turtle Commands Quick Cheat-Sheet</h2>
+            <h2 class="text-xl font-black text-slate-900 text-center mb-8">Turtle Commands Quick Cheat-Sheet (Direct Syntax)</h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs">
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
                     <span class="font-bold text-teal-700 font-mono text-sm">Movement:</span>
-                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.forward(100)</code> - Move forward 100px</p>
-                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.backward(50)</code> - Move backward 50px</p>
-                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.goto(x, y)</code> - Jump to coordinates</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">forward(100)</code> - Move forward 100px</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">backward(50)</code> - Move backward 50px</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">goto(x, y)</code> - Jump to coordinates</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">penup() / pendown()</code> - Lift/drop pen</p>
                 </div>
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
-                    <span class="font-bold text-teal-700 font-mono text-sm">Turns & Angles:</span>
-                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.right(90)</code> - Turn right 90 degrees</p>
-                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.left(45)</code> - Turn left 45 degrees</p>
-                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.circle(60)</code> - Draw circle radius 60</p>
+                    <span class="font-bold text-teal-700 font-mono text-sm">Turns & Shapes:</span>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">right(90)</code> - Turn right 90 degrees</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">left(45)</code> - Turn left 45 degrees</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">circle(60)</code> - Draw circle radius 60</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">hideturtle()</code> - Hide arrow cursor</p>
                 </div>
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
                     <span class="font-bold text-teal-700 font-mono text-sm">Styling & Colors:</span>
-                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.pencolor("red")</code> - Change pen color</p>
-                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.width(3)</code> - Change stroke thickness</p>
-                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">t.speed(0)</code> - Set fastest draw speed</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">pencolor("cyan")</code> - Set pen color</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">fillcolor("#f43f5e")</code> - Set fill color</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">width(3)</code> - Line stroke thickness</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">speed(0)</code> - Set fastest draw speed</p>
+                    <p><code class="bg-slate-100 px-1 py-0.5 rounded">bgcolor("#0f172a")</code> - Canvas background</p>
                 </div>
             </div>
         </section>
@@ -208,120 +212,115 @@
         const outputPre = document.getElementById('outputPre');
 
         const templates = {
-            spiral: `import turtle
+            spiral: `from turtle import *
 
-t = turtle.Turtle()
-t.speed(0)
-turtle.bgcolor("#0f172a")
+# Fast rendering speed
+speed(0)
+bgcolor("#0f172a")
 
 colors = ["#38bdf8", "#818cf8", "#c084fc", "#f472b6", "#fb7185", "#34d399"]
 
 for i in range(120):
-    t.pencolor(colors[i % len(colors)])
-    t.width(i / 30 + 1)
-    t.forward(i * 2.5)
-    t.left(59)
+    pencolor(colors[i % len(colors)])
+    width(i / 30 + 1)
+    forward(i * 2.5)
+    left(59)
 
-t.hideturtle()
-turtle.done()`,
+hideturtle()
+done()`,
 
-            mandala: `import turtle
+            mandala: `from turtle import *
 
-t = turtle.Turtle()
-t.speed(0)
-turtle.bgcolor("#090d16")
+speed(0)
+bgcolor("#090d16")
 
 colors = ["#22d3ee", "#38bdf8", "#818cf8", "#a855f7"]
 
 for i in range(36):
-    t.pencolor(colors[i % 4])
-    t.width(2)
-    t.circle(70)
-    t.left(10)
+    pencolor(colors[i % 4])
+    width(2)
+    circle(70)
+    left(10)
 
 for i in range(72):
-    t.pencolor("#ec4899")
-    t.width(1.5)
-    t.circle(35)
-    t.left(5)
+    pencolor("#ec4899")
+    width(1.5)
+    circle(35)
+    left(5)
 
-t.hideturtle()
-turtle.done()`,
+hideturtle()
+done()`,
 
-            starburst: `import turtle
+            starburst: `from turtle import *
 
-t = turtle.Turtle()
-t.speed(0)
-turtle.bgcolor("#050811")
-t.pencolor("#38bdf8")
-t.width(2)
+speed(0)
+bgcolor("#050811")
+pencolor("#38bdf8")
+width(2)
 
 for i in range(50):
-    t.forward(i * 4)
-    t.right(144)
+    forward(i * 4)
+    right(144)
     if i % 2 == 0:
-        t.pencolor("#f43f5e")
+        pencolor("#f43f5e")
     else:
-        t.pencolor("#06b6d4")
+        pencolor("#06b6d4")
 
-t.hideturtle()
-turtle.done()`,
+hideturtle()
+done()`,
 
-            flower: `import turtle
+            flower: `from turtle import *
 
-t = turtle.Turtle()
-t.speed(0)
-turtle.bgcolor("#ffffff")
+speed(0)
+bgcolor("#ffffff")
 
-t.pencolor("#e11d48")
-t.fillcolor("#f43f5e")
+pencolor("#e11d48")
+fillcolor("#f43f5e")
 
 for i in range(36):
-    t.begin_fill()
-    t.circle(50, 60)
-    t.left(120)
-    t.circle(50, 60)
-    t.end_fill()
-    t.left(10)
+    begin_fill()
+    circle(50, 60)
+    left(120)
+    circle(50, 60)
+    end_fill()
+    left(10)
 
-t.hideturtle()
-turtle.done()`,
+hideturtle()
+done()`,
 
-            fractalTree: `import turtle
+            fractalTree: `from turtle import *
 
-t = turtle.Turtle()
-t.speed(0)
-t.left(90)
-t.penup()
-t.backward(120)
-t.pendown()
-turtle.bgcolor("#f8fafc")
+speed(0)
+left(90)
+penup()
+backward(120)
+pendown()
+bgcolor("#f8fafc")
 
 def draw_tree(branch_len, pen_size):
     if branch_len > 8:
-        t.width(pen_size)
+        width(pen_size)
         if branch_len < 25:
-            t.pencolor("#10b981")
+            pencolor("#10b981")
         else:
-            t.pencolor("#854d0e")
-        t.forward(branch_len)
-        t.right(22)
+            pencolor("#854d0e")
+        forward(branch_len)
+        right(22)
         draw_tree(branch_len - 12, max(1, pen_size - 1))
-        t.left(44)
+        left(44)
         draw_tree(branch_len - 12, max(1, pen_size - 1))
-        t.right(22)
-        t.backward(branch_len)
+        right(22)
+        backward(branch_len)
 
 draw_tree(80, 7)
-t.hideturtle()
-turtle.done()`,
+hideturtle()
+done()`,
 
-            olympic: `import turtle
+            olympic: `from turtle import *
 
-t = turtle.Turtle()
-t.speed(3)
-t.width(6)
-turtle.bgcolor("#ffffff")
+speed(3)
+width(6)
+bgcolor("#ffffff")
 
 rings = [
     (-110, 0, "#0284c7"),  # Blue
@@ -332,30 +331,29 @@ rings = [
 ]
 
 for x, y, col in rings:
-    t.penup()
-    t.goto(x, y - 45)
-    t.pendown()
-    t.pencolor(col)
-    t.circle(45)
+    penup()
+    goto(x, y - 45)
+    pendown()
+    pencolor(col)
+    circle(45)
 
-t.hideturtle()
-turtle.done()`,
+hideturtle()
+done()`,
 
-            custom: `import turtle
+            custom: `from turtle import *
 
-t = turtle.Turtle()
-t.speed(5)
-turtle.bgcolor("#f8fafc")
+speed(5)
+bgcolor("#f8fafc")
 
-# Write your turtle commands here!
-t.color("#0d9488")
-t.width(3)
+# Direct beginner turtle commands (No "t." needed!)
+color("#0d9488")
+width(3)
 
 for _ in range(4):
-    t.forward(100)
-    t.right(90)
+    forward(100)
+    right(90)
 
-turtle.done()`
+done()`
         };
 
         // Load default template

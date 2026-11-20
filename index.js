@@ -129,13 +129,150 @@ app.post('/api/feedback', async (req, res) => {
     }
 });
 
-// --- SEO CLEAN URL ALIASES ---
-app.get(['/qr-code-generator', '/qr-generator'], (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'qr-generator.html'));
+
+// --- 3. GOOGLE AUTH & USER MANAGEMENT APIs ---
+const usersFilePath = path.join(__dirname, 'data', 'users.json');
+
+function getUsers() {
+    try {
+        if (!fs.existsSync(usersFilePath)) return [];
+        return JSON.parse(fs.readFileSync(usersFilePath, 'utf8'));
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveUsers(users) {
+    const dataDir = path.join(__dirname, 'data');
+    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2), 'utf8');
+}
+
+// Get Google Auth config (Client ID)
+app.get('/api/auth/config', (req, res) => {
+    res.json({
+        clientId: process.env.GOOGLE_CLIENT_ID || '1029384756-anytool-google-auth.apps.googleusercontent.com'
+    });
 });
 
-app.get(['/qr-scanner', '/qr-reader'], (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'qr-scanner.html'));
+// Google Sign-In / User Registration Endpoint
+app.post('/api/auth/google', async (req, res) => {
+    try {
+        const { sub, email, name, picture, mode, given_name } = req.body;
+        if (!email && !name) {
+            return res.status(400).json({ error: 'Valid user profile required' });
+        }
+
+        const users = getUsers();
+        const userEmail = (email || '').toLowerCase().trim();
+        const existingIdx = users.findIndex(u => (userEmail && u.email === userEmail) || (sub && u.sub === sub));
+
+        const now = new Date().toISOString();
+        let user;
+
+        if (existingIdx !== -1) {
+            // Update existing user
+            user = users[existingIdx];
+            user.name = name || user.name;
+            user.picture = picture || user.picture;
+            user.lastLogin = now;
+            user.loginCount = (user.loginCount || 1) + 1;
+            if (mode) user.mode = mode;
+            users[existingIdx] = user;
+        } else {
+            // Create new user
+            user = {
+                id: 'usr_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+                sub: sub || 'g_' + Date.now(),
+                name: name || 'Google User',
+                given_name: given_name || name?.split(' ')[0] || 'User',
+                email: userEmail,
+                picture: picture || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
+                mode: mode || 'standard',
+                role: 'User',
+                firstLogin: now,
+                lastLogin: now,
+                loginCount: 1
+            };
+            users.unshift(user);
+
+            // Notify Telegram if configured
+            const botToken = process.env.TELEGRAM_BOT_TOKEN;
+            const chatId = process.env.TELEGRAM_CHANNEL_ID;
+            if (botToken && chatId) {
+                const tgText = `🎉 <b>New User Logged In via Google!</b>\n\n` +
+                    `<b>Name:</b> ${escapeHtml(user.name)}\n` +
+                    `<b>Email:</b> ${escapeHtml(user.email || 'N/A')}\n` +
+                    `<b>Mode:</b> ${escapeHtml(user.mode)}\n` +
+                    `<b>Total Users:</b> ${users.length}\n` +
+                    `<b>Time:</b> ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })} IST`;
+
+                fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatId, text: tgText, parse_mode: 'HTML' })
+                }).catch(() => {});
+            }
+        }
+
+        saveUsers(users);
+        res.json({ success: true, user });
+    } catch (err) {
+        console.error('Google Auth Error:', err);
+        res.status(500).json({ error: 'Auth failed' });
+    }
+});
+
+// Update User Mode (Standard / Pro Developer / Cyber Security)
+app.post('/api/auth/mode', (req, res) => {
+    try {
+        const { email, mode } = req.body;
+        if (!email || !mode) return res.status(400).json({ error: 'Missing email or mode' });
+
+        const users = getUsers();
+        const user = users.find(u => u.email === email.toLowerCase().trim());
+        if (user) {
+            user.mode = mode;
+            saveUsers(users);
+            return res.json({ success: true, mode: user.mode });
+        }
+        res.json({ success: true, mode });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update mode' });
+    }
+});
+
+// List all active users ("ആരൊക്കെയാണ് യൂസർമാർ")
+app.get('/api/auth/users', (req, res) => {
+    try {
+        const users = getUsers();
+        // Return sanitized user list with role, mode, and activity
+        const sanitized = users.map(u => ({
+            id: u.id,
+            name: u.name,
+            given_name: u.given_name,
+            picture: u.picture,
+            emailMasked: u.email ? u.email.replace(/(.{2})(.*)(@.*)/, '$1***$3') : 'anonymous@anytool.io',
+            email: u.email,
+            mode: u.mode || 'standard',
+            role: u.role || 'Member',
+            lastLogin: u.lastLogin,
+            firstLogin: u.firstLogin,
+            loginCount: u.loginCount || 1
+        }));
+        res.json({ success: true, total: sanitized.length, users: sanitized });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch users' });
+    }
+});
+
+// --- SEO CLEAN URL ALIASES ---
+app.get(['/qr-code-generator', '/qr-generator', '/qr-tools', '/qr-scanner', '/qr-reader'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qr-tools.html'));
+});
+
+app.get(['/barcode-tools', '/barcode-generator', '/barcode-scanner'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'barcode-tools.html'));
 });
 
 app.get('/merge-pdf', (req, res) => {

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Barcode Generator &amp; Scanner Online - Create &amp; Read Barcodes | AnyTool</title>
+    <meta name="description" content="Generate and scan barcodes online for free. Supports CODE128, EAN-13, UPC-A, CODE39, ITF-14, MSI barcodes. Camera and image scanning with instant decode.">
+    <meta name="keywords" content="barcode generator, barcode scanner online, free barcode maker, CODE128, EAN-13, UPC barcode, barcode reader camera, scan barcode from image">
+    <link rel="canonical" href="https://anytool.io/barcode-tools">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anytool.io/barcode-tools">
+    <meta property="og:title" content="Free Barcode Generator &amp; Scanner | AnyTool">
+    <meta property="og:description" content="Generate custom barcodes in CODE128, EAN-13, UPC-A, CODE39, ITF-14 formats and scan barcodes from camera or image. 100% free.">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnyTool Barcode Studio",
+      "url": "https://anytool.io/barcode-tools",
+      "description": "Free barcode generator and scanner supporting CODE128, EAN-13, UPC-A, CODE39, ITF-14 and more.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- JsBarcode for generation -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <!-- html5-qrcode for barcode scanning -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .mode-tab.active {
+            background-color: #ffffff;
+            color: #4338ca;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-teal-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-2.5">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg shadow-sm border border-slate-200/80 hover:scale-105 transition">
+                    <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">AnyTool<span class="text-slate-800">.io</span></span>
+                </a>
+                <div class="flex items-center space-x-3 sm:space-x-5">
+                    <a href="/qr-tools" class="text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-200 transition flex items-center space-x-1.5">
+                        <span>⚡</span>
+                        <span>QR Code Studio &rarr;</span>
+                    </a>
+                    <a href="/" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-teal-600 transition">
+                        &larr; All Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="bg-gradient-to-b from-teal-50/60 via-white to-transparent py-8 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-xs font-bold mb-3 border border-teal-200">
+                <span>📊 Barcode Studio &bull; Generator &amp; Scanner</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-3">
+                Barcode <span class="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">Studio</span>
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-6">
+                Generate professional barcodes in CODE128, EAN-13, UPC-A, CODE39, ITF-14, and more. Or scan barcodes from camera &amp; image files.
+            </p>
+
+            <!-- Mode Switcher -->
+            <div class="inline-flex p-1.5 bg-slate-200/70 rounded-2xl shadow-inner max-w-md w-full justify-center">
+                <button id="modeGenBtn" class="mode-tab active flex-1 py-3 px-6 rounded-xl font-extrabold text-xs sm:text-sm transition-all duration-200 flex items-center justify-center space-x-2">
+                    <span>🏷️ Generate Barcode</span>
+                </button>
+                <button id="modeScanBtn" class="mode-tab flex-1 py-3 px-6 rounded-xl font-bold text-xs sm:text-sm text-slate-600 hover:text-slate-900 transition-all duration-200 flex items-center justify-center space-x-2">
+                    <span>📷 Scan Barcode</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: BARCODE GENERATOR -->
+    <main id="generatorSection" class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- LEFT: Options -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-5">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <span class="w-8 h-8 rounded-full bg-teal-600 text-white font-extrabold flex items-center justify-center text-sm shadow">1</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900">Configure Barcode</h2>
+                    </div>
+
+                    <!-- Barcode Format -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Barcode Format</label>
+                        <select id="bcFormat" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                            <option value="CODE128" selected>CODE128 (Universal)</option>
+                            <option value="EAN13">EAN-13 (13-digit)</option>
+                            <option value="UPC">UPC-A (12-digit)</option>
+                            <option value="CODE39">CODE39 (Alphanumeric)</option>
+                            <option value="ITF14">ITF-14 (14-digit)</option>
+                            <option value="MSI">MSI (Numeric)</option>
+                            <option value="pharmacode">Pharmacode (Pharmaceutical)</option>
+                            <option value="codabar">Codabar (Libraries/Blood Banks)</option>
+                        </select>
+                        <p id="bcFormatHint" class="text-[11px] text-slate-500 mt-1.5">CODE128 accepts any text/number, most versatile barcode format.</p>
+                    </div>
+
+                    <!-- Barcode Value -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Barcode Value / Data</label>
+                        <input id="bcValue" type="text" value="AnyTool-2026" placeholder="Enter barcode data..." class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                        <p class="text-[11px] text-slate-500 mt-1">This text/number is encoded into the barcode.</p>
+                    </div>
+
+                    <!-- Customization Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Bar Height</label>
+                            <input id="bcHeight" type="range" min="30" max="150" value="80" class="w-full accent-teal-600">
+                            <span id="bcHeightVal" class="text-[11px] font-mono text-slate-500">80px</span>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Bar Width</label>
+                            <input id="bcWidth" type="range" min="1" max="4" step="0.5" value="2" class="w-full accent-teal-600">
+                            <span id="bcWidthVal" class="text-[11px] font-mono text-slate-500">2x</span>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Margin</label>
+                            <input id="bcMargin" type="range" min="0" max="30" value="10" class="w-full accent-teal-600">
+                            <span id="bcMarginVal" class="text-[11px] font-mono text-slate-500">10px</span>
+                        </div>
+                    </div>
+
+                    <!-- Colors & Display Text -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <div>
+                            <span class="block text-xs font-semibold text-slate-600 mb-1">Line Color</span>
+                            <input id="bcLineColor" type="color" value="#000000" class="w-12 h-10 p-0.5 border border-slate-300 rounded-lg cursor-pointer">
+                        </div>
+                        <div>
+                            <span class="block text-xs font-semibold text-slate-600 mb-1">Background</span>
+                            <input id="bcBgColor" type="color" value="#ffffff" class="w-12 h-10 p-0.5 border border-slate-300 rounded-lg cursor-pointer">
+                        </div>
+                        <div class="flex items-center space-x-2 pt-5">
+                            <input id="bcShowText" type="checkbox" checked class="w-4 h-4 text-teal-600 rounded">
+                            <label for="bcShowText" class="text-xs font-semibold text-slate-700">Show Text Below</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Live Preview & Download -->
+            <div class="lg:col-span-5 sticky top-24">
+                <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-6 text-center">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-extrabold flex items-center justify-center text-xs shadow">2</span>
+                            <h3 class="font-bold text-slate-900 text-lg">Live Preview</h3>
+                        </div>
+                    </div>
+
+                    <!-- SVG Canvas Container -->
+                    <div class="flex items-center justify-center py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-300 min-h-[200px]">
+                        <svg id="barcodePreviewSvg"></svg>
+                    </div>
+                    <div id="bcError" class="hidden text-xs font-semibold text-red-600 bg-red-50 border border-red-200 p-3 rounded-xl"></div>
+
+                    <!-- Download Buttons -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <button id="dlPng" class="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-extrabold py-3 px-4 rounded-2xl shadow-lg shadow-teal-500/20 transition text-sm flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            <span>Download PNG</span>
+                        </button>
+                        <button id="dlSvg" class="bg-white hover:bg-slate-50 text-teal-700 font-extrabold py-3 px-4 rounded-2xl border-2 border-teal-300 transition text-sm flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            <span>Download SVG</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SECTION 2: BARCODE SCANNER -->
+    <main id="scannerSection" class="hidden max-w-4xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full space-y-8">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-8">
+            
+            <!-- Scanner Sub-Tabs -->
+            <div class="flex border-b border-slate-200">
+                <button id="tabBcFileBtn" class="flex-1 py-3 text-center font-bold text-sm border-b-2 border-teal-600 text-teal-600 focus:outline-none">
+                    📁 Upload Barcode Image
+                </button>
+                <button id="tabBcCamBtn" class="flex-1 py-3 text-center font-bold text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 focus:outline-none">
+                    📷 Live Camera Scan
+                </button>
+            </div>
+
+            <!-- File Upload -->
+            <div id="bcFileContainer" class="space-y-4">
+                <div id="bcDropzone" class="border-2 border-dashed border-slate-300 rounded-2xl p-10 text-center hover:border-teal-500 hover:bg-teal-50/20 transition cursor-pointer bg-slate-50" onclick="document.getElementById('bcScanFileInput').click()">
+                    <div class="w-16 h-16 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center mx-auto mb-3 shadow-sm">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <p class="text-sm font-bold text-slate-800">Click to upload barcode image or drag &amp; drop</p>
+                    <p class="text-xs text-slate-500 mt-1">PNG, JPG, WEBP</p>
+                    <input type="file" id="bcScanFileInput" accept="image/*" class="hidden">
+                </div>
+            </div>
+
+            <!-- Live Camera -->
+            <div id="bcCamContainer" class="hidden space-y-4">
+                <div id="bcReader" class="w-full max-w-md mx-auto overflow-hidden rounded-2xl border border-slate-200 shadow-sm bg-black"></div>
+                <div class="text-center space-x-3">
+                    <button id="bcStartCamBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 px-6 rounded-xl text-sm shadow transition">
+                        Start Camera Scan
+                    </button>
+                    <button id="bcStopCamBtn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2.5 px-6 rounded-xl text-sm shadow transition hidden">
+                        Stop Camera
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result -->
+            <div id="bcResultBox" class="hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-6 space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-900">Decoded Barcode</span>
+                    </div>
+                    <button id="bcCopyBtn" class="text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 px-3 py-1.5 rounded-lg shadow-sm transition">Copy</button>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-emerald-100 shadow-inner">
+                    <p id="bcResultText" class="text-sm font-mono text-slate-800 break-all select-all"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-12 text-slate-500 text-xs sm:text-sm">
+        <p>&copy; 2026 AnyTool.io &bull; Barcode Studio &bull; 100% Free</p>
+    </footer>
+
+    <script>
+        // === MODE SWITCHING ===
+        const modeGenBtn = document.getElementById('modeGenBtn');
+        const modeScanBtn = document.getElementById('modeScanBtn');
+        const generatorSection = document.getElementById('generatorSection');
+        const scannerSection = document.getElementById('scannerSection');
+
+        function setMode(mode) {
+            if (mode === 'scan') {
+                modeScanBtn.className = "mode-tab active flex-1 py-3 px-6 rounded-xl font-extrabold text-xs sm:text-sm transition-all duration-200 flex items-center justify-center space-x-2";
+                modeGenBtn.className = "mode-tab flex-1 py-3 px-6 rounded-xl font-bold text-xs sm:text-sm text-slate-600 hover:text-slate-900 transition-all duration-200 flex items-center justify-center space-x-2";
+                scannerSection.classList.remove('hidden');
+                generatorSection.classList.add('hidden');
+            } else {
+                modeGenBtn.className = "mode-tab active flex-1 py-3 px-6 rounded-xl font-extrabold text-xs sm:text-sm transition-all duration-200 flex items-center justify-center space-x-2";
+                modeScanBtn.className = "mode-tab flex-1 py-3 px-6 rounded-xl font-bold text-xs sm:text-sm text-slate-600 hover:text-slate-900 transition-all duration-200 flex items-center justify-center space-x-2";
+                generatorSection.classList.remove('hidden');
+                scannerSection.classList.add('hidden');
+            }
+        }
+
+        modeGenBtn.addEventListener('click', () => setMode('generate'));
+        modeScanBtn.addEventListener('click', () => setMode('scan'));
+
+        if (window.location.hash.includes('scan') || window.location.pathname.includes('scanner')) {
+            setMode('scan');
+        }
+
+        // === BARCODE GENERATOR ===
+        const formatHints = {
+            CODE128: 'CODE128 accepts any text/number, most versatile barcode format.',
+            EAN13: 'Must be exactly 12 digits (13th is auto-checksum). E.g. 590123412345',
+            UPC: 'Must be exactly 11 digits (12th is auto-checksum). E.g. 01234567890',
+            CODE39: 'Supports uppercase letters, numbers, and special chars (- . $ / + % SPACE).',
+            ITF14: 'Must be exactly 13 digits (14th is auto-checksum). E.g. 1234567890123',
+            MSI: 'Numeric only. Variable length. E.g. 123456',
+            pharmacode: 'Numeric only. Value must be between 3 and 131070.',
+            codabar: 'Supports digits, - $ : / . + and start/stop chars A-D.'
+        };
+
+        const formatDefaults = {
+            CODE128: 'AnyTool-2026',
+            EAN13: '590123412345',
+            UPC: '01234567890',
+            CODE39: 'ANYTOOL',
+            ITF14: '1234567890123',
+            MSI: '123456',
+            pharmacode: '1234',
+            codabar: 'A12345B'
+        };
+
+        const bcFormat = document.getElementById('bcFormat');
+        const bcValue = document.getElementById('bcValue');
+        const bcHeight = document.getElementById('bcHeight');
+        const bcWidth = document.getElementById('bcWidth');
+        const bcMargin = document.getElementById('bcMargin');
+        const bcLineColor = document.getElementById('bcLineColor');
+        const bcBgColor = document.getElementById('bcBgColor');
+        const bcShowText = document.getElementById('bcShowText');
+        const bcError = document.getElementById('bcError');
+
+        bcFormat.addEventListener('change', () => {
+            document.getElementById('bcFormatHint').textContent = formatHints[bcFormat.value] || '';
+            bcValue.value = formatDefaults[bcFormat.value] || '';
+            renderBarcode();
+        });
+
+        bcHeight.addEventListener('input', () => {
+            document.getElementById('bcHeightVal').textContent = bcHeight.value + 'px';
+            renderBarcode();
+        });
+
+        bcWidth.addEventListener('input', () => {
+            document.getElementById('bcWidthVal').textContent = bcWidth.value + 'x';
+            renderBarcode();
+        });
+
+        bcMargin.addEventListener('input', () => {
+            document.getElementById('bcMarginVal').textContent = bcMargin.value + 'px';
+            renderBarcode();
+        });
+
+        [bcValue, bcLineColor, bcBgColor, bcShowText].forEach(el => {
+            el.addEventListener('input', renderBarcode);
+            el.addEventListener('change', renderBarcode);
+        });
+
+        function renderBarcode() {
+            bcError.classList.add('hidden');
+            try {
+                JsBarcode("#barcodePreviewSvg", bcValue.value || ' ', {
+                    format: bcFormat.value,
+                    width: parseFloat(bcWidth.value),
+                    height: parseInt(bcHeight.value),
+                    margin: parseInt(bcMargin.value),
+                    lineColor: bcLineColor.value,
+                    background: bcBgColor.value,
+                    displayValue: bcShowText.checked,
+                    font: "JetBrains Mono, monospace",
+                    fontSize: 14,
+                    textMargin: 6
+                });
+            } catch (err) {
+                bcError.textContent = 'Invalid input for ' + bcFormat.value + ' format. ' + (err.message || 'Please check value.');
+                bcError.classList.remove('hidden');
+            }
+        }
+
+        renderBarcode();
+
+        // Download PNG
+        document.getElementById('dlPng').addEventListener('click', () => {
+            const svgEl = document.getElementById('barcodePreviewSvg');
+            const svgData = new XMLSerializer().serializeToString(svgEl);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+
+            img.onload = () => {
+                canvas.width = img.width * 2;
+                canvas.height = img.height * 2;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                const link = document.createElement('a');
+                link.download = 'anytool-barcode-' + bcFormat.value + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+            img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+        });
+
+        // Download SVG
+        document.getElementById('dlSvg').addEventListener('click', () => {
+            const svgEl = document.getElementById('barcodePreviewSvg');
+            const svgData = new XMLSerializer().serializeToString(svgEl);
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = 'anytool-barcode-' + bcFormat.value + '.svg';
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // === BARCODE SCANNER ===
+        const tabBcFileBtn = document.getElementById('tabBcFileBtn');
+        const tabBcCamBtn = document.getElementById('tabBcCamBtn');
+        const bcFileContainer = document.getElementById('bcFileContainer');
+        const bcCamContainer = document.getElementById('bcCamContainer');
+        const bcScanFileInput = document.getElementById('bcScanFileInput');
+        const bcResultBox = document.getElementById('bcResultBox');
+        const bcResultText = document.getElementById('bcResultText');
+        const bcCopyBtn = document.getElementById('bcCopyBtn');
+        const bcStartCamBtn = document.getElementById('bcStartCamBtn');
+        const bcStopCamBtn = document.getElementById('bcStopCamBtn');
+
+        const bcQrScanner = new Html5Qrcode("bcReader");
+        let bcCamRunning = false;
+
+        tabBcFileBtn.addEventListener('click', () => {
+            tabBcFileBtn.className = "flex-1 py-3 text-center font-bold text-sm border-b-2 border-teal-600 text-teal-600";
+            tabBcCamBtn.className = "flex-1 py-3 text-center font-bold text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800";
+            bcFileContainer.classList.remove('hidden');
+            bcCamContainer.classList.add('hidden');
+            stopBcCamera();
+        });
+
+        tabBcCamBtn.addEventListener('click', () => {
+            tabBcCamBtn.className = "flex-1 py-3 text-center font-bold text-sm border-b-2 border-teal-600 text-teal-600";
+            tabBcFileBtn.className = "flex-1 py-3 text-center font-bold text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800";
+            bcCamContainer.classList.remove('hidden');
+            bcFileContainer.classList.add('hidden');
+        });
+
+        function showBcResult(text) {
+            bcResultBox.classList.remove('hidden');
+            bcResultText.innerText = text;
+            bcResultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Drag & Drop
+        const bcDropzone = document.getElementById('bcDropzone');
+        ['dragenter', 'dragover'].forEach(e => {
+            bcDropzone.addEventListener(e, (ev) => {
+                ev.preventDefault();
+                bcDropzone.classList.add('border-teal-600', 'bg-teal-100/40');
+            });
+        });
+        ['dragleave', 'drop'].forEach(e => {
+            bcDropzone.addEventListener(e, (ev) => {
+                ev.preventDefault();
+                bcDropzone.classList.remove('border-teal-600', 'bg-teal-100/40');
+            });
+        });
+        bcDropzone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                scanBcFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        bcScanFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length === 0) return;
+            scanBcFile(e.target.files[0]);
+            bcScanFileInput.value = '';
+        });
+
+        function scanBcFile(file) {
+            bcQrScanner.scanFile(file, false)
+                .then(decoded => showBcResult(decoded))
+                .catch(() => alert("Could not detect a barcode in this image. Ensure it is clear and well-lit."));
+        }
+
+        bcStartCamBtn.addEventListener('click', () => {
+            Html5Qrcode.getCameras().then(cameras => {
+                if (cameras && cameras.length) {
+                    const cameraId = cameras[cameras.length - 1].id;
+                    bcQrScanner.start(
+                        cameraId,
+                        { fps: 12, qrbox: { width: 320, height: 150 } },
+                        (decoded) => { showBcResult(decoded); stopBcCamera(); },
+                        () => {}
+                    ).then(() => {
+                        bcCamRunning = true;
+                        bcStartCamBtn.classList.add('hidden');
+                        bcStopCamBtn.classList.remove('hidden');
+                    });
+                }
+            }).catch(() => alert("Camera permission denied or not found."));
+        });
+
+        function stopBcCamera() {
+            if (bcCamRunning) {
+                bcQrScanner.stop().then(() => {
+                    bcCamRunning = false;
+                    bcStartCamBtn.classList.remove('hidden');
+                    bcStopCamBtn.classList.add('hidden');
+                }).catch(() => {});
+            }
+        }
+        bcStopCamBtn.addEventListener('click', stopBcCamera);
+
+        bcCopyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(bcResultText.innerText);
+            bcCopyBtn.innerText = "Copied! \u2713";
+            setTimeout(() => bcCopyBtn.innerText = "Copy", 2000);
+        });
+    </script>
+</body>
+</html>

@@ -36,6 +36,22 @@
             box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
         }
     </style>
+
+    <!-- Schema.org WebSite Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "AnyTool.io",
+      "url": "https://anytool.io/",
+      "description": "One Website – All Digital Tools. 100% Free, secure, in-browser utilities.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://anytool.io/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 </head>
 <body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
 
@@ -53,6 +69,7 @@
 
                 <!-- Quick Action Header Badges & Language Switcher -->
                 <div class="flex items-center space-x-3">
+                    <div id="anytoolAuthContainer" class="flex items-center"></div>
                     <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center space-x-1">
                         <span>🌐</span>
                         <span id="langBtnText">മലയാളം</span>
@@ -74,7 +91,7 @@
     <!-- Hero Section -->
     <header class="pt-12 pb-6 px-4 text-center max-w-4xl mx-auto space-y-4">
         <div class="inline-flex items-center space-x-2 px-4 py-1.5 bg-cyan-950/60 text-cyan-400 rounded-full text-xs font-bold border border-cyan-800/60 shadow-lg shadow-cyan-950/50">
-            <span>🚀 50+ In-Browser Tools • Zero Data Retention • Fast & Private</span>
+            <span>🚀 60+ In-Browser Tools • Zero Data Retention • Fast & Private</span>
         </div>
 
         <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
@@ -371,28 +388,39 @@
 
             // QR & Barcode
             {
-                id: "qr-gen",
-                title: "QR Code Generator with Logo",
-                titleMl: "QR കോഡ് ജനറേറ്റർ",
-                desc: "Create custom QR codes with logo, colors, custom eye frames, and Wi-Fi presets.",
-                descMl: "നിറങ്ങളും ലോഗോയും ചേർത്ത് ആകർഷകമായ QR കോഡുകൾ നിർമ്മിക്കാം.",
+                id: "qr-studio",
+                title: "Unified QR Code Studio",
+                titleMl: "QR കോഡ് സ്റ്റുഡിയോ",
+                desc: "Generate custom QR with logos, colors & eye patterns + Scan & decode QR from images or live camera.",
+                descMl: "ലോഗോയും നിറങ്ങളും ചേർത്ത് QR കോഡ് നിർമ്മിക്കാനും ക്യാമറയിൽ നിന്നോ ചിത്രങ്ങളിൽ നിന്നോ സ്കാൻ ചെയ്യാനും.",
                 category: "qr",
-                categoryLabel: "QR",
+                categoryLabel: "QR & Barcode",
                 icon: "📱",
-                url: "/qr-code-generator"
+                url: "/qr-tools"
             },
             {
-                id: "qr-scan",
-                title: "QR Code Scanner & Reader",
-                titleMl: "QR കോഡ് സ്കാനർ",
-                desc: "Scan and decode QR codes from saved images or live camera with zero uploads.",
-                descMl: "ചിത്രങ്ങളിൽ നിന്നോ ക്യാമറ വഴിയോ QR കോഡുകൾ സ്കാൻ ചെയ്യാം.",
+                id: "barcode-studio",
+                title: "Barcode Studio & Scanner",
+                titleMl: "ബാർകോഡ് സ്റ്റുഡിയോ & സ്കാനർ",
+                desc: "Generate CODE128, EAN-13, UPC-A, CODE39 barcodes and scan barcodes via camera or images.",
+                descMl: "എല്ലാത്തരം ബാർകോഡുകളും ജനറേറ്റ് ചെയ്യാനും സ്കാൻ ചെയ്യാനും.",
                 category: "qr",
-                categoryLabel: "QR",
-                icon: "📷",
-                url: "/qr-scanner"
+                categoryLabel: "QR & Barcode",
+                icon: "🏷️",
+                url: "/barcode-tools"
             },
 
+                        {
+                id: "video-tools",
+                title: "Video & Media Utilities",
+                titleMl: "വീഡിയോ & മീഡിയ ടൂളുകൾ",
+                desc: "Fast in-browser video compression, clipping, GIF extraction, and audio conversion.",
+                descMl: "വീഡിയോ കംപ്രസ് ചെയ്യാനും ട്രിം ചെയ്യാനും GIF ആക്കാനും ഓഡിയോ മാറ്റാനും.",
+                category: "image",
+                categoryLabel: "Media",
+                icon: "🎬",
+                url: "/video-downloader"
+            },
             // Computer Science
             {
                 id: "cs-suite",

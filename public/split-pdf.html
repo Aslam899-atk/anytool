@@ -202,10 +202,38 @@
         const selectAllBtn = document.getElementById('selectAllBtn');
         const clearPagesBtn = document.getElementById('clearPagesBtn');
         const outputFileName = document.getElementById('outputFileName');
+        const dropzone = document.getElementById('dropzone');
+
+        // Window drag prevention
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            window.addEventListener(eventName, (e) => e.preventDefault(), false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.add('border-rose-600', 'bg-rose-100/60');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.remove('border-rose-600', 'bg-rose-100/60');
+            }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                processSinglePdfFile(e.dataTransfer.files[0]);
+            }
+        });
 
         pdfInput.addEventListener('change', async (e) => {
             if (e.target.files.length === 0) return;
-            const file = e.target.files[0];
+            processSinglePdfFile(e.target.files[0]);
+            pdfInput.value = '';
+        });
+
+        async function processSinglePdfFile(file) {
             pdfFileName.innerText = file.name;
             outputFileName.value = `extracted_${file.name}`;
 
@@ -226,10 +254,11 @@
 
                 step2Area.classList.remove('hidden');
                 step3Area.classList.remove('hidden');
+                step2Area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } catch (err) {
                 alert("Error loading PDF. Please ensure the file is valid and unencrypted.");
             }
-        });
+        }
 
         function renderPageGrid() {
             pageGridContainer.innerHTML = '';

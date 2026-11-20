@@ -188,10 +188,40 @@
         const orientationSelect = document.getElementById('orientationSelect');
         const marginSelect = document.getElementById('marginSelect');
         const pdfNameInput = document.getElementById('pdfNameInput');
+        const dropzone = document.getElementById('dropzone');
+
+        // Drag & drop support
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            window.addEventListener(eventName, (e) => e.preventDefault(), false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.add('border-rose-600', 'bg-rose-100/60');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.remove('border-rose-600', 'bg-rose-100/60');
+            }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                handleUploadedImages(e.dataTransfer.files);
+            }
+        });
 
         imageInput.addEventListener('change', (e) => {
             if (e.target.files.length === 0) return;
-            for (let file of e.target.files) {
+            handleUploadedImages(e.target.files);
+            imageInput.value = '';
+        });
+
+        function handleUploadedImages(files) {
+            for (let file of files) {
+                if (!file.type.startsWith('image/')) continue;
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     imagesList.push({
@@ -203,8 +233,12 @@
                 };
                 reader.readAsDataURL(file);
             }
-            imageInput.value = '';
-        });
+            setTimeout(() => {
+                if (imagesList.length > 0) {
+                    step2Area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 300);
+        }
 
         function renderImagesGrid() {
             imageCardsGrid.innerHTML = '';

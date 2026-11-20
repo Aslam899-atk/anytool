@@ -64,6 +64,11 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- PDF.js for Instant In-Browser Page Thumbnail Previews -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
     <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
     <!-- Favicon & App Brand Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -207,8 +212,9 @@
     </footer>
 
     <script>
-        let selectedFiles = [];
+        let selectedFiles = []; // Array of { file, numPages, thumbnailDataUrl }
         const pdfInput = document.getElementById('pdfInput');
+        const dropzone = document.getElementById('dropzone');
         const step2Area = document.getElementById('step2Area');
         const step3Area = document.getElementById('step3Area');
         const fileCardsContainer = document.getElementById('fileCardsContainer');
@@ -217,14 +223,83 @@
         const message = document.getElementById('message');
         const outputFileName = document.getElementById('outputFileName');
 
+        // Prevent browser default behavior when dragging files onto window
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            window.addEventListener(eventName, (e) => e.preventDefault(), false);
+        });
+
+        // Dropzone drag-and-drop feedback
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.add('border-red-600', 'bg-red-100/60', 'scale-[1.01]');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.remove('border-red-600', 'bg-red-100/60', 'scale-[1.01]');
+            }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files && files.length > 0) {
+                handleIncomingFiles(files);
+            }
+        });
+
         pdfInput.addEventListener('change', (e) => {
             if (e.target.files.length === 0) return;
-            for (let f of e.target.files) {
-                selectedFiles.push(f);
-            }
-            renderFileList();
+            handleIncomingFiles(e.target.files);
             pdfInput.value = '';
         });
+
+        async function handleIncomingFiles(fileList) {
+            for (let f of fileList) {
+                if (f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')) {
+                    const item = {
+                        file: f,
+                        numPages: '...',
+                        thumbnailDataUrl: null
+                    };
+                    selectedFiles.push(item);
+                    renderFileList();
+                    generatePdfThumbnail(item);
+                }
+            }
+            renderFileList();
+            // Smooth scroll to Step 2 so user immediately sees their files!
+            if (selectedFiles.length >= 1) {
+                step2Area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        async function generatePdfThumbnail(item) {
+            try {
+                const arrayBuffer = await item.file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+                const pdf = await loadingTask.promise;
+                item.numPages = pdf.numPages;
+
+                // Render page 1
+                const page = await pdf.getPage(1);
+                const viewport = page.getViewport({ scale: 0.35 });
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                item.thumbnailDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                renderFileList();
+            } catch (err) {
+                console.warn("Could not generate thumbnail for:", item.file.name, err);
+                item.numPages = 'PDF';
+                renderFileList();
+            }
+        }
+
+        let draggedIndex = null;
 
         function renderFileList() {
             fileCardsContainer.innerHTML = '';
@@ -240,25 +315,64 @@
                 step3Area.classList.add('hidden');
             }
 
-            selectedFiles.forEach((file, index) => {
+            selectedFiles.forEach((item, index) => {
+                const file = item.file;
                 const card = document.createElement('div');
-                card.className = "flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200 hover:border-red-300 transition";
+                card.draggable = true;
+                card.className = "flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200 hover:border-red-400 hover:bg-white transition cursor-move shadow-sm group";
+                
+                // Drag reorder handlers
+                card.addEventListener('dragstart', (e) => {
+                    draggedIndex = index;
+                    e.dataTransfer.effectAllowed = 'move';
+                    card.classList.add('opacity-40');
+                });
+                card.addEventListener('dragend', () => {
+                    card.classList.remove('opacity-40');
+                });
+                card.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    card.classList.add('border-red-500', 'bg-red-50/50');
+                });
+                card.addEventListener('dragleave', () => {
+                    card.classList.remove('border-red-500', 'bg-red-50/50');
+                });
+                card.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    card.classList.remove('border-red-500', 'bg-red-50/50');
+                    if (draggedIndex !== null && draggedIndex !== index) {
+                        const moved = selectedFiles.splice(draggedIndex, 1)[0];
+                        selectedFiles.splice(index, 0, moved);
+                        renderFileList();
+                    }
+                });
+
+                const thumbHtml = item.thumbnailDataUrl 
+                    ? `<img src="${item.thumbnailDataUrl}" alt="Preview" class="w-10 h-14 object-cover rounded-md border border-slate-300 shadow-sm flex-shrink-0">`
+                    : `<div class="w-10 h-14 bg-red-100 text-red-600 rounded-md border border-red-200 flex flex-col items-center justify-center text-[10px] font-bold flex-shrink-0">
+                         <span>PDF</span>
+                       </div>`;
+
                 card.innerHTML = `
-                    <div class="flex items-center space-x-3 overflow-hidden">
-                        <span class="w-7 h-7 rounded-lg bg-red-100 text-red-700 font-bold flex items-center justify-center text-xs flex-shrink-0">${index + 1}</span>
+                    <div class="flex items-center space-x-3.5 overflow-hidden">
+                        <span class="w-7 h-7 rounded-lg bg-red-600 text-white font-extrabold flex items-center justify-center text-xs flex-shrink-0 shadow-sm">${index + 1}</span>
+                        ${thumbHtml}
                         <div class="truncate">
                             <p class="text-xs sm:text-sm font-bold text-slate-800 truncate">${file.name}</p>
-                            <p class="text-[10px] text-slate-500">${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                            <div class="flex items-center space-x-2 text-[11px] text-slate-500 mt-0.5">
+                                <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-semibold font-mono">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                                <span class="bg-red-50 text-red-700 px-2 py-0.5 rounded font-semibold border border-red-200">📄 ${item.numPages} ${typeof item.numPages === 'number' ? (item.numPages === 1 ? 'Page' : 'Pages') : ''}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="flex items-center space-x-1.5 flex-shrink-0">
-                        <button type="button" onclick="moveFile(${index}, -1)" ${index === 0 ? 'disabled class="opacity-30 p-1.5"' : 'class="p-1.5 hover:bg-slate-200 rounded-lg text-slate-600 transition"'} title="Move Up">
-                            ↑
+                        <button type="button" onclick="moveFile(${index}, -1)" ${index === 0 ? 'disabled class="opacity-30 p-2"' : 'class="p-2 hover:bg-slate-200 text-slate-700 rounded-lg transition font-bold"'} title="Move Up in Merge Order">
+                            ▲
                         </button>
-                        <button type="button" onclick="moveFile(${index}, 1)" ${index === selectedFiles.length - 1 ? 'disabled class="opacity-30 p-1.5"' : 'class="p-1.5 hover:bg-slate-200 rounded-lg text-slate-600 transition"'} title="Move Down">
-                            ↓
+                        <button type="button" onclick="moveFile(${index}, 1)" ${index === selectedFiles.length - 1 ? 'disabled class="opacity-30 p-2"' : 'class="p-2 hover:bg-slate-200 text-slate-700 rounded-lg transition font-bold"'} title="Move Down in Merge Order">
+                            ▼
                         </button>
-                        <button type="button" onclick="removeFile(${index})" class="p-1.5 hover:bg-red-100 text-red-600 rounded-lg transition" title="Remove">
+                        <button type="button" onclick="removeFile(${index})" class="p-2 hover:bg-red-100 text-red-600 rounded-lg transition font-bold" title="Remove Document">
                             ✕
                         </button>
                     </div>
@@ -288,8 +402,8 @@
             }
 
             const formData = new FormData();
-            for (let file of selectedFiles) {
-                formData.append('pdfs', file);
+            for (let item of selectedFiles) {
+                formData.append('pdfs', item.file);
             }
 
             mergeBtn.disabled = true;

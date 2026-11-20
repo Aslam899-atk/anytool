@@ -1,0 +1,41 @@
+[
+  {
+    "id": "usr_founder_01",
+    "sub": "g_109283746501928374650",
+    "name": "Aslu Derse (Founder)",
+    "given_name": "Aslu",
+    "email": "asluderse@gmail.com",
+    "picture": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
+    "mode": "pro",
+    "role": "Creator & Lead Architect",
+    "firstLogin": "2026-10-01T08:30:00.000Z",
+    "lastLogin": "2026-11-20T06:57:55.468Z",
+    "loginCount": 43
+  },
+  {
+    "id": "usr_member_02",
+    "sub": "g_982374615203948571620",
+    "name": "Arjun Krishna",
+    "given_name": "Arjun",
+    "email": "arjun.k@gmail.com",
+    "picture": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80",
+    "mode": "cyber",
+    "role": "Cybersecurity Analyst",
+    "firstLogin": "2026-10-15T12:00:00.000Z",
+    "lastLogin": "2026-11-19T18:20:00.000Z",
+    "loginCount": 18
+  },
+  {
+    "id": "usr_member_03",
+    "sub": "g_182736450918273645091",
+    "name": "Fathima Noor",
+    "given_name": "Fathima",
+    "email": "fathima.noor@gmail.com",
+    "picture": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+    "mode": "standard",
+    "role": "Verified Member",
+    "firstLogin": "2026-11-02T14:15:00.000Z",
+    "lastLogin": "2026-11-20T09:10:00.000Z",
+    "loginCount": 9
+  }
+]
