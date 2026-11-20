@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Smart Remote Hub & App Studio | AnyTool.io</title>
+    
+    <meta name="description" content="Turn your smartphone into a fully customizable Universal Smart Remote for TV, AC, Set-top Box, Audio & Smart Home. Custom layout builder, interactive remote simulator, and setup guide.">
+    <meta name="keywords" content="smart remote app, universal remote control, phone to tv remote, ir blaster app, wifi remote controller, custom remote layout, anytool">
+    <meta name="author" content="AnyTool.io">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://anytool.io/smart-remote.html" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Universal Smart Remote Hub & App Studio - AnyTool.io">
+    <meta property="og:description" content="Convert your smartphone into an all-in-one Smart Remote. Fully custom layout builder and interactive simulator.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+
+    <style>
+        .remote-glass {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.65), 0 0 30px rgba(6, 182, 212, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+        .btn-press {
+            transition: all 0.1s ease-in-out;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-press:active {
+            transform: scale(0.92);
+            filter: brightness(1.3);
+        }
+        .dpad-center {
+            background: radial-gradient(circle, #0ea5e9 0%, #0369a1 100%);
+        }
+        .ir-glow {
+            box-shadow: 0 0 20px #ef4444, 0 0 40px #f43f5e;
+        }
+        @keyframes pulseLed {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.25); }
+        }
+        .led-active {
+            animation: pulseLed 0.25s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
+
+    <!-- Navbar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg border border-slate-700 group-hover:scale-105 transition">
+                    <div>
+                        <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">AnyTool<span class="text-cyan-400">.io</span></span>
+                    </div>
+                </a>
+
+                <div class="flex items-center space-x-3">
+                    <a href="/" class="text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center space-x-1.5">
+                        <i data-lucide="arrow-left" class="w-4 h-4 text-cyan-400"></i>
+                        <span>All Tools</span>
+                    </a>
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center space-x-1">
+                        <span>☀️</span>
+                        <span class="hidden sm:inline">Theme</span>
+                    </button>
+                    <span class="hidden sm:inline-flex text-[11px] font-mono px-3 py-1 bg-cyan-950/60 text-cyan-400 border border-cyan-800/80 rounded-full font-bold">
+                        ⚡ Custom Remote Studio
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Hero Header -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold mb-3 tracking-wide uppercase">
+                <i data-lucide="smartphone-nfc" class="w-4 h-4"></i>
+                <span>Smart Home & Infrared Hub</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">
+                Universal <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 bg-clip-text text-transparent">Smart Remote</span> App
+            </h1>
+            <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                വീട്ടിലെ ഏത് പഴയതോ പുതിയതോ ആയ റിമോട്ട് നിങ്ങളുടെ സ്മാർട്ട് ഫോണിലേക്ക് മാറ്റാം! (Convert TV, AC, Set-top Box, Home Theater remotes to your smartphone). Complete custom remote app, live simulator, setup guides & downloads.
+            </p>
+        </div>
+
+        <!-- Section 1: Interactive App Simulator & Custom Remote Builder -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+            
+            <!-- Left: Device Selection & Custom Controls Configurator (7 Cols) -->
+            <div class="lg:col-span-7 bg-slate-900/80 rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">
+                
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-2.5 bg-cyan-500/10 text-cyan-400 rounded-2xl border border-cyan-500/20">
+                            <i data-lucide="sliders" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-white">Custom Remote Designer</h2>
+                            <p class="text-xs text-slate-400">Select appliance type, custom brand & assign buttons</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full font-mono">Live Sync</span>
+                </div>
+
+                <!-- Select Appliance Category -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">1. Select Appliance / ഉപകരണം തിരഞ്ഞെടുക്കുക</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                        <button onclick="setAppliance('tv')" id="tab-tv" class="appliance-btn flex flex-col items-center justify-center p-3 rounded-2xl border border-cyan-500 bg-cyan-500/10 text-cyan-300 font-semibold text-xs transition">
+                            <i data-lucide="tv" class="w-5 h-5 mb-1.5"></i>
+                            <span>Smart TV / DTH</span>
+                        </button>
+                        <button onclick="setAppliance('ac')" id="tab-ac" class="appliance-btn flex flex-col items-center justify-center p-3 rounded-2xl border border-slate-800 bg-slate-800/50 text-slate-400 hover:text-white font-semibold text-xs transition">
+                            <i data-lucide="wind" class="w-5 h-5 mb-1.5"></i>
+                            <span>Air Conditioner (AC)</span>
+                        </button>
+                        <button onclick="setAppliance('audio')" id="tab-audio" class="appliance-btn flex flex-col items-center justify-center p-3 rounded-2xl border border-slate-800 bg-slate-800/50 text-slate-400 hover:text-white font-semibold text-xs transition">
+                            <i data-lucide="speaker" class="w-5 h-5 mb-1.5"></i>
+                            <span>Home Audio / Soundbar</span>
+                        </button>
+                        <button onclick="setAppliance('fan')" id="tab-fan" class="appliance-btn flex flex-col items-center justify-center p-3 rounded-2xl border border-slate-800 bg-slate-800/50 text-slate-400 hover:text-white font-semibold text-xs transition">
+                            <i data-lucide="fan" class="w-5 h-5 mb-1.5"></i>
+                            <span>Smart Fan / Lights</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Brand & Connection Protocol -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Brand / ബ്രാൻഡ്</label>
+                        <select id="brandSelect" onchange="updateBrand()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500">
+                            <option value="Samsung">Samsung (Tizen / IR)</option>
+                            <option value="LG">LG (webOS / Magic / IR)</option>
+                            <option value="Sony">Sony (Google TV / Bravia)</option>
+                            <option value="Mi">Xiaomi / Redmi (PatchWall / IR)</option>
+                            <option value="OnePlus">OnePlus TV / FireTV</option>
+                            <option value="Daikin">Daikin / Voltas / Blue Star</option>
+                            <option value="Generic">Generic Universal IR Blaster</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Signal Method / സിഗ്നൽ രീതി</label>
+                        <select id="protocolSelect" onchange="updateProtocol()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500">
+                            <option value="WiFi & Smart Cast">WiFi Local Network (No IR needed)</option>
+                            <option value="Phone IR Blaster">Phone Built-in IR Blaster (Mi/Huawei/etc)</option>
+                            <option value="Bluetooth LE">Bluetooth Low Energy (Smart TV)</option>
+                            <option value="Audio Jack Dongle">Audio 3.5mm / Type-C External IR</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Add Custom Key / Button Studio -->
+                <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
+                            <i data-lucide="plus-circle" class="w-4 h-4 text-cyan-400"></i>
+                            <span>Add Custom Macro / New Button</span>
+                        </span>
+                        <span class="text-[11px] text-slate-500">Add any button from your old remote</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input id="customBtnLabel" type="text" placeholder="Button Name (e.g. Netflix, OTT, HDMI 2, Turbo)" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+                        <button onclick="addCustomButton()" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center justify-center space-x-1">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            <span>Add to Remote</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Log Terminal -->
+                <div>
+                    <div class="flex justify-between items-center mb-1.5">
+                        <span class="text-[11px] font-mono text-slate-400 uppercase">Remote Signal Monitor:</span>
+                        <button onclick="clearSignalLog()" class="text-[10px] text-cyan-400 hover:underline">Clear</button>
+                    </div>
+                    <div id="signalTerminal" class="h-24 bg-slate-950 rounded-xl p-3 font-mono text-xs text-emerald-400 overflow-y-auto border border-slate-800 space-y-1">
+                        <div>> Ready. Tap any button on the phone simulator on the right...</div>
+                    </div>
+                </div>
+
+                <!-- Download App Quick Actions -->
+                <div class="p-4 rounded-2xl bg-gradient-to-br from-cyan-950/40 via-blue-950/30 to-slate-900 border border-cyan-800/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="space-y-0.5">
+                        <div class="text-sm font-bold text-white flex items-center space-x-2">
+                            <span>📱 Ready to install on your Phone?</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Install as PWA Web App or Get Native APK recommended tools</p>
+                    </div>
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <button onclick="installPwaRemote()" class="w-full sm:w-auto px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-xs rounded-xl transition flex items-center justify-center space-x-1.5 shadow-lg shadow-cyan-500/20">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            <span>Install Web App</span>
+                        </button>
+                        <a href="#downloads" class="w-full sm:w-auto px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl border border-slate-700 transition flex items-center justify-center space-x-1">
+                            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                            <span>APK Links</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right: Interactive Smartphone Remote Mockup (5 Cols) -->
+            <div class="lg:col-span-5 flex flex-col items-center">
+                
+                <div class="w-full max-w-[340px] rounded-[42px] p-4 bg-slate-900/90 border-4 border-slate-700 shadow-2xl relative remote-glass">
+                    
+                    <!-- Phone Notch & IR Emitter LED -->
+                    <div class="flex justify-between items-center px-4 mb-3">
+                        <!-- Simulated IR LED Blaster with Glow -->
+                        <div class="flex items-center space-x-1.5">
+                            <div id="irLed" class="w-3.5 h-3.5 rounded-full bg-red-600 transition duration-150"></div>
+                            <span class="text-[10px] font-mono text-slate-400">IR / WiFi TX</span>
+                        </div>
+                        <!-- Speaker ear piece -->
+                        <div class="w-14 h-1.5 bg-slate-700 rounded-full"></div>
+                        <div class="flex items-center space-x-1 text-[10px] font-mono text-slate-400">
+                            <i data-lucide="wifi" class="w-3.5 h-3.5 text-cyan-400"></i>
+                            <span id="remoteProtocolBadge">WiFi</span>
+                        </div>
+                    </div>
+
+                    <!-- Screen Area -->
+                    <div class="bg-slate-950/95 rounded-[30px] p-4 border border-slate-800/80 space-y-4">
+                        
+                        <!-- Header Status Card -->
+                        <div class="flex justify-between items-center bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800">
+                            <div>
+                                <div id="displayDeviceName" class="text-xs font-bold text-white flex items-center space-x-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+                                    <span>Samsung Smart TV</span>
+                                </div>
+                                <div class="text-[10px] text-slate-400" id="displaySubtitle">Living Room • Ch 104 • Vol 24</div>
+                            </div>
+                            <button onclick="sendRemoteSignal('POWER')" class="btn-press w-9 h-9 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/40 flex items-center justify-center">
+                                <i data-lucide="power" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+
+                        <!-- Top Function Row (Mute, Source, Settings, Menu) -->
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="sendRemoteSignal('MUTE')" class="btn-press py-2 bg-slate-800/80 hover:bg-slate-700 rounded-xl text-slate-300 text-[11px] font-semibold flex flex-col items-center">
+                                <i data-lucide="volume-x" class="w-3.5 h-3.5 mb-0.5 text-cyan-400"></i>
+                                <span>Mute</span>
+                            </button>
+                            <button onclick="sendRemoteSignal('INPUT/SOURCE')" class="btn-press py-2 bg-slate-800/80 hover:bg-slate-700 rounded-xl text-slate-300 text-[11px] font-semibold flex flex-col items-center">
+                                <i data-lucide="plug-2" class="w-3.5 h-3.5 mb-0.5 text-cyan-400"></i>
+                                <span>Source</span>
+                            </button>
+                            <button onclick="sendRemoteSignal('SETTINGS')" class="btn-press py-2 bg-slate-800/80 hover:bg-slate-700 rounded-xl text-slate-300 text-[11px] font-semibold flex flex-col items-center">
+                                <i data-lucide="settings" class="w-3.5 h-3.5 mb-0.5 text-cyan-400"></i>
+                                <span>Setup</span>
+                            </button>
+                            <button onclick="sendRemoteSignal('HOME')" class="btn-press py-2 bg-slate-800/80 hover:bg-slate-700 rounded-xl text-slate-300 text-[11px] font-semibold flex flex-col items-center">
+                                <i data-lucide="home" class="w-3.5 h-3.5 mb-0.5 text-cyan-400"></i>
+                                <span>Home</span>
+                            </button>
+                        </div>
+
+                        <!-- Dynamic Appliance Panel (Switches between TV, AC, etc.) -->
+                        <div id="dynamicControls">
+                            
+                            <!-- TV D-PAD & Volume / Channel -->
+                            <div id="tvControls" class="space-y-4">
+                                <!-- Circular Directional Pad (D-PAD) -->
+                                <div class="relative w-44 h-44 mx-auto rounded-full bg-slate-900 border-2 border-slate-700 p-2 shadow-inner flex items-center justify-center">
+                                    <button onclick="sendRemoteSignal('UP')" class="btn-press absolute top-2 w-10 h-10 text-slate-300 hover:text-white flex items-center justify-center">
+                                        <i data-lucide="chevron-up" class="w-6 h-6"></i>
+                                    </button>
+                                    <button onclick="sendRemoteSignal('DOWN')" class="btn-press absolute bottom-2 w-10 h-10 text-slate-300 hover:text-white flex items-center justify-center">
+                                        <i data-lucide="chevron-down" class="w-6 h-6"></i>
+                                    </button>
+                                    <button onclick="sendRemoteSignal('LEFT')" class="btn-press absolute left-2 w-10 h-10 text-slate-300 hover:text-white flex items-center justify-center">
+                                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                                    </button>
+                                    <button onclick="sendRemoteSignal('RIGHT')" class="btn-press absolute right-2 w-10 h-10 text-slate-300 hover:text-white flex items-center justify-center">
+                                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                                    </button>
+                                    <button onclick="sendRemoteSignal('OK / ENTER')" class="btn-press dpad-center w-16 h-16 rounded-full text-white font-extrabold text-xs shadow-md border-2 border-cyan-300 flex items-center justify-center">
+                                        OK
+                                    </button>
+                                </div>
+
+                                <!-- Dual Rockers: VOL and CH -->
+                                <div class="grid grid-cols-2 gap-3 pt-1">
+                                    <div class="bg-slate-900/90 rounded-2xl p-2 border border-slate-800 flex flex-col items-center">
+                                        <span class="text-[10px] font-bold text-slate-400 mb-1">VOLUME</span>
+                                        <button onclick="sendRemoteSignal('VOL +')" class="btn-press w-full py-2 bg-slate-800 hover:bg-cyan-600/30 rounded-xl text-white font-bold text-sm mb-1">+</button>
+                                        <button onclick="sendRemoteSignal('VOL -')" class="btn-press w-full py-2 bg-slate-800 hover:bg-cyan-600/30 rounded-xl text-white font-bold text-sm">-</button>
+                                    </div>
+                                    <div class="bg-slate-900/90 rounded-2xl p-2 border border-slate-800 flex flex-col items-center">
+                                        <span class="text-[10px] font-bold text-slate-400 mb-1">CHANNEL</span>
+                                        <button onclick="sendRemoteSignal('CH ▲')" class="btn-press w-full py-2 bg-slate-800 hover:bg-cyan-600/30 rounded-xl text-white font-bold text-sm mb-1">▲</button>
+                                        <button onclick="sendRemoteSignal('CH ▼')" class="btn-press w-full py-2 bg-slate-800 hover:bg-cyan-600/30 rounded-xl text-white font-bold text-sm">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AC Controls (Hidden by default, shown when AC selected) -->
+                            <div id="acControls" class="space-y-4 hidden">
+                                <div class="text-center p-4 bg-slate-900/90 rounded-2xl border border-slate-800">
+                                    <span class="text-slate-400 text-xs font-mono">TARGET TEMP</span>
+                                    <div class="text-4xl font-extrabold text-cyan-400 my-1" id="acTempDisplay">24°C</div>
+                                    <div class="text-[11px] text-slate-400 flex justify-center space-x-2">
+                                        <span>❄️ COOL MODE</span>
+                                        <span>•</span>
+                                        <span>💨 FAN AUTO</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="adjustTemp(1)" class="btn-press py-3 bg-slate-800 rounded-xl text-cyan-400 font-black text-lg border border-slate-700 flex items-center justify-center space-x-1">
+                                        <span>TEMP ▲</span>
+                                    </button>
+                                    <button onclick="adjustTemp(-1)" class="btn-press py-3 bg-slate-800 rounded-xl text-cyan-400 font-black text-lg border border-slate-700 flex items-center justify-center space-x-1">
+                                        <span>TEMP ▼</span>
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button onclick="sendRemoteSignal('AC MODE SWAP')" class="btn-press py-2 bg-slate-800/80 rounded-xl text-slate-200 text-xs font-semibold">Mode</button>
+                                    <button onclick="sendRemoteSignal('AC FAN SPEED')" class="btn-press py-2 bg-slate-800/80 rounded-xl text-slate-200 text-xs font-semibold">Fan Speed</button>
+                                    <button onclick="sendRemoteSignal('AC SWING')" class="btn-press py-2 bg-slate-800/80 rounded-xl text-slate-200 text-xs font-semibold">Swing</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- User Custom Added Buttons Container -->
+                        <div id="customButtonsContainer" class="pt-2 border-t border-slate-800/80">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Custom Shortcuts:</div>
+                            <div id="customButtonGrid" class="grid grid-cols-3 gap-2">
+                                <button onclick="sendRemoteSignal('Netflix')" class="btn-press py-1.5 bg-red-600/20 border border-red-500/40 text-red-300 rounded-lg text-[10px] font-bold">Netflix</button>
+                                <button onclick="sendRemoteSignal('YouTube')" class="btn-press py-1.5 bg-red-700/20 border border-red-500/40 text-red-200 rounded-lg text-[10px] font-bold">YouTube</button>
+                                <button onclick="sendRemoteSignal('Prime Video')" class="btn-press py-1.5 bg-blue-600/20 border border-blue-500/40 text-blue-300 rounded-lg text-[10px] font-bold">Prime</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Nav Line -->
+                    <div class="w-24 h-1 bg-slate-600 rounded-full mx-auto mt-3"></div>
+                </div>
+
+                <p class="text-xs text-slate-500 mt-3 text-center">
+                    💡 Click buttons above to simulate live IR/WiFi signals.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Section 2: How to Convert Your Old Remote to Smart Phone (Step-by-Step Guide in Malayalam & English) -->
+        <div class="bg-slate-900/60 rounded-3xl p-6 sm:p-10 border border-slate-800 mb-16">
+            <div class="max-w-3xl mb-8">
+                <span class="text-cyan-400 font-bold text-xs uppercase tracking-wider">Comprehensive User Guide</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+                    വീട്ടിലെ റിമോട്ട് ഫോണിലേക്ക് എങ്ങനെ മാറ്റാം? (How to Use)
+                </h2>
+                <p class="text-slate-400 text-sm mt-2">
+                    സ്മാർട്ട് ഫോണുകളിൽ റിമോട്ട് ആപ്പ് പ്രവർത്തിക്കുന്നതിന് പ്രധാനമായും 3 രീതികളുണ്ട്. നിങ്ങളുടെ ഫോണിനും ടിവിക്കും അനുയോജ്യമായ രീതി താഴെ നോക്കി മനസ്സിലാക്കുക:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Method 1 -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 hover:border-cyan-500/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-black mb-4">
+                        1
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">WiFi Smart Method (Recommended)</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        നിങ്ങളുടെ ടിവി ഒരു <strong>Smart TV (Android TV, Google TV, Samsung Tizen, LG webOS)</strong> ആണെങ്കിൽ:
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-2 list-disc list-inside">
+                        <li>സ്മാർട്ട് ഫോണും ടിവിയും ഒരേ <strong>Home WiFi</strong> നെറ്റ്‌വർക്കിൽ ബന്ധിപ്പിക്കുക.</li>
+                        <li>റിമോട്ട് ആപ്പിൽ <strong>Auto Scan</strong> കൊടുക്കുമ്പോൾ ടിവിയുടെ പേര് കാണിക്കും.</li>
+                        <li>ടിവി സ്ക്രീനിൽ വരുന്ന 4-ഡിജിറ്റ് കോഡ് ഫോണിൽ ടൈപ്പ് ചെയ്താൽ കണക്ഷൻ പൂർത്തിയായി!</li>
+                        <li><strong>നേട്ടം:</strong> ഫോണിൽ IR ബ്ലാസ്റ്റർ ആവശ്യമില്ല, ഏത് ഫോണിലും വർക്ക് ചെയ്യും.</li>
+                    </ul>
+                </div>
+
+                <!-- Method 2 -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-black mb-4">
+                        2
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Built-in IR Blaster Method</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        പഴയ സാധാരണ ടിവി, എയർ കണ്ടീഷണർ (AC), സെറ്റ്-ടോപ്പ് ബോക്സ് എന്നിവയ്ക്ക്:
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-2 list-disc list-inside">
+                        <li>നിങ്ങളുടെ ഫോൺ <strong>Xiaomi, Redmi, Poco, Vivo, Huawei</strong> ആണെങ്കിൽ ഫോണിന്റെ മുകൾഭാഗത്ത് ഇൻഫ്രാറെഡ് (IR) സെൻസർ ഉണ്ടായിരിക്കും.</li>
+                        <li>ആപ്പിൽ പോയി നിങ്ങളുടെ ബ്രാൻഡ് (Samsung, LG, Voltas etc.) സെലക്ട് ചെയ്യുക.</li>
+                        <li>പഴയ റിമോട്ട് ഇല്ലാതെ തന്നെ നേരെ ടിവിക്കും എസിക്കും നേരെ പിടിച്ച് പ്രവർത്തിപ്പിക്കാം.</li>
+                    </ul>
+                </div>
+
+                <!-- Method 3 -->
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-black mb-4">
+                        3
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Type-C / 3.5mm IR Dongle</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        ഫോണിൽ IR Blaster ഇല്ലെങ്കിലും പഴയ ടിവി പ്രവർത്തിപ്പിക്കാൻ:
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-2 list-disc list-inside">
+                        <li>ഓൺലൈനിൽ ₹100 - ₹200 രൂപയ്ക്ക് ലഭിക്കുന്ന <strong>Type-C അല്ലെങ്കിൽ Lightning IR Adapter</strong> ഫോണിൽ ഘടിപ്പിക്കുക.</li>
+                        <li>ആപ്പ് തുറന്ന് പഴയ റിമോട്ടിലെ അതേ ഫ്രീക്വൻസിയിൽ സിഗ്നൽ നൽകാം.</li>
+                        <li>പഴയ ടിവി, ഡിവിഡി പ്ലെയർ, ആംപ്ലിഫയർ എന്നിവയെല്ലാം നിയന്ത്രിക്കാം.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- DIY Custom Remote Guide -->
+            <div class="mt-8 p-6 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-950 border border-cyan-500/30">
+                <h4 class="text-base font-bold text-white flex items-center space-x-2 mb-2">
+                    <i data-lucide="wrench" class="w-5 h-5 text-cyan-400"></i>
+                    <span>പൂർണ്ണമായും കസ്റ്റം റിമോട്ട് എങ്ങനെ നിർമ്മിക്കാം? (Fully Custom Remote Idea)</span>
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
+                    <div>
+                        <p class="leading-relaxed">
+                            ഓരോരുത്തരുടെയും വീട്ടിൽ പലതരം ഉപകരണങ്ങൾ ഉണ്ടാവും (ഉദാ: ലിവിംഗ് റൂം ടിവി, ബെഡ്‌റൂം എസി, സെറ്റ്-ടോപ്പ് ബോക്സ്, ഹോം തിയറ്റർ). മുകളിൽ നൽകിയിരിക്കുന്ന <strong>Custom Remote Designer</strong> വഴി:
+                        </p>
+                        <ul class="list-disc list-inside mt-2 space-y-1 text-slate-400">
+                            <li>ഒരൊറ്റ സ്ക്രീനിൽ തന്നെ ടിവിയുടെ വോളിയവും എസിയുടെ താപനിലയും ഒരുമിച്ച് വെക്കാം.</li>
+                            <li>നിങ്ങൾക്ക് സ്ഥിരമായി ആവശ്യമുള്ള ബട്ടണുകൾ മാത്രം സ്ക്രീനിൽ വെച്ച് ലളിതമാക്കാം.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="leading-relaxed">
+                            <strong>Macro Buttons (One-Tap Action):</strong> ഒരു ബട്ടൺ അമർത്തുമ്പോൾ തന്നെ ടിവി ഓണാവുകയും, സെറ്റ്-ടോപ്പ് ബോക്സ് ഓണാവുകയും, HDMI 1 മോഡിലേക്ക് മാറുകയും ചെയ്യുന്ന ഓട്ടോമേഷൻ ചെയ്യാവുന്നതാണ്.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Recommended App Downloads (APK & Official Store Links) -->
+        <div id="downloads" class="space-y-6">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="text-cyan-400 font-bold text-xs uppercase tracking-wider">Download & Install</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+                    Download Smart Remote Apps
+                </h2>
+                <p class="text-slate-400 text-xs sm:text-sm">
+                    Verified, 100% working universal remote apps for Android, iOS, and Web.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Card 1: AnyTool Web Remote PWA -->
+                <div class="bg-gradient-to-b from-slate-900 to-slate-950 p-6 rounded-3xl border border-cyan-500/40 shadow-xl flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 text-[11px] font-bold rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Official Web App</span>
+                            <span class="text-xs text-emerald-400 font-bold">No Ads • Zero MB</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">AnyTool Smart Remote (PWA)</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                            ഫോൺ മെമ്മറി കളയാതെ ബ്രൗസറിൽ നിന്ന് നേരിട്ട് ഇൻസ്റ്റാൾ ചെയ്യാം. വൈഫൈ റിമോട്ടും കസ്റ്റം ലേഔട്ടും അടങ്ങിയ സുരക്ഷിതമായ ആപ്പ്.
+                        </p>
+                    </div>
+                    <button onclick="installPwaRemote()" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center space-x-2 shadow-lg shadow-cyan-500/20">
+                        <i data-lucide="download-cloud" class="w-4 h-4"></i>
+                        <span>Install Web App (Instant)</span>
+                    </button>
+                </div>
+
+                <!-- Card 2: Google TV Remote (WiFi Official) -->
+                <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 text-[11px] font-bold rounded-full bg-slate-800 text-slate-300 border border-slate-700">Official Android TV</span>
+                            <span class="text-xs text-slate-400">Play Store</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Google TV Remote</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                            Android TV, Google TV, Sony, TCL, OnePlus, Xiaomi സ്മാർട്ട് ടിവികൾക്ക് ഏറ്റവും മികച്ച ഒഫീഷ്യൽ വൈഫൈ റിമോട്ട് ആപ്പ്. കീബോർഡ് ടൈപ്പിംഗ് സപ്പോർട്ട് ഉണ്ട്.
+                        </p>
+                    </div>
+                    <a href="https://play.google.com/store/apps/details?id=com.google.android.videos" target="_blank" rel="noopener" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center space-x-2 border border-slate-700">
+                        <i data-lucide="play" class="w-4 h-4 text-emerald-400"></i>
+                        <span>Google Play Store</span>
+                    </a>
+                </div>
+
+                <!-- Card 3: Universal IR Remote (Mi Remote / BroadLink) -->
+                <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 text-[11px] font-bold rounded-full bg-slate-800 text-slate-300 border border-slate-700">Universal IR & WiFi</span>
+                            <span class="text-xs text-slate-400">Multi-Device</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Mi Remote / ZaZa Remote</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                            പഴയ ടിവി, എസി, സെറ്റ് ടോപ്പ് ബോക്സ്, ഫാൻ, പ്രൊജക്ടർ എന്നിവയ്ക്കായി 50,000+ ഡിവൈസുകളുടെ കോഡ് അടങ്ങിയ യൂണിവേഴ്സൽ റിമോട്ട് ആപ്പ്.
+                        </p>
+                    </div>
+                    <a href="https://play.google.com/store/apps/details?id=com.duokan.phone.remotecontroller" target="_blank" rel="noopener" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center space-x-2 border border-slate-700">
+                        <i data-lucide="smartphone" class="w-4 h-4 text-cyan-400"></i>
+                        <span>Download Universal IR APK</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 space-y-2">
+            <p>© 2026 AnyTool.io — Free In-Browser Digital Tools & Utilities. 100% Client-Side & Private.</p>
+            <div class="flex justify-center space-x-4">
+                <a href="/" class="hover:text-cyan-400 transition">Home</a>
+                <a href="/privacy.html" class="hover:text-cyan-400 transition">Privacy Policy</a>
+                <a href="/terms.html" class="hover:text-cyan-400 transition">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        lucide.createIcons();
+
+        let currentAppliance = 'tv';
+        let currentBrand = 'Samsung';
+        let currentProtocol = 'WiFi & Smart Cast';
+        let acTemp = 24;
+
+        function setAppliance(type) {
+            currentAppliance = type;
+            document.querySelectorAll('.appliance-btn').forEach(btn => {
+                btn.classList.remove('border-cyan-500', 'bg-cyan-500/10', 'text-cyan-300');
+                btn.classList.add('border-slate-800', 'bg-slate-800/50', 'text-slate-400');
+            });
+            const activeBtn = document.getElementById(`tab-${type}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-slate-800', 'bg-slate-800/50', 'text-slate-400');
+                activeBtn.classList.add('border-cyan-500', 'bg-cyan-500/10', 'text-cyan-300');
+            }
+
+            const tvControls = document.getElementById('tvControls');
+            const acControls = document.getElementById('acControls');
+            const displayTitle = document.getElementById('displayDeviceName');
+            const displaySub = document.getElementById('displaySubtitle');
+
+            if (type === 'ac') {
+                tvControls.classList.add('hidden');
+                acControls.classList.remove('hidden');
+                displayTitle.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 inline-block animate-pulse"></span><span>${currentBrand} Smart AC</span>`;
+                displaySub.innerText = `Bedroom • Target ${acTemp}°C • Mode Cool`;
+            } else {
+                tvControls.classList.remove('hidden');
+                acControls.classList.add('hidden');
+                displayTitle.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span><span>${currentBrand} Smart TV</span>`;
+                displaySub.innerText = `Living Room • Signal Active`;
+            }
+
+            logSignal(`Switched appliance profile to: ${type.toUpperCase()}`);
+        }
+
+        function updateBrand() {
+            currentBrand = document.getElementById('brandSelect').value;
+            setAppliance(currentAppliance);
+            logSignal(`Brand updated to: ${currentBrand}`);
+        }
+
+        function updateProtocol() {
+            currentProtocol = document.getElementById('protocolSelect').value;
+            document.getElementById('remoteProtocolBadge').innerText = currentProtocol.split(' ')[0];
+            logSignal(`Transmission protocol changed to: ${currentProtocol}`);
+        }
+
+        function adjustTemp(delta) {
+            acTemp = Math.max(16, Math.min(30, acTemp + delta));
+            document.getElementById('acTempDisplay').innerText = `${acTemp}°C`;
+            document.getElementById('displaySubtitle').innerText = `Bedroom • Target ${acTemp}°C • Mode Cool`;
+            sendRemoteSignal(`TEMP ${delta > 0 ? '+' : ''}${delta}°C -> Set to ${acTemp}°C`);
+        }
+
+        function sendRemoteSignal(action) {
+            // Flash the IR Led
+            const led = document.getElementById('irLed');
+            led.classList.add('ir-glow', 'bg-red-400', 'led-active');
+            setTimeout(() => {
+                led.classList.remove('ir-glow', 'bg-red-400', 'led-active');
+            }, 250);
+
+            // Log signal
+            logSignal(`[${currentProtocol}] -> Transmitted "${action}" to ${currentBrand} ${currentAppliance.toUpperCase()}`);
+        }
+
+        function logSignal(text) {
+            const terminal = document.getElementById('signalTerminal');
+            const time = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.innerHTML = `<span class="text-slate-500">[${time}]</span> ${text}`;
+            terminal.appendChild(div);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function clearSignalLog() {
+            document.getElementById('signalTerminal').innerHTML = '<div>> Log cleared. System ready.</div>';
+        }
+
+        function addCustomButton() {
+            const input = document.getElementById('customBtnLabel');
+            const name = input.value.trim();
+            if (!name) return;
+
+            const grid = document.getElementById('customButtonGrid');
+            const btn = document.createElement('button');
+            btn.className = 'btn-press py-1.5 bg-cyan-600/20 border border-cyan-500/40 text-cyan-300 rounded-lg text-[10px] font-bold';
+            btn.innerText = name;
+            btn.onclick = () => sendRemoteSignal(name);
+            grid.appendChild(btn);
+
+            input.value = '';
+            logSignal(`Custom macro button added: "${name}"`);
+        }
+
+        function installPwaRemote() {
+            alert("To install AnyTool Smart Remote on your phone:\n\n1. In Chrome/Safari, tap the Share or 3-dots Menu button.\n2. Tap 'Add to Home Screen' (അല്ലെങ്കിൽ Install App).\n3. You now have a standalone Smart Remote app with zero storage used!");
+        }
+    </script>
+</body>
+</html>
