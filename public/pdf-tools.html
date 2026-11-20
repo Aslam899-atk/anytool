@@ -1,76 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Tools - AnyTool.io</title>
-    <meta name="description" content="Free online PDF tools. Merge, Split, Compress, and Edit PDFs easily.">
+    <title>PDF Suite - All Free Online PDF Tools | AnyTool.io</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="All-in-one free, private in-browser PDF suite. Merge PDF, Split PDF, Compress PDF, PDF to Images, and Image to PDF without uploads. 100% Client-Side Privacy.">
+    <meta name="keywords" content="pdf tools, merge pdf, split pdf, compress pdf, pdf to image, image to pdf, free pdf editor online, anytool">
+    <meta name="author" content="AnyTool.io">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://anytool.io/pdf-tools" />
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Favicon & App Brand Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Favicon & Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#4f46e5">
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
-    <!-- Navbar -->
-    <nav class="bg-white shadow">
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="text-2xl font-bold text-indigo-600">AnyTool.io</a>
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg border border-slate-700 group-hover:scale-105 transition">
+                    <div>
+                        <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-rose-400 via-pink-500 to-indigo-400 bg-clip-text text-transparent">AnyTool<span class="text-rose-500">.io</span></span>
+                    </div>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <div id="anytoolAuthContainer" class="flex items-center"></div>
+                    <a href="/" class="text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center space-x-1">
+                        <span>←</span>
+                        <span>All Tools</span>
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
-        <div class="flex items-center mb-10">
-            <a href="/" class="text-gray-500 hover:text-indigo-600 mr-4">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            </a>
-            <h2 class="text-3xl font-bold text-gray-800">PDF Tools</h2>
+    <!-- Hero Header -->
+    <header class="pt-12 pb-6 px-4 text-center max-w-4xl mx-auto space-y-3">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-rose-950/60 text-rose-300 rounded-full text-xs font-bold border border-rose-800/80 shadow-lg shadow-rose-950/40">
+            <span>📄 Complete In-Browser PDF Suite • Zero Uploads • 100% Confidential</span>
         </div>
-        
+        <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight">
+            Professional <span class="bg-gradient-to-r from-rose-400 via-pink-400 to-amber-300 bg-clip-text text-transparent">PDF Toolkit</span>
+        </h1>
+        <p class="text-slate-400 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
+            Every tool you need to work with PDFs in one place. Merge, split, compress, extract pages, and convert documents locally inside your browser.
+        </p>
+    </header>
+
+    <!-- PDF Tools Grid -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            <!-- Merge PDF -->
-            <a href="/merge-pdf.html" class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition duration-300 flex items-center border-l-4 border-red-500">
-                <div class="text-red-500 mr-4">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                </div>
+
+            <!-- 1. Merge PDF -->
+            <a href="/merge-pdf" class="cyber-card group rounded-3xl p-6 bg-slate-900/60 border border-slate-800 hover:border-rose-500/80 transition duration-300 flex flex-col justify-between">
                 <div>
-                    <h3 class="text-lg font-bold">Merge PDF</h3>
-                    <p class="text-gray-500 text-sm">Combine multiple PDFs into one.</p>
+                    <div class="w-12 h-12 rounded-2xl bg-rose-950/80 text-rose-400 border border-rose-800/80 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                        📑
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-rose-400 transition mb-2">Merge PDF</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Combine multiple PDF files into one clean document. Drag to reorder pages with live thumbnail previews.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold text-rose-400">
+                    <span>Launch Merger</span>
+                    <span class="group-hover:translate-x-1 transition">→</span>
                 </div>
             </a>
 
-            <!-- Split PDF -->
-            <a href="/split-pdf.html" class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition duration-300 flex items-center border-l-4 border-red-500 opacity-70">
-                <div class="text-red-500 mr-4">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                </div>
+            <!-- 2. Split PDF -->
+            <a href="/split-pdf" class="cyber-card group rounded-3xl p-6 bg-slate-900/60 border border-slate-800 hover:border-rose-500/80 transition duration-300 flex flex-col justify-between">
                 <div>
-                    <h3 class="text-lg font-bold">Split PDF</h3>
-                    <p class="text-gray-500 text-sm">Extract pages from your PDF. (Coming Soon)</p>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-950/80 text-amber-400 border border-amber-800/80 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                        ✂️
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition mb-2">Split PDF</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Extract specific pages or page ranges from any PDF document and download as separate organized files.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold text-amber-400">
+                    <span>Launch Splitter</span>
+                    <span class="group-hover:translate-x-1 transition">→</span>
                 </div>
             </a>
 
-            <!-- Compress PDF -->
-            <a href="#" class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition duration-300 flex items-center border-l-4 border-red-500 opacity-70">
-                <div class="text-red-500 mr-4">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                </div>
+            <!-- 3. Compress PDF -->
+            <a href="/compress-pdf" class="cyber-card group rounded-3xl p-6 bg-slate-900/60 border border-slate-800 hover:border-rose-500/80 transition duration-300 flex flex-col justify-between">
                 <div>
-                    <h3 class="text-lg font-bold">Compress PDF</h3>
-                    <p class="text-gray-500 text-sm">Reduce PDF file size. (Coming Soon)</p>
+                    <div class="w-12 h-12 rounded-2xl bg-pink-950/80 text-pink-400 border border-pink-800/80 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                        📦
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-pink-400 transition mb-2">Compress PDF</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Reduce PDF file size up to 80% with extreme, recommended, and low compression presets and savings preview.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold text-pink-400">
+                    <span>Launch Compressor</span>
+                    <span class="group-hover:translate-x-1 transition">→</span>
                 </div>
             </a>
-            
+
+            <!-- 4. PDF to Image -->
+            <a href="/pdf-to-image" class="cyber-card group rounded-3xl p-6 bg-slate-900/60 border border-slate-800 hover:border-rose-500/80 transition duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-cyan-950/80 text-cyan-400 border border-cyan-800/80 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                        🖼️
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition mb-2">PDF to Images (JPG/PNG)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Convert every page of your PDF into high-resolution JPG or PNG pictures with single or bulk ZIP download.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold text-cyan-400">
+                    <span>Convert to Images</span>
+                    <span class="group-hover:translate-x-1 transition">→</span>
+                </div>
+            </a>
+
+            <!-- 5. Image to PDF -->
+            <a href="/image-to-pdf" class="cyber-card group rounded-3xl p-6 bg-slate-900/60 border border-slate-800 hover:border-rose-500/80 transition duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-950/80 text-indigo-400 border border-indigo-800/80 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                        📄
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-indigo-400 transition mb-2">Images to PDF Converter</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Convert multiple JPG, PNG, and WebP pictures into one clean, well-aligned PDF document with orientation control.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold text-indigo-400">
+                    <span>Convert Images</span>
+                    <span class="group-hover:translate-x-1 transition">→</span>
+                </div>
+            </a>
+
         </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 px-4 text-center text-xs text-slate-500">
+        <p>© 2026 AnyTool.io • Dedicated to private, secure, and free in-browser utilities.</p>
+    </footer>
+
+    <script src="/js/core.js"></script>
 </body>
 </html>

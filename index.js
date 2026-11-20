@@ -275,6 +275,18 @@ app.get(['/barcode-tools', '/barcode-generator', '/barcode-scanner'], (req, res)
     res.sendFile(path.join(__dirname, 'public', 'barcode-tools.html'));
 });
 
+app.get(['/compress-pdf', '/reduce-pdf-size'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'compress-pdf.html'));
+});
+
+app.get(['/pdf-to-image', '/pdf-to-jpg', '/pdf-to-png'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pdf-to-image.html'));
+});
+
+app.get(['/pdf-tools', '/pdf-suite'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pdf-tools.html'));
+});
+
 app.get('/merge-pdf', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'merge-pdf.html'));
 });

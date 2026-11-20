@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Image Converter Online Free - Convert PDF to JPG / PNG | AnyTool.io</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Convert PDF documents to high-resolution JPG or PNG images online for free. Download individual pages or download all pages in a single ZIP file. 100% private, client-side conversion.">
+    <meta name="keywords" content="pdf to image, pdf to jpg, pdf to png, convert pdf to images, free pdf to photo converter, extract images from pdf, anytool">
+    <meta name="author" content="AnyTool.io">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://anytool.io/pdf-to-image" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anytool.io/pdf-to-image">
+    <meta property="og:title" content="PDF to Image Converter Online Free - AnyTool.io">
+    <meta property="og:description" content="Convert every PDF page to crisp JPG or PNG images with ZIP download. 100% in-browser, no file upload.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- PDF.js for Page Rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    <!-- JSZip for Bulk Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+</head>
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="/favicon-32x32.png" alt="AnyTool Logo" class="w-8 h-8 rounded-lg border border-slate-700 group-hover:scale-105 transition">
+                    <div>
+                        <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-rose-400 via-pink-500 to-indigo-400 bg-clip-text text-transparent">AnyTool<span class="text-rose-500">.io</span></span>
+                    </div>
+                </a>
+                <div class="flex items-center space-x-3">
+                    <div id="anytoolAuthContainer" class="flex items-center"></div>
+                    <a href="/pdf-tools" class="text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition hidden sm:inline-flex items-center space-x-1">
+                        <span>📄</span>
+                        <span>All PDF Tools</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-10 pb-6 px-4 text-center max-w-4xl mx-auto space-y-3">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-rose-950/60 text-rose-300 rounded-full text-xs font-bold border border-rose-800/80 shadow-lg shadow-rose-950/40">
+            <span>🖼️ High-Res Extraction • JPG & PNG • Download Individual or ZIP</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            Convert <span class="bg-gradient-to-r from-rose-400 via-pink-400 to-amber-300 bg-clip-text text-transparent">PDF to Images</span>
+        </h1>
+        <p class="text-slate-400 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
+            Extract every PDF page into crystal clear JPG or PNG images. Fast, 100% private in-browser conversion with bulk ZIP download.
+        </p>
+    </header>
+
+    <!-- Main Studio Container -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 flex-grow w-full space-y-8">
+        
+        <!-- STEP 1: Upload Dropzone -->
+        <div id="dropzoneCard" class="cyber-card rounded-3xl p-8 sm:p-12 text-center border-2 border-dashed border-slate-700 hover:border-rose-500 transition duration-300 relative group cursor-pointer bg-slate-900/50">
+            <input type="file" id="pdfFileInput" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+            
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-rose-950/60 text-rose-400 border border-rose-800/80 rounded-3xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-rose-900/80 transition duration-300 text-3xl sm:text-4xl shadow-xl shadow-rose-950/50">
+                🖼️
+            </div>
+            <h3 class="text-lg sm:text-2xl font-black text-white mb-2">
+                Drop your PDF here, or <span class="text-rose-400 underline decoration-rose-500/50">Browse File</span>
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
+                Select your document to turn all pages into crisp, shareable images.
+            </p>
+            <div class="mt-4 flex items-center justify-center space-x-3 text-[11px] font-mono text-slate-500">
+                <span>● JPG & PNG Outputs</span>
+                <span>•</span>
+                <span>● 100% In-Browser Privacy</span>
+            </div>
+        </div>
+
+        <!-- STEP 2: Conversion Options & Grid (Hidden until PDF uploaded) -->
+        <div id="exportSection" class="hidden space-y-6">
+            
+            <!-- Controls Bar -->
+            <div class="cyber-card rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/90 border border-slate-700">
+                <div>
+                    <h4 id="docTitle" class="text-sm sm:text-base font-bold text-white truncate max-w-xs sm:max-w-md">document.pdf</h4>
+                    <span id="pageStats" class="text-xs text-rose-400 font-mono font-semibold">Total Pages: --</span>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- Format Switcher -->
+                    <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-bold">
+                        <button onclick="setFormat('jpeg')" id="btnFormatJpg" class="px-3 py-1.5 rounded-lg bg-rose-500 text-black transition">JPG</button>
+                        <button onclick="setFormat('png')" id="btnFormatPng" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">PNG</button>
+                    </div>
+
+                    <!-- Quality / DPI -->
+                    <select id="scaleSelect" onchange="renderAllPages()" class="bg-slate-950 border border-slate-800 text-slate-200 text-xs font-bold rounded-xl px-3 py-2 focus:outline-none focus:border-rose-500">
+                        <option value="1.5">Standard (150 DPI)</option>
+                        <option value="2.0" selected>High-Res (200 DPI)</option>
+                        <option value="3.0">Ultra-Sharp (300 DPI)</option>
+                    </select>
+
+                    <!-- Download All as ZIP -->
+                    <button id="downloadZipBtn" onclick="downloadAllAsZip()" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-black font-black px-4 py-2 rounded-xl text-xs transition flex items-center space-x-1.5 shadow-md">
+                        <span>📦 Download All as ZIP</span>
+                    </button>
+
+                    <button onclick="resetConverter()" class="text-xs text-slate-400 hover:text-rose-400 font-bold px-2 py-1">
+                        ✕ Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Page Previews Grid -->
+            <div id="pagesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 px-4 text-center text-xs text-slate-500">
+        <p>© 2026 AnyTool.io • 100% Client-Side In-Browser PDF Rendering</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/core.js"></script>
+    <script>
+        let currentPdf = null;
+        let pdfDoc = null;
+        let currentFormat = 'jpeg';
+        let renderedPagesData = []; // { pageNum, dataUrl, filename }
+
+        const dropzone = document.getElementById('dropzoneCard');
+        const fileInput = document.getElementById('pdfFileInput');
+        const exportSection = document.getElementById('exportSection');
+        const pagesGrid = document.getElementById('pagesGrid');
+
+        // Drag & Drop
+        ['dragenter', 'dragover'].forEach(name => {
+            dropzone.addEventListener(name, (e) => {
+                e.preventDefault();
+                dropzone.classList.add('border-rose-500', 'bg-rose-950/20');
+            });
+        });
+        ['dragleave', 'drop'].forEach(name => {
+            dropzone.addEventListener(name, (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('border-rose-500', 'bg-rose-950/20');
+            });
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files && files.length > 0) processPdf(files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) processPdf(e.target.files[0]);
+        });
+
+        function setFormat(fmt) {
+            currentFormat = fmt;
+            const btnJpg = document.getElementById('btnFormatJpg');
+            const btnPng = document.getElementById('btnFormatPng');
+            if (fmt === 'jpeg') {
+                btnJpg.className = 'px-3 py-1.5 rounded-lg bg-rose-500 text-black transition';
+                btnPng.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition';
+            } else {
+                btnPng.className = 'px-3 py-1.5 rounded-lg bg-rose-500 text-black transition';
+                btnJpg.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition';
+            }
+            renderAllPages();
+        }
+
+        async function processPdf(file) {
+            if (!file || file.type !== 'application/pdf') {
+                AnyTool.showToast('Please select a valid PDF file (.pdf)', 'error');
+                return;
+            }
+
+            currentPdf = file;
+            document.getElementById('docTitle').innerText = file.name;
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+                pdfDoc = await loadingTask.promise;
+
+                document.getElementById('pageStats').innerText = `Total Pages: ${pdfDoc.numPages}`;
+
+                dropzone.classList.add('hidden');
+                exportSection.classList.remove('hidden');
+
+                await renderAllPages();
+                AnyTool.showToast(`Loaded ${pdfDoc.numPages} pages! ✓`, 'success');
+            } catch (err) {
+                console.error(err);
+                AnyTool.showToast('Failed to load PDF file', 'error');
+            }
+        }
+
+        async function renderAllPages() {
+            if (!pdfDoc) return;
+            pagesGrid.innerHTML = '<div class="col-span-full py-12 text-center text-xs text-rose-400 font-mono">Rendering pages into high-resolution images...</div>';
+            renderedPagesData = [];
+
+            const scale = parseFloat(document.getElementById('scaleSelect').value) || 2.0;
+            const mimeType = currentFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+            const ext = currentFormat === 'jpeg' ? 'jpg' : 'png';
+            const baseName = currentPdf.name.replace(/\.pdf$/i, '');
+
+            let cardsHtml = '';
+
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: scale });
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+                const dataUrl = canvas.toDataURL(mimeType, 0.92);
+                const filename = `${baseName}_page_${i}.${ext}`;
+                renderedPagesData.push({ pageNum: i, dataUrl, filename });
+
+                cardsHtml += `
+                    <div class="cyber-card rounded-2xl p-3 bg-slate-900/80 border border-slate-800 flex flex-col justify-between group hover:border-slate-700 transition">
+                        <div class="relative bg-slate-950 rounded-xl overflow-hidden mb-3 aspect-[3/4] flex items-center justify-center border border-slate-800/80">
+                            <img src="${dataUrl}" alt="Page ${i}" class="w-full h-full object-contain">
+                            <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/80 text-[10px] font-mono font-bold text-white border border-slate-700">
+                                Page ${i}
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between pt-1">
+                            <span class="text-[11px] font-mono text-slate-400">${ext.toUpperCase()}</span>
+                            <a href="${dataUrl}" download="${filename}" class="bg-slate-800 hover:bg-rose-500 hover:text-black text-slate-200 font-bold px-3 py-1.5 rounded-xl text-xs transition duration-200 flex items-center space-x-1">
+                                <span>⬇️</span>
+                                <span>Save</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            pagesGrid.innerHTML = cardsHtml;
+        }
+
+        async function downloadAllAsZip() {
+            if (renderedPagesData.length === 0) return;
+            const zipBtn = document.getElementById('downloadZipBtn');
+            const originalText = zipBtn.innerHTML;
+            zipBtn.innerHTML = '<span>⏳ Zipping files...</span>';
+            zipBtn.disabled = true;
+
+            try {
+                const zip = new JSZip();
+                const baseName = currentPdf.name.replace(/\.pdf$/i, '');
+
+                renderedPagesData.forEach(item => {
+                    // Extract raw base64 data
+                    const base64Data = item.dataUrl.split(',')[1];
+                    zip.file(item.filename, base64Data, { base64: true });
+                });
+
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                const zipUrl = URL.createObjectURL(zipBlob);
+                const a = document.createElement('a');
+                a.href = zipUrl;
+                a.download = `${baseName}_all_pages.zip`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                AnyTool.showToast('ZIP downloaded successfully! ✓', 'success');
+            } catch (err) {
+                console.error('ZIP Error:', err);
+                AnyTool.showToast('Failed to create ZIP file', 'error');
+            } finally {
+                zipBtn.innerHTML = originalText;
+                zipBtn.disabled = false;
+            }
+        }
+
+        function resetConverter() {
+            currentPdf = null;
+            pdfDoc = null;
+            renderedPagesData = [];
+            fileInput.value = '';
+            dropzone.classList.remove('hidden');
+            exportSection.classList.add('hidden');
+            pagesGrid.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
