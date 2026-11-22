@@ -244,6 +244,48 @@
         </div>
     </div>
 
+    <!-- INSTALL GUIDE MODAL (Shows step-by-step for Android & iPhone) -->
+    <div id="installGuideModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-sm p-6 space-y-4 shadow-2xl relative text-slate-100">
+            <button onclick="toggleInstallGuide()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-base">✕</button>
+
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-2xl flex items-center justify-center mx-auto">
+                    <i data-lucide="smartphone" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-base font-black text-white">How to Install on Phone</h3>
+                <p class="text-xs text-slate-400">ഫോണിൽ റിയൽ ആപ്പായി ഇൻസ്റ്റാൾ ചെയ്യാൻ:</p>
+            </div>
+
+            <!-- Steps for Chrome / Android -->
+            <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2 text-xs">
+                <div class="font-bold text-cyan-400 flex items-center space-x-1.5">
+                    <span>📱 Android / Chrome:</span>
+                </div>
+                <ol class="list-decimal list-inside space-y-1.5 text-slate-300 text-[11px] leading-relaxed">
+                    <li>ബ്രൗസറിന്റെ മുകളിൽ വലതുവശത്തുള്ള <strong>3 കുത്തുകളിൽ (⋮)</strong> ക്ലിക്ക് ചെയ്യുക.</li>
+                    <li>അതിൽ <strong>"Install app"</strong> അല്ലെങ്കിൽ <strong>"Add to Home Screen"</strong> ക്ലിക്ക് ചെയ്യുക.</li>
+                    <li>ഉടൻതന്നെ ഫോൺ ആപ്പ് ഡ്രോയറിൽ <strong>SmartRemote</strong> ആപ്പ് ഇൻസ്റ്റാൾ ആകും!</li>
+                </ol>
+            </div>
+
+            <!-- Steps for iPhone / Safari -->
+            <div class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 space-y-2 text-xs">
+                <div class="font-bold text-blue-400 flex items-center space-x-1.5">
+                    <span>🍎 iPhone / Safari:</span>
+                </div>
+                <ol class="list-decimal list-inside space-y-1.5 text-slate-300 text-[11px] leading-relaxed">
+                    <li>താഴെയുള്ള <strong>Share (⎋)</strong> ബട്ടൺ അമർത്തുക.</li>
+                    <li>താഴേക്ക് സ്ക്രോൾ ചെയ്ത് <strong>"Add to Home Screen"</strong> തിരഞ്ഞെടുക്കുക.</li>
+                </ol>
+            </div>
+
+            <button onclick="toggleInstallGuide()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition">
+                Got it / മനസ്സിലായി ✓
+            </button>
+        </div>
+    </div>
+
     <!-- Add Button Modal -->
     <div id="addBtnModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-2xl">
@@ -458,6 +500,11 @@
             alert('🎉 SmartRemote app successfully installed on your phone!');
         });
 
+        function toggleInstallGuide() {
+            const m = document.getElementById('installGuideModal');
+            if (m) m.classList.toggle('hidden');
+        }
+
         function installStandaloneApp() {
             if (pwaPrompt) {
                 pwaPrompt.prompt();
@@ -468,10 +515,7 @@
                     pwaPrompt = null;
                 });
             } else {
-                alert("To install as a Real Offline App on your smartphone:\n\n" +
-                      "1. Tap Chrome / Safari 3-dots Menu (or Share icon).\n" +
-                      "2. Tap 'Add to Home Screen' (അല്ലെങ്കിൽ 'Install App').\n" +
-                      "3. You now have a 100% standalone Real Remote App that works offline without internet!");
+                toggleInstallGuide();
             }
         }
 
