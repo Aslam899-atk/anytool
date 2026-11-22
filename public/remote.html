@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Universal Smart Remote - Standalone App</title>
+    
+    <meta name="description" content="Offline Universal Smart Remote App for TV, AC, Set-top Box. 100% Client-side.">
+    <link rel="canonical" href="https://anytool.io/remote.html" />
+
+    <!-- Standalone PWA Capabilities -->
+    <link rel="manifest" href="/remote-manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SmartRemote">
+    <meta name="theme-color" content="#070b14">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <!-- Tailwind & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            overscroll-behavior-y: contain;
+            background: #070b14;
+        }
+
+        /* Remote Canvas */
+        .remote-canvas {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 130px);
+            min-height: 520px;
+            background-size: 24px 24px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            touch-action: none;
+        }
+
+        /* Draggable Remote Buttons */
+        .canvas-btn {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.1s ease;
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.25);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .canvas-btn:active {
+            transform: scale(0.92);
+            filter: brightness(1.3);
+        }
+        .canvas-btn.selected {
+            outline: 2px dashed #06b6d4;
+            outline-offset: 3px;
+        }
+
+        /* Circular D-Pad Disc (As requested in image) */
+        .dpad-ring-container {
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #475569 0%, #1e293b 60%, #0f172a 100%);
+            border: 3px solid #334155;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.7), inset 0 2px 4px rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: move;
+            touch-action: none;
+            user-select: none;
+        }
+        .dpad-ring-container.selected {
+            outline: 2px dashed #06b6d4;
+            outline-offset: 4px;
+        }
+        .dpad-dir-btn {
+            position: absolute;
+            background: transparent;
+            border: none;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.1s, color 0.1s;
+            -webkit-tap-highlight-color: transparent;
+            padding: 8px;
+        }
+        .dpad-dir-btn:active {
+            transform: scale(0.85);
+            color: #38bdf8;
+        }
+        .dpad-center-ok {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #1e293b 0%, #090d16 100%);
+            border: 2px solid #334155;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.2);
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dpad-center-ok:active {
+            transform: scale(0.9);
+            background: #0284c7;
+        }
+
+        /* Glowing IR Blaster LED */
+        .ir-bulb {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #334155;
+            transition: all 0.15s;
+        }
+        .ir-transmitting {
+            background: #ef4444 !important;
+            box-shadow: 0 0 15px #ef4444, 0 0 30px #f43f5e;
+            transform: scale(1.3);
+        }
+    </style>
+</head>
+<body class="text-slate-100 flex flex-col h-screen overflow-hidden">
+
+    <!-- App Top Bar (Header) -->
+    <header class="bg-slate-900/95 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between z-30 flex-shrink-0">
+        <div class="flex items-center space-x-2">
+            <!-- IR / TX Indicator -->
+            <div id="topIrLed" class="ir-bulb"></div>
+            <div>
+                <h1 class="text-xs font-black tracking-wide text-white flex items-center space-x-1">
+                    <span>SmartRemote</span>
+                    <span class="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-400 border border-cyan-800 font-mono">OFFLINE</span>
+                </h1>
+                <p id="txStatusSub" class="text-[9px] text-slate-400 font-mono">Ready • 100% Offline</p>
+            </div>
+        </div>
+
+        <!-- Controls: Add, Reset, Install -->
+        <div class="flex items-center space-x-1.5">
+            <button onclick="toggleAddModal()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center space-x-1">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Add</span>
+            </button>
+            <button onclick="resetDefaultLayout()" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs border border-slate-700 transition" title="Reset Default Layout">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            </button>
+            <button id="nativeInstallBtn" onclick="installStandaloneApp()" class="px-3 py-1.5 bg-gradient-to-r from-cyan-400 to-teal-300 text-black rounded-xl text-xs font-extrabold shadow-md transition flex items-center space-x-1">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span id="installBtnText">Install App</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Remote Canvas Area -->
+    <main id="remoteCanvas" class="remote-canvas flex-grow relative" onclick="canvasBackgroundClicked(event)">
+        <!-- Spawned buttons and Circular D-Pad live here -->
+    </main>
+
+    <!-- Bottom Status / Transmission Bar -->
+    <footer class="bg-slate-950/95 border-t border-slate-800/80 px-4 py-2 flex items-center justify-between text-[11px] text-slate-400 font-mono z-30 flex-shrink-0">
+        <div class="truncate max-w-[260px]" id="lastSignalLabel">
+            > Tap any button to transmit signal
+        </div>
+        <div class="flex items-center space-x-2">
+            <button id="lockToggleBtn" onclick="toggleDragLock()" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px] font-bold">
+                🔒 Lock Layout
+            </button>
+        </div>
+    </footer>
+
+    <!-- Add Button Modal -->
+    <div id="addBtnModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <h3 class="text-sm font-bold text-white">Add New Button to Remote</h3>
+                <button onclick="toggleAddModal()" class="text-slate-400 hover:text-white text-base">✕</button>
+            </div>
+
+            <!-- Quick Preset Buttons -->
+            <div>
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">1-Click Presets:</span>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <button onclick="quickAddModal('TV Power', 'circle', '#ef4444', '#7f1d1d', '0xE0E040BF')" class="p-2 bg-slate-950 border border-slate-800 rounded-xl text-red-400 font-bold flex items-center space-x-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                        <span>TV Power</span>
+                    </button>
+                    <button onclick="spawnDpadRing(); toggleAddModal();" class="p-2 bg-slate-950 border border-cyan-800/60 rounded-xl text-cyan-300 font-bold flex items-center space-x-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                        <span>Circular D-Pad</span>
+                    </button>
+                    <button onclick="quickAddModal('Mute', 'square', '#1e293b', '#0f172a', 'KEY_MUTE')" class="p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 font-bold">🔇 Mute</button>
+                    <button onclick="quickAddModal('Source', 'pill', '#3b82f6', '#1e3a8a', 'KEY_SOURCE')" class="p-2 bg-slate-950 border border-slate-800 rounded-xl text-blue-300 font-bold">🔌 Source</button>
+                    <button onclick="quickAddModal('AC 24°C', 'pill', '#06b6d4', '#0e7490', 'AC_24C')" class="p-2 bg-slate-950 border border-slate-800 rounded-xl text-cyan-300 font-bold">❄️ AC 24°C</button>
+                    <button onclick="quickAddModal('Netflix', 'pill', '#b91c1c', '#7f1d1d', 'APP_NETFLIX')" class="p-2 bg-slate-950 border border-slate-800 rounded-xl text-red-400 font-bold">🔴 Netflix</button>
+                </div>
+            </div>
+
+            <!-- Custom Form -->
+            <div class="border-t border-slate-800 pt-3 space-y-2">
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Custom Button:</span>
+                <input id="modalBtnName" type="text" placeholder="Button Name (e.g. HDMI 2, Turbo)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="modalBtnShape" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-2 text-xs text-slate-200">
+                        <option value="pill">Pill / Wide</option>
+                        <option value="circle">Circle</option>
+                        <option value="square">Square</option>
+                    </select>
+                    <select id="modalBtnColor" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-2 text-xs text-slate-200">
+                        <option value="#06b6d4">Cyan</option>
+                        <option value="#ef4444">Red</option>
+                        <option value="#3b82f6">Blue</option>
+                        <option value="#10b981">Green</option>
+                        <option value="#1e293b">Dark Slate</option>
+                    </select>
+                </div>
+                <button onclick="createCustomModalBtn()" class="w-full py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-extrabold text-xs rounded-xl shadow-lg">
+                    + Add to Remote Screen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Engine -->
+    <script>
+        lucide.createIcons();
+
+        let isLocked = false;
+        let selectedEl = null;
+        let buttonCounter = 0;
+        let pwaPrompt = null;
+
+        // Register Standalone Service Worker for 100% Offline Capability
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/remote-sw.js')
+                    .then(reg => console.log('Standalone Remote ServiceWorker Active!', reg.scope))
+                    .catch(err => console.warn('SW register note:', err));
+            });
+        }
+
+        // Catch PWA Install Event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            pwaPrompt = e;
+            const btn = document.getElementById('nativeInstallBtn');
+            if (btn) btn.classList.add('animate-bounce');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('nativeInstallBtn').style.display = 'none';
+            alert('🎉 SmartRemote app successfully installed on your phone!');
+        });
+
+        function installStandaloneApp() {
+            if (pwaPrompt) {
+                pwaPrompt.prompt();
+                pwaPrompt.userChoice.then(choice => {
+                    if (choice.outcome === 'accepted') {
+                        console.log('User installed the real app');
+                    }
+                    pwaPrompt = null;
+                });
+            } else {
+                alert("To install as a Real Offline App on your smartphone:\n\n" +
+                      "1. Tap Chrome / Safari 3-dots Menu (or Share icon).\n" +
+                      "2. Tap 'Add to Home Screen' (അല്ലെങ്കിൽ 'Install App').\n" +
+                      "3. You now have a 100% standalone Real Remote App that works offline without internet!");
+            }
+        }
+
+        // Toggle Lock/Unlock Position
+        function toggleDragLock() {
+            isLocked = !isLocked;
+            const btn = document.getElementById('lockToggleBtn');
+            btn.innerText = isLocked ? '🔓 Unlock Edit' : '🔒 Lock Layout';
+            btn.className = isLocked ? 'px-2 py-0.5 rounded bg-amber-500 text-black text-[10px] font-bold' : 'px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px] font-bold';
+            document.getElementById('lastSignalLabel').innerText = isLocked ? '> Layout locked. Ready to use!' : '> Layout unlocked. You can drag buttons.';
+        }
+
+        // Spawn Button
+        function spawnButton(opt) {
+            const canvas = document.getElementById('remoteCanvas');
+            buttonCounter++;
+
+            const btn = document.createElement('div');
+            btn.className = 'canvas-btn text-white text-xs select-none';
+            btn.dataset.id = `btn_${buttonCounter}`;
+            btn.dataset.label = opt.label;
+            btn.dataset.code = opt.code || 'IR_CODE';
+            btn.style.left = `${opt.x || 30}px`;
+            btn.style.top = `${opt.y || 40}px`;
+            btn.style.background = `linear-gradient(145deg, ${opt.color || '#06b6d4'}, ${opt.bgDark || '#164e63'})`;
+
+            if (opt.shape === 'circle') {
+                btn.style.width = `${opt.w || 56}px`;
+                btn.style.height = `${opt.h || 56}px`;
+                btn.style.borderRadius = '50%';
+            } else if (opt.shape === 'pill') {
+                btn.style.width = `${opt.w || 110}px`;
+                btn.style.height = `${opt.h || 44}px`;
+                btn.style.borderRadius = '24px';
+            } else {
+                btn.style.width = `${opt.w || 52}px`;
+                btn.style.height = `${opt.h || 50}px`;
+                btn.style.borderRadius = '14px';
+            }
+
+            btn.innerText = opt.label;
+
+            // Transmit on click
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                transmitSignal(opt.label, opt.code);
+            });
+
+            setupDrag(btn);
+            canvas.appendChild(btn);
+            saveCurrentState();
+        }
+
+        // Spawn Circular D-Pad Ring (As requested in image)
+        function spawnDpadRing(opt = {}) {
+            const canvas = document.getElementById('remoteCanvas');
+            buttonCounter++;
+
+            const ring = document.createElement('div');
+            ring.className = 'dpad-ring-container';
+            ring.dataset.type = 'dpad_ring';
+            ring.dataset.label = 'Circular D-Pad';
+            ring.style.left = `${opt.x || 85}px`;
+            ring.style.top = `${opt.y || 110}px`;
+
+            // Up
+            const up = document.createElement('button');
+            up.className = 'dpad-dir-btn';
+            up.style.top = '10px';
+            up.style.left = '50%';
+            up.style.transform = 'translateX(-50%)';
+            up.innerHTML = `<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>`;
+            up.onclick = (e) => { e.stopPropagation(); transmitSignal('NAV UP', 'KEY_UP'); };
+
+            // Down
+            const down = document.createElement('button');
+            down.className = 'dpad-dir-btn';
+            down.style.bottom = '10px';
+            down.style.left = '50%';
+            down.style.transform = 'translateX(-50%)';
+            down.innerHTML = `<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
+            down.onclick = (e) => { e.stopPropagation(); transmitSignal('NAV DOWN', 'KEY_DOWN'); };
+
+            // Left
+            const left = document.createElement('button');
+            left.className = 'dpad-dir-btn';
+            left.style.left = '10px';
+            left.style.top = '50%';
+            left.style.transform = 'translateY(-50%)';
+            left.innerHTML = `<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`;
+            left.onclick = (e) => { e.stopPropagation(); transmitSignal('NAV LEFT', 'KEY_LEFT'); };
+
+            // Right
+            const right = document.createElement('button');
+            right.className = 'dpad-dir-btn';
+            right.style.right = '10px';
+            right.style.top = '50%';
+            right.style.transform = 'translateY(-50%)';
+            right.innerHTML = `<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`;
+            right.onclick = (e) => { e.stopPropagation(); transmitSignal('NAV RIGHT', 'KEY_RIGHT'); };
+
+            // Center OK
+            const ok = document.createElement('button');
+            ok.className = 'dpad-center-ok';
+            ok.innerText = 'OK';
+            ok.onclick = (e) => { e.stopPropagation(); transmitSignal('OK / ENTER', 'KEY_OK'); };
+
+            ring.appendChild(up);
+            ring.appendChild(down);
+            ring.appendChild(left);
+            ring.appendChild(right);
+            ring.appendChild(ok);
+
+            setupDrag(ring);
+            canvas.appendChild(ring);
+            saveCurrentState();
+        }
+
+        // Drag Handler
+        function setupDrag(el) {
+            let startX, startY, initLeft, initTop, isMoving = false;
+
+            el.addEventListener('pointerdown', (e) => {
+                if (isLocked) return;
+                isMoving = true;
+                el.setPointerCapture(e.pointerId);
+                startX = e.clientX;
+                startY = e.clientY;
+                initLeft = parseInt(el.style.left, 10) || 0;
+                initTop = parseInt(el.style.top, 10) || 0;
+            });
+
+            el.addEventListener('pointermove', (e) => {
+                if (!isMoving || isLocked) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                const canvas = document.getElementById('remoteCanvas');
+                
+                const newX = Math.max(5, Math.min(canvas.clientWidth - el.clientWidth - 5, initLeft + dx));
+                const newY = Math.max(5, Math.min(canvas.clientHeight - el.clientHeight - 5, initTop + dy));
+
+                el.style.left = `${newX}px`;
+                el.style.top = `${newY}px`;
+            });
+
+            el.addEventListener('pointerup', (e) => {
+                if (isMoving) {
+                    isMoving = false;
+                    try { el.releasePointerCapture(e.pointerId); } catch(err){}
+                    saveCurrentState();
+                }
+            });
+        }
+
+        // Signal Output Simulator & Haptic Pulse
+        function transmitSignal(label, code) {
+            // Flash LED
+            const led = document.getElementById('topIrLed');
+            led.classList.add('ir-transmitting');
+            setTimeout(() => led.classList.remove('ir-transmitting'), 180);
+
+            // Phone vibration (Real hardware haptic feedback)
+            if ('vibrate' in navigator) {
+                navigator.vibrate(35);
+            }
+
+            document.getElementById('lastSignalLabel').innerText = `⚡ TX: "${label}" [${code || 'NEC'}]`;
+        }
+
+        function canvasBackgroundClicked(e) {
+            // Unselect on canvas background tap
+        }
+
+        // Modal Helpers
+        function toggleAddModal() {
+            const m = document.getElementById('addBtnModal');
+            m.classList.toggle('hidden');
+        }
+
+        function quickAddModal(name, shape, col, dark, code) {
+            spawnButton({ label: name, shape: shape, color: col, bgDark: dark, code: code, x: 120, y: 160 });
+            toggleAddModal();
+        }
+
+        function createCustomModalBtn() {
+            const name = document.getElementById('modalBtnName').value.trim() || 'Custom Key';
+            const shape = document.getElementById('modalBtnShape').value;
+            const color = document.getElementById('modalBtnColor').value;
+            spawnButton({ label: name, shape: shape, color: color, bgDark: '#090d16', code: 'CUSTOM_KEY', x: 100, y: 120 });
+            document.getElementById('modalBtnName').value = '';
+            toggleAddModal();
+        }
+
+        // Save state offline in LocalStorage
+        function saveCurrentState() {
+            const items = [];
+            document.querySelectorAll('.canvas-btn').forEach(b => {
+                items.push({
+                    type: 'btn',
+                    label: b.dataset.label,
+                    code: b.dataset.code,
+                    x: parseInt(b.style.left),
+                    y: parseInt(b.style.top),
+                    w: parseInt(b.style.width),
+                    h: parseInt(b.style.height),
+                    shape: b.style.borderRadius === '50%' ? 'circle' : (parseInt(b.style.borderRadius) > 20 ? 'pill' : 'square'),
+                    color: b.style.background
+                });
+            });
+            document.querySelectorAll('.dpad-ring-container').forEach(r => {
+                items.push({
+                    type: 'dpad_ring',
+                    x: parseInt(r.style.left),
+                    y: parseInt(r.style.top)
+                });
+            });
+            localStorage.setItem('standalone_remote_state_v1', JSON.stringify(items));
+        }
+
+        // Reset Default Clean Remote
+        function resetDefaultLayout() {
+            document.getElementById('remoteCanvas').innerHTML = '';
+
+            // Top Power Row
+            spawnButton({ label: 'TV Power', shape: 'circle', color: '#ef4444', bgDark: '#7f1d1d', code: '0xE0E040BF', x: 25, y: 25, w: 56, h: 56 });
+            spawnButton({ label: 'AC Power', shape: 'circle', color: '#06b6d4', bgDark: '#164e63', code: 'VOLTAS_AC_COOL', x: 275, y: 25, w: 56, h: 56 });
+            spawnButton({ label: 'Set-Top Box', shape: 'pill', color: '#3b82f6', bgDark: '#1e3a8a', code: 'DTH_POWER', x: 105, y: 30, w: 145, h: 44 });
+
+            // Circular D-Pad Ring (Centerpiece)
+            spawnDpadRing({ x: 85, y: 110 });
+
+            // Vol & Channel
+            spawnButton({ label: 'VOL +', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_UP', x: 20, y: 150, w: 50, h: 48 });
+            spawnButton({ label: 'VOL -', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_DOWN', x: 20, y: 210, w: 50, h: 48 });
+            spawnButton({ label: 'CH ▲', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_UP', x: 285, y: 150, w: 50, h: 48 });
+            spawnButton({ label: 'CH ▼', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_DOWN', x: 285, y: 210, w: 50, h: 48 });
+
+            // Nav Return & Home
+            spawnButton({ label: '↩️ Back', shape: 'pill', color: '#334155', bgDark: '#1e293b', code: 'KEY_BACK', x: 50, y: 330, w: 115, h: 42 });
+            spawnButton({ label: '🏠 Home', shape: 'pill', color: '#06b6d4', bgDark: '#164e63', code: 'KEY_HOME', x: 190, y: 330, w: 115, h: 42 });
+
+            // AC Temp Controls
+            spawnButton({ label: '❄️ 22°C Cool', shape: 'pill', color: '#06b6d4', bgDark: '#0e7490', code: 'AC_22C', x: 25, y: 395, w: 145, h: 42 });
+            spawnButton({ label: '🌿 24°C Eco', shape: 'pill', color: '#10b981', bgDark: '#064e3b', code: 'AC_24C', x: 185, y: 395, w: 145, h: 42 });
+
+            // OTT Shortcuts
+            spawnButton({ label: 'Netflix', shape: 'pill', color: '#b91c1c', bgDark: '#7f1d1d', code: 'APP_NETFLIX', x: 25, y: 455, w: 90, h: 36 });
+            spawnButton({ label: 'YouTube', shape: 'pill', color: '#dc2626', bgDark: '#991b1b', code: 'APP_YOUTUBE', x: 130, y: 455, w: 90, h: 36 });
+            spawnButton({ label: 'Prime', shape: 'pill', color: '#2563eb', bgDark: '#1e40af', code: 'APP_PRIME', x: 235, y: 455, w: 90, h: 36 });
+
+            saveCurrentState();
+        }
+
+        // Restore saved layout or load default
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('standalone_remote_state_v1');
+            if (saved) {
+                try {
+                    const list = JSON.parse(saved);
+                    document.getElementById('remoteCanvas').innerHTML = '';
+                    list.forEach(item => {
+                        if (item.type === 'dpad_ring') {
+                            spawnDpadRing(item);
+                        } else {
+                            spawnButton(item);
+                        }
+                    });
+                } catch(e) {
+                    resetDefaultLayout();
+                }
+            } else {
+                resetDefaultLayout();
+            }
+        });
+    </script>
+</body>
+</html>
