@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zero-Remote DIY Custom Studio - Build Your Own Phone Remote | AnyTool.io</title>
     
-    <meta name="description" content="No remote needed! Build your 100% custom remote from scratch on your phone. Choose button types, custom colors, hex IR/WiFi codes, freely drag & position buttons anywhere, and export/install your remote layout.">
-    <meta name="keywords" content="build custom remote app, diy remote builder, phone ir blaster custom layout, drag drop remote buttons, universal remote maker, anytool">
+    <meta name="description" content="No remote needed! Build your 100% custom remote from scratch on your phone. Choose button types, custom colors, round D-pad ring, hex IR/WiFi codes, freely drag & position buttons anywhere, and export/install your remote layout.">
+    <meta name="keywords" content="build custom remote app, diy remote builder, phone ir blaster custom layout, drag drop remote buttons, universal remote maker, circular dpad remote, anytool">
     <meta name="author" content="AnyTool.io">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://anytool.io/smart-remote.html" />
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="Zero-Remote DIY Custom Studio - AnyTool.io">
-    <meta property="og:description" content="Build your dream remote from blank canvas. Drag, color, assign IR hex codes, and control all home appliances in one phone screen.">
+    <meta property="og:description" content="Build your dream remote from blank canvas. Drag, color, circular D-pad controller, assign IR hex codes, and control all home appliances in one phone screen.">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,6 +24,7 @@
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="manifest" href="/manifest.json">
 
     <style>
         /* Mobile Canvas Viewport */
@@ -74,6 +75,63 @@
             outline-offset: 3px;
         }
 
+        /* Circular D-Pad Disc (As requested in image) */
+        .dpad-ring-container {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #475569 0%, #1e293b 60%, #0f172a 100%);
+            border: 3px solid #334155;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: move;
+            touch-action: none;
+            user-select: none;
+        }
+        .dpad-ring-container.selected {
+            outline: 2px dashed #06b6d4;
+            outline-offset: 4px;
+        }
+        .dpad-dir-btn {
+            position: absolute;
+            background: transparent;
+            border: none;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.1s, color 0.1s;
+        }
+        .dpad-dir-btn:active {
+            transform: scale(0.85);
+            color: #38bdf8;
+        }
+        .dpad-center-ok {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #1e293b 0%, #090d16 100%);
+            border: 2px solid #334155;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.15);
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.1s;
+        }
+        .dpad-center-ok:active {
+            transform: scale(0.9);
+            background: #0284c7;
+        }
+
         /* Glowing IR LED */
         .ir-bulb {
             width: 12px;
@@ -111,9 +169,9 @@
                         <i data-lucide="save" class="w-3.5 h-3.5"></i>
                         <span>Save Remote</span>
                     </button>
-                    <button onclick="installPwaRemote()" class="text-xs font-bold text-black bg-cyan-400 hover:bg-cyan-300 px-3 py-1.5 rounded-xl transition flex items-center space-x-1 shadow-md shadow-cyan-500/20">
+                    <button id="pwaInstallHeaderBtn" onclick="triggerPwaInstall()" class="text-xs font-bold text-black bg-gradient-to-r from-cyan-400 to-teal-300 hover:from-cyan-300 hover:to-teal-200 px-3.5 py-1.5 rounded-xl transition flex items-center space-x-1.5 shadow-md shadow-cyan-500/20">
                         <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                        <span class="font-extrabold">Download App</span>
+                        <span class="font-extrabold">Install App</span>
                     </button>
                 </div>
             </div>
@@ -129,7 +187,7 @@
             Build Your Own <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 bg-clip-text text-transparent">Phone Remote</span>
         </h1>
         <p class="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
-            വീട്ടിൽ പഴയ റിമോട്ട് ഒന്നും വേണ്ട! നിങ്ങളുടെ ഫോണിൽ ഒരു ബ്ലാങ്ക് സ്ക്രീനിൽ തുടങ്ങി ഇഷ്ടമുള്ള ബട്ടൺ ടൈപ്പ്, കളർ, IR Hex Code എന്നിവ നൽകി എവിടെ വേണമെങ്കിലും വലിച്ച് വെച്ച് (Drag & Move) സ്വന്തം റിമോട്ട് ഉണ്ടാക്കാം.
+            വീട്ടിൽ പഴയ റിമോട്ട് ഒന്നും വേണ്ട! നിങ്ങളുടെ ഫോണിൽ ഒരു ബ്ലാങ്ക് സ്ക്രീനിൽ തുടങ്ങി ഇഷ്ടമുള്ള ബട്ടൺ ടൈപ്പ്, സർക്കുലർ D-Pad റിംഗ്, കളർ, IR Hex Code എന്നിവ നൽകി എവിടെ വേണമെങ്കിലും വലിച്ച് വെച്ച് (Drag & Move) സ്വന്തം റിമോട്ട് ഉണ്ടാക്കാം.
         </p>
     </header>
 
@@ -141,7 +199,7 @@
             <!-- LEFT: Component Builder & Customization Controls (7 Cols) -->
             <div class="lg:col-span-7 space-y-6">
                 
-                <!-- NEW: Quick 1-Click Multi-Button Library -->
+                <!-- Quick 1-Click Multi-Button Library -->
                 <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                         <div class="flex items-center space-x-2.5">
@@ -153,16 +211,38 @@
                                 <p class="text-xs text-slate-400">Click any button below to instantly spawn on your phone</p>
                             </div>
                         </div>
-                        <span class="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded-full border border-cyan-800/80">30+ Presets</span>
+                        <span class="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded-full border border-cyan-800/80">35+ Presets</span>
                     </div>
 
                     <!-- Category Tab Switcher -->
                     <div class="flex flex-wrap gap-1.5 text-xs">
                         <button onclick="showQuickCat('tv')" id="qcat-tv" class="qcat-btn px-3 py-1.5 rounded-xl bg-cyan-500 text-black font-extrabold transition">📺 TV & Media</button>
+                        <button onclick="showQuickCat('dpad')" id="qcat-dpad" class="qcat-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold transition">🔘 Circular D-Pad Ring</button>
                         <button onclick="showQuickCat('ac')" id="qcat-ac" class="qcat-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold transition">❄️ AC & Cooling</button>
                         <button onclick="showQuickCat('numpad')" id="qcat-numpad" class="qcat-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold transition">🔢 Number Pad (0-9)</button>
                         <button onclick="showQuickCat('ott')" id="qcat-ott" class="qcat-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold transition">🎬 OTT Apps</button>
                         <button onclick="showQuickCat('smarthome')" id="qcat-smarthome" class="qcat-btn px-3 py-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold transition">💡 Lights & Fan</button>
+                    </div>
+
+                    <!-- Quick Buttons Container (D-Pad Special) -->
+                    <div id="qbox-dpad" class="qbox-panel hidden p-4 bg-slate-950/90 rounded-2xl border border-cyan-500/30 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-xs font-bold text-white flex items-center space-x-1.5">
+                                    <span class="text-cyan-400 font-extrabold">🔘 Image-Style Circular D-Pad Disc</span>
+                                </h3>
+                                <p class="text-[11px] text-slate-400">നിങ്ങൾ ചോദിച്ച ഇമേജിലുള്ള വൃത്താകൃതിയിലുള്ള OK + 4 നാവിഗേഷൻ കൺട്രോളർ റിംഗ്</p>
+                            </div>
+                            <button onclick="spawnDpadRing()" class="py-2 px-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-extrabold text-xs rounded-xl transition flex items-center space-x-1.5 shadow-lg shadow-cyan-500/20">
+                                <span>+ Spawn Circular D-Pad Ring</span>
+                            </button>
+                        </div>
+                        <div class="text-[10px] text-slate-400 border-t border-slate-800 pt-2 flex items-center space-x-2">
+                            <span>💡 Features:</span>
+                            <span class="text-slate-300">Central OK Disc</span> • 
+                            <span class="text-slate-300">Top ▲, Bottom ▼, Left ◀, Right ▶</span> • 
+                            <span class="text-slate-300">100% Freely Draggable</span>
+                        </div>
                     </div>
 
                     <!-- Quick Buttons Container (TV) -->
@@ -296,7 +376,7 @@
                     </div>
                 </div>
 
-                <!-- Step 1: Create New Custom Button Tool -->
+                <!-- Custom Button Builder Tool -->
                 <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-xl space-y-5">
                     
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -315,10 +395,14 @@
                     <!-- Shape & Type Selector -->
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Button Shape & Type / ബട്ടൺ രൂപം</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
                             <button type="button" onclick="selectShape('circle')" id="shape-circle" class="shape-opt p-3 rounded-2xl border-2 border-cyan-500 bg-cyan-500/10 text-cyan-300 font-bold text-xs flex flex-col items-center justify-center space-y-1.5 transition">
                                 <div class="w-6 h-6 rounded-full border-2 border-cyan-400"></div>
-                                <span>Circle Round</span>
+                                <span>Circle</span>
+                            </button>
+                            <button type="button" onclick="selectShape('dpad_disc')" id="shape-dpad_disc" class="shape-opt p-3 rounded-2xl border-2 border-slate-800 bg-slate-950 text-slate-400 hover:text-white font-bold text-xs flex flex-col items-center justify-center space-y-1.5 transition">
+                                <div class="w-7 h-7 rounded-full border-2 border-cyan-400 flex items-center justify-center text-[8px] font-black">OK</div>
+                                <span>D-Pad Ring</span>
                             </button>
                             <button type="button" onclick="selectShape('pill')" id="shape-pill" class="shape-opt p-3 rounded-2xl border-2 border-slate-800 bg-slate-950 text-slate-400 hover:text-white font-bold text-xs flex flex-col items-center justify-center space-y-1.5 transition">
                                 <div class="w-8 h-4 rounded-full border-2 border-slate-500"></div>
@@ -326,16 +410,16 @@
                             </button>
                             <button type="button" onclick="selectShape('square')" id="shape-square" class="shape-opt p-3 rounded-2xl border-2 border-slate-800 bg-slate-950 text-slate-400 hover:text-white font-bold text-xs flex flex-col items-center justify-center space-y-1.5 transition">
                                 <div class="w-5 h-5 rounded-lg border-2 border-slate-500"></div>
-                                <span>Square / Key</span>
+                                <span>Square Key</span>
                             </button>
                             <button type="button" onclick="selectShape('rocker')" id="shape-rocker" class="shape-opt p-3 rounded-2xl border-2 border-slate-800 bg-slate-950 text-slate-400 hover:text-white font-bold text-xs flex flex-col items-center justify-center space-y-1.5 transition">
                                 <div class="w-4 h-7 rounded-md border-2 border-slate-500"></div>
-                                <span>Vertical Rocker</span>
+                                <span>Rocker</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Button Label & Icon -->
+                    <!-- Button Label & Appliance -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Button Label (പേര്)</label>
@@ -363,7 +447,7 @@
                             <button type="button" onclick="selectColor('#10b981', '#064e3b')" class="color-dot w-8 h-8 rounded-full bg-emerald-500 border-2 border-transparent transition" data-color="#10b981"></button>
                             <button type="button" onclick="selectColor('#8b5cf6', '#4c1d95')" class="color-dot w-8 h-8 rounded-full bg-purple-500 border-2 border-transparent transition" data-color="#8b5cf6"></button>
                             <button type="button" onclick="selectColor('#f59e0b', '#78350f')" class="color-dot w-8 h-8 rounded-full bg-amber-500 border-2 border-transparent transition" data-color="#f59e0b"></button>
-                            <button type="button" onclick="selectColor('#1e293b', '#0f172a')" class="color-dot w-8 h-8 rounded-full bg-slate-800 border-2 border-transparent transition" data-color="#1e293b"></button>
+                            <button type="button" onclick="selectColor('#334155', '#1e293b')" class="color-dot w-8 h-8 rounded-full bg-slate-700 border-2 border-transparent transition" data-color="#334155"></button>
                             <div class="flex items-center space-x-1.5 ml-2">
                                 <input type="color" id="customColorPicker" value="#06b6d4" onchange="customColorChosen(this.value)" class="w-8 h-8 rounded-full bg-transparent border-0 cursor-pointer">
                                 <span class="text-[11px] text-slate-400 font-mono">Custom Hex</span>
@@ -411,7 +495,7 @@
 
                 </div>
 
-                <!-- Step 2: Selected Button Position & Customization Fine-tuner -->
+                <!-- Selected Button Position & Customization Fine-tuner -->
                 <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-2">
@@ -506,7 +590,7 @@
 
                     <!-- DRAGGABLE CANVAS WORKSPACE -->
                     <div id="phoneCanvas" class="remote-canvas" onclick="canvasBackgroundClicked(event)">
-                        <!-- Dynamically spawned buttons will live here -->
+                        <!-- Dynamically spawned buttons & D-pad live here -->
                     </div>
 
                     <!-- Bottom Navigation Bar & Home Pill -->
@@ -523,7 +607,10 @@
                             Clear Canvas
                         </button>
                         <button onclick="exportRemoteLayout()" class="text-xs text-cyan-400 hover:text-cyan-300 bg-cyan-950/40 px-3 py-1.5 rounded-xl border border-cyan-800/60 transition">
-                            Save Layout to LocalStorage
+                            Save Layout to Storage
+                        </button>
+                        <button onclick="triggerPwaInstall()" class="text-xs text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 px-3 py-1.5 rounded-xl border border-emerald-800/60 transition font-bold">
+                            Install on Phone
                         </button>
                     </div>
                     <p class="text-[11px] text-slate-500 text-center max-w-xs">
@@ -559,6 +646,47 @@
         let currentBgDark = '#7f1d1d';
         let selectedButtonEl = null;
         let buttonCounter = 0;
+        let deferredPrompt = null;
+
+        // Register Service Worker for PWA Offline & Install Support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('AnyTool Remote PWA ServiceWorker Registered! Scope:', reg.scope))
+                    .catch(err => console.log('ServiceWorker registration skipped:', err));
+            });
+        }
+
+        // Catch PWA Install Prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btn = document.getElementById('pwaInstallHeaderBtn');
+            if (btn) {
+                btn.classList.add('animate-pulse');
+            }
+            logSignal('📱 App Install prompt ready! Tap "Install App" anytime.');
+        });
+
+        function triggerPwaInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        logSignal('User accepted the PWA install prompt!');
+                    } else {
+                        logSignal('User dismissed PWA install.');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert("To Install AnyTool Smart Remote on your phone:\n\n" +
+                      "1. Open in Google Chrome / Safari / Samsung Internet.\n" +
+                      "2. Tap the 3-dots Menu (or Share button on iPhone).\n" +
+                      "3. Tap 'Install app' or 'Add to Home Screen' (ഹോം സ്ക്രീനിലേക്ക് ചേർക്കുക).\n\n" +
+                      "ഇത് നിങ്ങളുടെ ഫോണിൽ ഒരു യഥാർത്ഥ ആപ്പ് പോലെ ഓഫ്‌ലൈനിലും വർക്ക് ചെയ്യും!");
+            }
+        }
 
         // Quick Category Tab Switcher
         function showQuickCat(cat) {
@@ -590,6 +718,98 @@
                 w: w,
                 h: h
             });
+        }
+
+        // SPAWN CIRCULAR D-PAD DISC (Like in user uploaded image)
+        function spawnDpadRing(opt = null) {
+            const canvas = document.getElementById('phoneCanvas');
+            buttonCounter++;
+
+            const x = opt && opt.x !== undefined ? opt.x : 85;
+            const y = opt && opt.y !== undefined ? opt.y : 90;
+
+            const ring = document.createElement('div');
+            ring.className = 'dpad-ring-container';
+            ring.dataset.id = `dpad_${buttonCounter}`;
+            ring.dataset.type = 'dpad_disc';
+            ring.dataset.label = 'Circular D-Pad Ring';
+            ring.style.left = `${x}px`;
+            ring.style.top = `${y}px`;
+
+            // Up Arrow
+            const btnUp = document.createElement('button');
+            btnUp.className = 'dpad-dir-btn';
+            btnUp.style.top = '10px';
+            btnUp.style.left = '50%';
+            btnUp.style.transform = 'translateX(-50%)';
+            btnUp.innerHTML = `<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>`;
+            btnUp.addEventListener('click', (e) => {
+                e.stopPropagation();
+                transmitSignal('D-PAD UP', 'NAV_UP');
+            });
+
+            // Down Arrow
+            const btnDown = document.createElement('button');
+            btnDown.className = 'dpad-dir-btn';
+            btnDown.style.bottom = '10px';
+            btnDown.style.left = '50%';
+            btnDown.style.transform = 'translateX(-50%)';
+            btnDown.innerHTML = `<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
+            btnDown.addEventListener('click', (e) => {
+                e.stopPropagation();
+                transmitSignal('D-PAD DOWN', 'NAV_DOWN');
+            });
+
+            // Left Arrow
+            const btnLeft = document.createElement('button');
+            btnLeft.className = 'dpad-dir-btn';
+            btnLeft.style.left = '10px';
+            btnLeft.style.top = '50%';
+            btnLeft.style.transform = 'translateY(-50%)';
+            btnLeft.innerHTML = `<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`;
+            btnLeft.addEventListener('click', (e) => {
+                e.stopPropagation();
+                transmitSignal('D-PAD LEFT', 'NAV_LEFT');
+            });
+
+            // Right Arrow
+            const btnRight = document.createElement('button');
+            btnRight.className = 'dpad-dir-btn';
+            btnRight.style.right = '10px';
+            btnRight.style.top = '50%';
+            btnRight.style.transform = 'translateY(-50%)';
+            btnRight.innerHTML = `<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`;
+            btnRight.addEventListener('click', (e) => {
+                e.stopPropagation();
+                transmitSignal('D-PAD RIGHT', 'NAV_RIGHT');
+            });
+
+            // Center OK Disc
+            const btnOk = document.createElement('button');
+            btnOk.className = 'dpad-center-ok';
+            btnOk.innerText = 'OK';
+            btnOk.addEventListener('click', (e) => {
+                e.stopPropagation();
+                transmitSignal('D-PAD OK', 'KEY_OK');
+            });
+
+            ring.appendChild(btnUp);
+            ring.appendChild(btnDown);
+            ring.appendChild(btnLeft);
+            ring.appendChild(btnRight);
+            ring.appendChild(btnOk);
+
+            // Drag support for the whole ring
+            setupDraggable(ring);
+
+            ring.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectButtonElement(ring);
+            });
+
+            canvas.appendChild(ring);
+            selectButtonElement(ring);
+            logSignal('Spawned Image-Style Circular D-Pad Disc (OK + Navigation Arrows)!');
         }
 
         // Spawn Entire 0-9 Numpad
@@ -666,15 +886,15 @@
             const label = document.getElementById('inputBtnLabel');
             
             if (val === 'samsung_power') {
-                input.value = '0x0000000000E0E040BF';
+                input.value = '0xE0E040BF';
                 label.value = 'TV Power';
                 selectColor('#ef4444', '#7f1d1d');
             } else if (val === 'lg_power') {
-                input.value = '0x000000000020DF10EF';
+                input.value = '0x20DF10EF';
                 label.value = 'LG Power';
                 selectColor('#ef4444', '#7f1d1d');
             } else if (val === 'sony_power') {
-                input.value = '0x0000000000000A90';
+                input.value = '0x00000A90';
                 label.value = 'Sony Power';
                 selectColor('#10b981', '#064e3b');
             } else if (val === 'voltas_ac') {
@@ -690,13 +910,18 @@
             }
         }
 
-        // Spawn Button Onto Canvas
+        // Spawn Regular Button Onto Canvas
         function spawnButtonToCanvas(opt = null) {
+            const shape = opt ? opt.shape : currentShape;
+            if (shape === 'dpad_disc') {
+                spawnDpadRing(opt);
+                return;
+            }
+
             const canvas = document.getElementById('phoneCanvas');
             buttonCounter++;
 
             const label = opt ? opt.label : document.getElementById('inputBtnLabel').value.trim() || `Key ${buttonCounter}`;
-            const shape = opt ? opt.shape : currentShape;
             const color = opt ? opt.color : currentColor;
             const bgDark = opt ? opt.bgDark : currentBgDark;
             const code = opt ? opt.code : document.getElementById('irCodeInput').value;
@@ -710,6 +935,7 @@
             btn.dataset.code = code;
             btn.dataset.color = color;
             btn.dataset.bgDark = bgDark;
+            btn.dataset.shape = shape;
             btn.style.left = `${x}px`;
             btn.style.top = `${y}px`;
             btn.style.background = `linear-gradient(145deg, ${color}, ${bgDark})`;
@@ -756,6 +982,7 @@
             let startX, startY, initialLeft, initialTop;
 
             el.addEventListener('pointerdown', (e) => {
+                // If clicking an inner interactive button in dpad, allow click but drag if moved
                 isDragging = true;
                 el.setPointerCapture(e.pointerId);
                 startX = e.clientX;
@@ -771,8 +998,8 @@
                 const dy = e.clientY - startY;
                 const canvas = document.getElementById('phoneCanvas');
                 
-                let newLeft = Math.max(5, Math.min(canvas.clientWidth - el.clientWidth - 5, initialLeft + dx));
-                let newTop = Math.max(5, Math.min(canvas.clientHeight - el.clientHeight - 5, initialTop + dy));
+                let newLeft = Math.max(0, Math.min(canvas.clientWidth - el.clientWidth, initialLeft + dx));
+                let newTop = Math.max(0, Math.min(canvas.clientHeight - el.clientHeight, initialTop + dy));
 
                 el.style.left = `${newLeft}px`;
                 el.style.top = `${newTop}px`;
@@ -782,19 +1009,19 @@
             el.addEventListener('pointerup', (e) => {
                 if (isDragging) {
                     isDragging = false;
-                    el.releasePointerCapture(e.pointerId);
-                    logSignal(`Repositioned "${el.dataset.label}" to (${el.style.left}, ${el.style.top})`);
+                    try { el.releasePointerCapture(e.pointerId); } catch(err){}
+                    logSignal(`Repositioned "${el.dataset.label || 'Element'}" to (${el.style.left}, ${el.style.top})`);
                 }
             });
         }
 
         // Selection Handlers
         function selectButtonElement(el) {
-            document.querySelectorAll('.canvas-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.canvas-btn, .dpad-ring-container').forEach(b => b.classList.remove('selected'));
             selectedButtonEl = el;
             if (el) {
                 el.classList.add('selected');
-                document.getElementById('selectedBtnBadge').innerText = `Selected: "${el.dataset.label}"`;
+                document.getElementById('selectedBtnBadge').innerText = `Selected: "${el.dataset.label || 'Element'}"`;
                 updatePositionDisplay(parseInt(el.style.left), parseInt(el.style.top), parseInt(el.style.width));
             } else {
                 document.getElementById('selectedBtnBadge').innerText = 'Selected: None';
@@ -823,10 +1050,10 @@
 
         function scaleSelected(amount) {
             if (!selectedButtonEl) return;
-            const currentW = parseInt(selectedButtonEl.style.width, 10) || 50;
-            const currentH = parseInt(selectedButtonEl.style.height, 10) || 50;
-            const newW = Math.max(30, currentW + amount);
-            const newH = Math.max(30, currentH + amount);
+            const currentW = parseInt(selectedButtonEl.style.width, 10) || 60;
+            const currentH = parseInt(selectedButtonEl.style.height, 10) || 60;
+            const newW = Math.max(40, currentW + amount);
+            const newH = Math.max(40, currentH + amount);
             selectedButtonEl.style.width = `${newW}px`;
             selectedButtonEl.style.height = `${newH}px`;
             updatePositionDisplay(parseInt(selectedButtonEl.style.left), parseInt(selectedButtonEl.style.top), newW);
@@ -834,11 +1061,11 @@
 
         function deleteSelected() {
             if (!selectedButtonEl) return;
-            const name = selectedButtonEl.dataset.label;
+            const name = selectedButtonEl.dataset.label || 'Element';
             selectedButtonEl.remove();
             selectedButtonEl = null;
             selectButtonElement(null);
-            logSignal(`Deleted button "${name}"`);
+            logSignal(`Deleted "${name}"`);
         }
 
         function clearCanvasButtons() {
@@ -853,6 +1080,11 @@
             const led = document.getElementById('topIrLed');
             led.classList.add('ir-transmitting');
             setTimeout(() => led.classList.remove('ir-transmitting'), 200);
+
+            // Vibrate phone if supported
+            if ('vibrate' in navigator) {
+                navigator.vibrate(35);
+            }
 
             logSignal(`[TX EMIT] Action: "${label}" | Code: ${code}`);
         }
@@ -870,50 +1102,52 @@
             document.getElementById('liveMonitorLog').innerHTML = '<div>> Monitor reset. Ready.</div>';
         }
 
-        // Preset Templates
+        // Preset Templates with Circular D-Pad Ring
         function loadTemplate(tpl) {
             clearCanvasButtons();
             if (tpl === 'tv_combo') {
                 // TV Power (Top Left)
-                spawnButtonToCanvas({ label: 'TV PWR', shape: 'circle', color: '#ef4444', bgDark: '#7f1d1d', code: '0xE0E040BF', x: 25, y: 20, w: 52, h: 52 });
+                spawnButtonToCanvas({ label: 'TV PWR', shape: 'circle', color: '#ef4444', bgDark: '#7f1d1d', code: '0xE0E040BF', x: 25, y: 18, w: 52, h: 52 });
                 // AC Power (Top Right)
-                spawnButtonToCanvas({ label: 'AC PWR', shape: 'circle', color: '#06b6d4', bgDark: '#164e63', code: 'VOLTAS_AC_COOL_24C', x: 265, y: 20, w: 52, h: 52 });
-                // DTH Set Top Box
-                spawnButtonToCanvas({ label: 'Set-Top Box', shape: 'pill', color: '#3b82f6', bgDark: '#1e3a8a', code: 'DTH_POWER', x: 95, y: 25, w: 150, h: 42 });
+                spawnButtonToCanvas({ label: 'AC PWR', shape: 'circle', color: '#06b6d4', bgDark: '#164e63', code: 'VOLTAS_AC_COOL_24C', x: 265, y: 18, w: 52, h: 52 });
+                // Set Top Box Power (Pill)
+                spawnButtonToCanvas({ label: 'Set-Top Box', shape: 'pill', color: '#3b82f6', bgDark: '#1e3a8a', code: 'DTH_POWER', x: 95, y: 22, w: 150, h: 42 });
 
-                // D-Pad Navigation Area
-                spawnButtonToCanvas({ label: '▲', shape: 'square', color: '#334155', bgDark: '#1e293b', code: 'NAV_UP', x: 147, y: 100, w: 46, h: 42 });
-                spawnButtonToCanvas({ label: '◀', shape: 'square', color: '#334155', bgDark: '#1e293b', code: 'NAV_LEFT', x: 92, y: 150, w: 46, h: 42 });
-                spawnButtonToCanvas({ label: 'OK', shape: 'circle', color: '#0ea5e9', bgDark: '#0369a1', code: 'KEY_OK', x: 145, y: 147, w: 50, h: 50 });
-                spawnButtonToCanvas({ label: '▶', shape: 'square', color: '#334155', bgDark: '#1e293b', code: 'NAV_RIGHT', x: 202, y: 150, w: 46, h: 42 });
-                spawnButtonToCanvas({ label: '▼', shape: 'square', color: '#334155', bgDark: '#1e293b', code: 'NAV_DOWN', x: 147, y: 202, w: 46, h: 42 });
+                // CIRCULAR D-PAD RING (Center piece like user image)
+                spawnDpadRing({ x: 80, y: 85 });
 
                 // Vol Rocker (Left)
-                spawnButtonToCanvas({ label: 'VOL +', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_UP', x: 25, y: 120, w: 50, h: 46 });
-                spawnButtonToCanvas({ label: 'VOL -', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_DOWN', x: 25, y: 175, w: 50, h: 46 });
+                spawnButtonToCanvas({ label: 'VOL +', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_UP', x: 20, y: 120, w: 50, h: 46 });
+                spawnButtonToCanvas({ label: 'VOL -', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'VOL_DOWN', x: 20, y: 175, w: 50, h: 46 });
 
                 // Channel Rocker (Right)
-                spawnButtonToCanvas({ label: 'CH ▲', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_UP', x: 265, y: 120, w: 50, h: 46 });
-                spawnButtonToCanvas({ label: 'CH ▼', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_DOWN', x: 265, y: 175, w: 50, h: 46 });
+                spawnButtonToCanvas({ label: 'CH ▲', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_UP', x: 270, y: 120, w: 50, h: 46 });
+                spawnButtonToCanvas({ label: 'CH ▼', shape: 'square', color: '#1e293b', bgDark: '#0f172a', code: 'CH_DOWN', x: 270, y: 175, w: 50, h: 46 });
+
+                // Back and Home Navigation
+                spawnButtonToCanvas({ label: '↩️ Back', shape: 'pill', color: '#334155', bgDark: '#1e293b', code: 'KEY_BACK', x: 45, y: 290, w: 110, h: 40 });
+                spawnButtonToCanvas({ label: '🏠 Home', shape: 'pill', color: '#06b6d4', bgDark: '#164e63', code: 'KEY_HOME', x: 185, y: 290, w: 110, h: 40 });
 
                 // AC Quick Cooling
-                spawnButtonToCanvas({ label: '❄️ 22°C Cool', shape: 'pill', color: '#06b6d4', bgDark: '#0e7490', code: 'AC_22C', x: 25, y: 270, w: 140, h: 40 });
-                spawnButtonToCanvas({ label: '🌿 24°C Eco', shape: 'pill', color: '#10b981', bgDark: '#064e3b', code: 'AC_24C', x: 175, y: 270, w: 140, h: 40 });
+                spawnButtonToCanvas({ label: '❄️ 22°C Cool', shape: 'pill', color: '#06b6d4', bgDark: '#0e7490', code: 'AC_22C', x: 25, y: 350, w: 140, h: 40 });
+                spawnButtonToCanvas({ label: '🌿 24°C Eco', shape: 'pill', color: '#10b981', bgDark: '#064e3b', code: 'AC_24C', x: 175, y: 350, w: 140, h: 40 });
 
                 // OTT Shortcuts
-                spawnButtonToCanvas({ label: 'Netflix', shape: 'pill', color: '#b91c1c', bgDark: '#7f1d1d', code: 'APP_NETFLIX', x: 25, y: 325, w: 90, h: 36 });
-                spawnButtonToCanvas({ label: 'YouTube', shape: 'pill', color: '#dc2626', bgDark: '#991b1b', code: 'APP_YOUTUBE', x: 125, y: 325, w: 90, h: 36 });
-                spawnButtonToCanvas({ label: 'Prime', shape: 'pill', color: '#2563eb', bgDark: '#1e40af', code: 'APP_PRIME', x: 225, y: 325, w: 90, h: 36 });
+                spawnButtonToCanvas({ label: 'Netflix', shape: 'pill', color: '#b91c1c', bgDark: '#7f1d1d', code: 'APP_NETFLIX', x: 25, y: 405, w: 90, h: 36 });
+                spawnButtonToCanvas({ label: 'YouTube', shape: 'pill', color: '#dc2626', bgDark: '#991b1b', code: 'APP_YOUTUBE', x: 125, y: 405, w: 90, h: 36 });
+                spawnButtonToCanvas({ label: 'Prime', shape: 'pill', color: '#2563eb', bgDark: '#1e40af', code: 'APP_PRIME', x: 225, y: 405, w: 90, h: 36 });
 
-                logSignal('Loaded "Smart TV + AC Combo" zero-remote template!');
+                logSignal('Loaded "Smart TV + AC Combo" with Circular D-Pad Disc!');
             }
         }
 
-        // Export / Save Layout
+        // Export / Save Layout (Supports D-pad Disc & Regular Buttons)
         function exportRemoteLayout() {
             const btns = [];
+            // Regular buttons
             document.querySelectorAll('.canvas-btn').forEach(b => {
                 btns.push({
+                    type: 'btn',
                     label: b.dataset.label,
                     code: b.dataset.code,
                     color: b.dataset.color,
@@ -922,26 +1156,38 @@
                     y: parseInt(b.style.top),
                     w: parseInt(b.style.width),
                     h: parseInt(b.style.height),
-                    shape: b.style.borderRadius === '50%' ? 'circle' : (parseInt(b.style.borderRadius) > 20 ? 'pill' : 'square')
+                    shape: b.dataset.shape || (b.style.borderRadius === '50%' ? 'circle' : (parseInt(b.style.borderRadius) > 20 ? 'pill' : 'square'))
                 });
             });
-            localStorage.setItem('anytool_custom_remote_v1', JSON.stringify(btns));
-            alert('🎉 Remote Layout Saved!\n\nYour customized buttons and positions are saved in your phone storage.');
-            logSignal(`Saved ${btns.length} buttons to LocalStorage.`);
-        }
+            // D-Pad rings
+            document.querySelectorAll('.dpad-ring-container').forEach(r => {
+                btns.push({
+                    type: 'dpad_disc',
+                    x: parseInt(r.style.left),
+                    y: parseInt(r.style.top)
+                });
+            });
 
-        function installPwaRemote() {
-            alert("To use this custom remote as an app on your phone:\n\n1. In Chrome/Safari, tap Share or 3-dots Menu.\n2. Tap 'Add to Home Screen' (അല്ലെങ്കിൽ Install App).\n3. Your personalized remote will launch like a native mobile app!");
+            localStorage.setItem('anytool_custom_remote_v2', JSON.stringify(btns));
+            alert('🎉 Remote Layout Saved!\n\nYour customized buttons and circular D-pad are stored in your device storage.');
+            logSignal(`Saved ${btns.length} items to LocalStorage.`);
         }
 
         // Initial setup
         window.addEventListener('DOMContentLoaded', () => {
-            const saved = localStorage.getItem('anytool_custom_remote_v1');
+            const saved = localStorage.getItem('anytool_custom_remote_v2');
             if (saved) {
                 try {
                     const list = JSON.parse(saved);
-                    list.forEach(item => spawnButtonToCanvas(item));
-                    logSignal(`Restored ${list.length} custom buttons from cache.`);
+                    clearCanvasButtons();
+                    list.forEach(item => {
+                        if (item.type === 'dpad_disc') {
+                            spawnDpadRing(item);
+                        } else {
+                            spawnButtonToCanvas(item);
+                        }
+                    });
+                    logSignal(`Restored ${list.length} custom elements from cache.`);
                 } catch(e) {
                     loadTemplate('tv_combo');
                 }
@@ -950,5 +1196,6 @@
             }
         });
     </script>
+    <script src="/js/core.js"></script>
 </body>
 </html>
