@@ -954,3 +954,12 @@ AnyTool.Auth = {
   }
 };
 
+// Auto-initialize theme, language, and auth on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  AnyTool.initTheme();
+  AnyTool.initLanguage();
+  if (AnyTool.Auth && typeof AnyTool.Auth.init === 'function') {
+    AnyTool.Auth.init();
+  }
+});
+

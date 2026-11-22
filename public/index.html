@@ -70,15 +70,16 @@
                 <!-- Quick Action Header Badges & Language Switcher -->
                 <div class="flex items-center space-x-3">
                     <div id="anytoolAuthContainer" class="flex items-center"></div>
+                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center space-x-1" title="Toggle Light/Dark Theme">
+                        <span>☀️</span>
+                        <span class="hidden sm:inline">Theme</span>
+                    </button>
                     <button onclick="AnyTool.toggleLanguage()" class="lang-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center space-x-1">
                         <span>🌐</span>
                         <span id="langBtnText">മലയാളം</span>
                     </button>
                     
-                    <button onclick="AnyTool.toggleTheme()" class="theme-toggle-btn text-xs font-bold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center space-x-1">
-                        <span>☀️</span>
-                        <span class="hidden sm:inline">Light</span>
-                    </button>
+                    
 
                     <span class="hidden md:inline-flex text-[11px] font-mono px-3 py-1 bg-emerald-950/60 text-emerald-400 border border-emerald-800/80 rounded-full font-bold">
                         ● 100% Free & No Login
