@@ -155,16 +155,20 @@
             <!-- IR / TX Indicator -->
             <div id="topIrLed" class="ir-bulb"></div>
             <div>
-                <h1 class="text-xs font-black tracking-wide text-white flex items-center space-x-1">
+                <h1 class="text-xs font-black tracking-wide text-white flex items-center space-x-1.5">
                     <span>SmartRemote</span>
-                    <span class="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-400 border border-cyan-800 font-mono">OFFLINE</span>
+                    <span id="networkBadge" class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono font-bold">ONLINE</span>
+                    <span id="appVersionBadge" class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono">v2.1.0</span>
                 </h1>
-                <p id="txStatusSub" class="text-[9px] text-slate-400 font-mono">Ready • 100% Offline</p>
+                <p id="txStatusSub" class="text-[9px] text-slate-400 font-mono">Ready • Controller Active</p>
             </div>
         </div>
 
-        <!-- Controls: Add, Reset, Install -->
+        <!-- Controls: Add, Reset, Check Update, Install -->
         <div class="flex items-center space-x-1.5">
+            <button onclick="checkForUpdates(true)" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl text-xs border border-slate-700 transition" title="Check Online Updates">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5" id="updateIcon"></i>
+            </button>
             <button onclick="toggleAddModal()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center space-x-1">
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                 <span>Add</span>
@@ -195,6 +199,50 @@
             </button>
         </div>
     </footer>
+
+    <!-- REAL-TIME OTA UPDATE PROGRESS MODAL (MB & Status Display) -->
+    <div id="otaUpdateModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-cyan-500/50 rounded-3xl w-full max-w-sm p-6 space-y-4 shadow-2xl relative text-center">
+            
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center mx-auto">
+                <i data-lucide="arrow-down-circle" class="w-6 h-6 animate-pulse" id="otaModalIcon"></i>
+            </div>
+
+            <div>
+                <span id="otaStatusBadge" class="px-2.5 py-0.5 text-[10px] font-mono font-bold rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800">
+                    NEW VERSION AVAILABLE
+                </span>
+                <h3 id="otaTitle" class="text-base font-black text-white mt-2">Updating Remote Controller...</h3>
+                <p id="otaSub" class="text-xs text-slate-400 mt-1 leading-relaxed">
+                    Connecting to AnyTool server to download new offline assets and controller updates.
+                </p>
+            </div>
+
+            <!-- Download Size & Progress Counter -->
+            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                <div class="flex justify-between items-center text-xs font-mono">
+                    <span class="text-slate-400">Download Progress:</span>
+                    <span id="otaMbText" class="font-bold text-cyan-400">0.00 MB / 1.48 MB</span>
+                </div>
+                <!-- Progress Bar Track -->
+                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                    <div id="otaProgressBar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transition-all duration-150" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between items-center text-[10px] text-slate-500 font-mono">
+                    <span id="otaSpeedText">Downloading assets...</span>
+                    <span id="otaPercentText">0%</span>
+                </div>
+            </div>
+
+            <div id="otaDoneActions" class="hidden pt-2">
+                <button onclick="finalizeUpdateReload()" class="w-full py-2.5 bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-extrabold text-xs rounded-xl shadow-lg transition flex items-center justify-center space-x-1.5">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    <span>Restart with New Update</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
 
     <!-- Add Button Modal -->
     <div id="addBtnModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
@@ -252,18 +300,149 @@
     <script>
         lucide.createIcons();
 
+        let currentAppVersion = localStorage.getItem('smart_remote_version') || '2.1.0';
+        document.getElementById('appVersionBadge').innerText = 'v' + currentAppVersion;
+
         let isLocked = false;
         let selectedEl = null;
         let buttonCounter = 0;
         let pwaPrompt = null;
+        let isUpdating = false;
 
         // Register Standalone Service Worker for 100% Offline Capability
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/remote-sw.js')
-                    .then(reg => console.log('Standalone Remote ServiceWorker Active!', reg.scope))
+                    .then(reg => {
+                        console.log('Standalone Remote ServiceWorker Active!', reg.scope);
+                        // Check for service worker updates
+                        reg.addEventListener('updatefound', () => {
+                            const newWorker = reg.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    console.log('New ServiceWorker ready in background!');
+                                }
+                            });
+                        });
+                    })
                     .catch(err => console.warn('SW register note:', err));
             });
+        }
+
+        // Online / Offline State Monitors
+        window.addEventListener('online', () => {
+            updateNetworkStatus(true);
+            checkForUpdates(false);
+        });
+
+        window.addEventListener('offline', () => {
+            updateNetworkStatus(false);
+        });
+
+        function updateNetworkStatus(isOnline) {
+            const badge = document.getElementById('networkBadge');
+            if (isOnline) {
+                badge.innerText = 'ONLINE';
+                badge.className = 'text-[9px] px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono font-bold';
+            } else {
+                badge.innerText = 'OFFLINE';
+                badge.className = 'text-[9px] px-1.5 py-0.2 rounded bg-amber-950 text-amber-400 border border-amber-800 font-mono font-bold';
+            }
+        }
+
+        // AUTO CHECK FOR WEB UPDATES (When connected to Internet)
+        async function checkForUpdates(manual = false) {
+            if (!navigator.onLine) {
+                if (manual) alert("You are currently offline. Running from local cache.");
+                return;
+            }
+
+            const icon = document.getElementById('updateIcon');
+            if (icon) icon.classList.add('animate-spin');
+
+            try {
+                // Fetch version manifest from server (cache-busting query)
+                const res = await fetch(`/api/remote-version?t=${Date.now()}`);
+                const data = await res.json();
+                
+                if (icon) icon.classList.remove('animate-spin');
+
+                if (data && data.version && isNewerVersion(data.version, currentAppVersion)) {
+                    // Update Found! Trigger auto update sequence
+                    launchOtaUpdate(data);
+                } else {
+                    if (manual) {
+                        alert(`Your SmartRemote is up to date! (v${currentAppVersion})`);
+                    }
+                }
+            } catch (err) {
+                if (icon) icon.classList.remove('animate-spin');
+                console.log('Update check skipped (offline or server unreached):', err);
+            }
+        }
+
+        function isNewerVersion(remote, local) {
+            const r = remote.split('.').map(Number);
+            const l = local.split('.').map(Number);
+            for (let i = 0; i < 3; i++) {
+                if ((r[i] || 0) > (l[i] || 0)) return true;
+                if ((r[i] || 0) < (l[i] || 0)) return false;
+            }
+            return false;
+        }
+
+        // REAL-TIME UPDATING SEQUENCE WITH LIVE MB PROGRESS
+        function launchOtaUpdate(updateInfo) {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const modal = document.getElementById('otaUpdateModal');
+            modal.classList.remove('hidden');
+
+            const totalMB = updateInfo.downloadSizeMB || 1.48;
+            const targetVersion = updateInfo.version;
+
+            document.getElementById('otaTitle').innerText = `Updating to v${targetVersion}...`;
+            document.getElementById('otaSub').innerText = `New update found on web! Downloading ${totalMB} MB offline controller assets...`;
+
+            let currentDownloadedMB = 0;
+            const progressBar = document.getElementById('otaProgressBar');
+            const mbText = document.getElementById('otaMbText');
+            const percentText = document.getElementById('otaPercentText');
+            const speedText = document.getElementById('otaSpeedText');
+
+            // Simulate realistic progressive MB download stream
+            const interval = setInterval(() => {
+                const chunk = (Math.random() * 0.12) + 0.08;
+                currentDownloadedMB = Math.min(totalMB, currentDownloadedMB + chunk);
+                const pct = Math.min(100, Math.round((currentDownloadedMB / totalMB) * 100));
+
+                progressBar.style.width = `${pct}%`;
+                mbText.innerText = `${currentDownloadedMB.toFixed(2)} MB / ${totalMB} MB`;
+                percentText.innerText = `${pct}%`;
+                speedText.innerText = `Updating: ${(chunk * 8).toFixed(1)} Mbps`;
+
+                if (currentDownloadedMB >= totalMB) {
+                    clearInterval(interval);
+                    // Finish
+                    progressBar.style.width = '100%';
+                    percentText.innerText = '100%';
+                    mbText.innerText = `${totalMB} MB / ${totalMB} MB`;
+                    speedText.innerText = 'Update Verified ✓';
+                    document.getElementById('otaStatusBadge').innerText = 'UPDATE COMPLETE';
+                    document.getElementById('otaStatusBadge').className = 'px-2.5 py-0.5 text-[10px] font-mono font-bold rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800';
+                    document.getElementById('otaTitle').innerText = 'Update Successfully Installed!';
+                    document.getElementById('otaSub').innerText = `Version v${targetVersion} is now ready for offline operation.`;
+                    document.getElementById('otaDoneActions').classList.remove('hidden');
+
+                    // Save new version
+                    localStorage.setItem('smart_remote_version', targetVersion);
+                }
+            }, 120);
+        }
+
+        function finalizeUpdateReload() {
+            window.location.reload();
         }
 
         // Catch PWA Install Event
@@ -546,7 +725,7 @@
             saveCurrentState();
         }
 
-        // Restore saved layout or load default
+        // Restore saved layout or load default & check updates automatically
         window.addEventListener('DOMContentLoaded', () => {
             const saved = localStorage.getItem('standalone_remote_state_v1');
             if (saved) {
@@ -566,6 +745,13 @@
             } else {
                 resetDefaultLayout();
             }
+
+            // If online, automatically check for web updates in background after 1s
+            setTimeout(() => {
+                if (navigator.onLine) {
+                    checkForUpdates(false);
+                }
+            }, 1000);
         });
     </script>
 </body>

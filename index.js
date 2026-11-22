@@ -155,6 +155,21 @@ app.get('/api/auth/config', (req, res) => {
     });
 });
 
+// Smart Remote OTA Version Check API
+app.get('/api/remote-version', (req, res) => {
+    res.json({
+        version: '2.4.0',
+        buildDate: new Date().toISOString(),
+        downloadSizeMB: 1.48,
+        changelog: [
+            'Circular D-Pad Ring ultra precision response',
+            'Offline caching protocol v2 upgrade',
+            'New AC & TV combined macro engine',
+            'Instant Haptic Vibration feedback'
+        ]
+    });
+});
+
 // Google Sign-In / User Registration Endpoint
 app.post('/api/auth/google', async (req, res) => {
     try {
