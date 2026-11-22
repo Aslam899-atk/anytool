@@ -5,29 +5,39 @@
  */
 
 const AnyTool = {
-  // --- 1. THEME MANAGER ---
+  // --- 1. THEME MANAGER (Light & Dark Theme Engine) ---
+  currentTheme: localStorage.getItem('anytool_theme') || 'dark',
+
   initTheme() {
-    const savedTheme = localStorage.getItem('anytool_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    this.updateThemeIcons(savedTheme);
+    this.applyTheme(this.currentTheme);
   },
 
   toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'dark';
-    const next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('anytool_theme', next);
-    this.updateThemeIcons(next);
-    this.showToast(`Switched to ${next} mode`, 'info');
+    const nextTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+    this.setTheme(nextTheme);
+  },
+
+  setTheme(theme) {
+    this.currentTheme = theme;
+    localStorage.setItem('anytool_theme', theme);
+    this.applyTheme(theme);
+    this.showToast(theme === 'dark' ? 'Switched to Dark Theme 🌙' : 'Switched to Light Theme ☀️', 'info');
+  },
+
+  applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    this.updateThemeIcons(theme);
   },
 
   updateThemeIcons(theme) {
-    const btns = document.querySelectorAll('.theme-toggle-btn');
-    btns.forEach(btn => {
-      btn.innerHTML = theme === 'dark' ? '☀️ <span class="hidden sm:inline text-xs font-semibold">Light</span>' : '🌙 <span class="hidden sm:inline text-xs font-semibold">Dark</span>';
+    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+      if (theme === 'light') {
+        btn.innerHTML = '<span>🌙</span><span class="hidden sm:inline">Dark</span>';
+      } else {
+        btn.innerHTML = '<span>☀️</span><span class="hidden sm:inline">Light</span>';
+      }
     });
   },
-
   // --- 2. BILINGUAL SUPPORT (EN & ML) ---
   currentLang: localStorage.getItem('anytool_lang') || 'en',
 
@@ -649,16 +659,16 @@ AnyTool.Auth = {
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
             </svg>
-            <span id="googleBtnLabel">Sign in with Google</span>
+            <span id="googleBtnLabel">Sign in with Google Account</span>
           </button>
         </div>
 
-        <!-- Google Account Prompt Form (Only shown if Google Cloud Client ID is pending setup) -->
-        <div id="googleEmailFallback" class="hidden pt-3 border-t border-slate-800 space-y-2">
-          <p class="text-[11px] text-cyan-400 text-center font-medium">Enter your Google Account to connect:</p>
+        <!-- Google Account Direct Form (Always available and reliable) -->
+        <div id="googleEmailFallback" class="pt-3 border-t border-slate-800 space-y-2">
+          <p class="text-[11px] text-cyan-400 text-center font-medium">Or enter your Google / Gmail account directly:</p>
           <div class="flex items-center space-x-2">
-            <input id="googleEmailInput" type="email" placeholder="yourname@gmail.com" class="flex-grow bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
-            <button onclick="AnyTool.Auth.submitGoogleEmail()" class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-3 py-2 rounded-xl text-xs transition">Connect</button>
+            <input id="googleEmailInput" type="email" placeholder="yourname@gmail.com" onkeydown="if(event.key==='Enter') AnyTool.Auth.submitGoogleEmail()" class="flex-grow bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+            <button onclick="AnyTool.Auth.submitGoogleEmail()" class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-3 py-2 rounded-xl text-xs transition">Sign In</button>
           </div>
         </div>
 

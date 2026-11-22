@@ -1,9 +1,11 @@
-/* AnyTool.io - Developer-grade Theme & Styling */
-:root {
+/* AnyTool.io - Dynamic Light & Dark Theme System */
+
+/* Dark Mode Variables (Default) */
+:root, [data-theme="dark"] {
   --bg-primary: #0a0e17;
-  --bg-secondary: #111827;
-  --bg-card: #161f30;
-  --bg-card-hover: #1c273c;
+  --bg-secondary: #0f172a;
+  --bg-card: #131c2e;
+  --bg-card-hover: #1e293b;
   --border-color: rgba(255, 255, 255, 0.08);
   --border-color-hover: rgba(56, 189, 248, 0.4);
   --text-primary: #f8fafc;
@@ -16,29 +18,109 @@
   --accent-emerald: #10b981;
   --accent-amber: #f59e0b;
   --accent-rose: #f43f5e;
+  --nav-bg: rgba(15, 23, 42, 0.9);
 }
 
+/* Light Mode Variables */
 [data-theme="light"] {
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
   --bg-card-hover: #f1f5f9;
-  --border-color: #e2e8f0;
-  --border-color-hover: #93c5fd;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-color-hover: rgba(14, 165, 233, 0.5);
   --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --accent-cyan: #0284c7;
+  --accent-blue: #2563eb;
+  --accent-indigo: #4f46e5;
+  --accent-purple: #7c3aed;
+  --accent-emerald: #059669;
+  --accent-amber: #d97706;
+  --accent-rose: #e11d48;
+  --nav-bg: rgba(255, 255, 255, 0.92);
 }
 
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+/* Base Body Application */
+html, body {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-.font-mono {
-  font-family: 'JetBrains Mono', monospace;
+[data-theme="dark"] body {
+  background-color: #0a0e17 !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="light"] body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Light Theme Component Overrides */
+[data-theme="light"] nav {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] footer {
+  background-color: #f1f5f9 !important;
+  border-top-color: #e2e8f0 !important;
+  color: #64748b !important;
+}
+
+[data-theme="light"] footer .text-white {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .bg-slate-900\/90,
+[data-theme="light"] .bg-slate-900\/80,
+[data-theme="light"] .bg-slate-900\/60,
+[data-theme="light"] .bg-slate-900 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .bg-slate-950,
+[data-theme="light"] .bg-slate-950\/80,
+[data-theme="light"] .bg-slate-950\/90,
+[data-theme="light"] .bg-slate-950\/60 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .bg-slate-800,
+[data-theme="light"] .bg-slate-800\/50,
+[data-theme="light"] .bg-slate-800\/80 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+[data-theme="light"] .text-slate-100,
+[data-theme="light"] .text-slate-200,
+[data-theme="light"] .text-white {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-slate-400,
+[data-theme="light"] .text-slate-300 {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .border-slate-800,
+[data-theme="light"] .border-slate-700 {
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
 }
 
 /* Glassmorphism & Cyber Card Glow */
@@ -53,6 +135,10 @@ body {
   border-color: var(--border-color-hover);
   transform: translateY(-2px);
   box-shadow: 0 12px 30px -10px rgba(6, 182, 212, 0.15);
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
 }
 
 /* Custom Scrollbars */
@@ -73,7 +159,7 @@ body {
 
 /* Command Palette Overlay */
 .cmd-modal-backdrop {
-  background: rgba(10, 14, 23, 0.75);
+  background: rgba(10, 14, 23, 0.85);
   backdrop-filter: blur(8px);
 }
 
