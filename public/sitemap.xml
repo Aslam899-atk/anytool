@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Homepage -->
   <url>
-    <loc>https://anytool.io/</loc>
+    <loc>https://any-tools.onrender.com/</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -10,19 +10,19 @@
 
   <!-- QR Code Studio (Unified Generator & Scanner) -->
   <url>
-    <loc>https://anytool.io/qr-code-generator</loc>
+    <loc>https://any-tools.onrender.com/qr-code-generator</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://anytool.io/qr-tools</loc>
+    <loc>https://any-tools.onrender.com/qr-tools</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://anytool.io/qr-scanner</loc>
+    <loc>https://any-tools.onrender.com/qr-scanner</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -30,7 +30,7 @@
 
   <!-- Barcode Studio (Generator & Scanner) -->
   <url>
-    <loc>https://anytool.io/barcode-tools</loc>
+    <loc>https://any-tools.onrender.com/barcode-tools</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -38,7 +38,7 @@
 
   <!-- Compress PDF -->
   <url>
-    <loc>https://anytool.io/compress-pdf</loc>
+    <loc>https://any-tools.onrender.com/compress-pdf</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
@@ -46,7 +46,7 @@
 
   <!-- PDF to Images (JPG/PNG) -->
   <url>
-    <loc>https://anytool.io/pdf-to-image</loc>
+    <loc>https://any-tools.onrender.com/pdf-to-image</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -54,98 +54,98 @@
 
   <!-- Complete PDF Tools Suite -->
   <url>
-    <loc>https://anytool.io/pdf-tools</loc>
+    <loc>https://any-tools.onrender.com/pdf-tools</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/code-128</loc>
+    <loc>https://any-tools.onrender.com/code-128</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/ean-13</loc>
+    <loc>https://any-tools.onrender.com/ean-13</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/upc-barcode</loc>
+    <loc>https://any-tools.onrender.com/upc-barcode</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/code-39</loc>
+    <loc>https://any-tools.onrender.com/code-39</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/code-93</loc>
+    <loc>https://any-tools.onrender.com/code-93</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/itf-barcode</loc>
+    <loc>https://any-tools.onrender.com/itf-barcode</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/codabar</loc>
+    <loc>https://any-tools.onrender.com/codabar</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/msi-plessey</loc>
+    <loc>https://any-tools.onrender.com/msi-plessey</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/databar</loc>
+    <loc>https://any-tools.onrender.com/databar</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/qr-code</loc>
+    <loc>https://any-tools.onrender.com/qr-code</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/data-matrix</loc>
+    <loc>https://any-tools.onrender.com/data-matrix</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/pdf417</loc>
+    <loc>https://any-tools.onrender.com/pdf417</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://anytool.io/aztec-code</loc>
+    <loc>https://any-tools.onrender.com/aztec-code</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -153,7 +153,7 @@
 
   <!-- Merge PDF -->
   <url>
-    <loc>https://anytool.io/merge-pdf.html</loc>
+    <loc>https://any-tools.onrender.com/merge-pdf.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -161,7 +161,7 @@
 
   <!-- Split PDF -->
   <url>
-    <loc>https://anytool.io/split-pdf.html</loc>
+    <loc>https://any-tools.onrender.com/split-pdf.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -169,7 +169,7 @@
 
   <!-- Background Remover -->
   <url>
-    <loc>https://anytool.io/bg-remover.html</loc>
+    <loc>https://any-tools.onrender.com/bg-remover.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -177,7 +177,7 @@
 
   <!-- Image Converter & Compressor -->
   <url>
-    <loc>https://anytool.io/image-converter.html</loc>
+    <loc>https://any-tools.onrender.com/image-converter.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -185,112 +185,112 @@
 
   <!-- Python & Turtle Runner -->
   <url>
-    <loc>https://anytool.io/python-runner.html</loc>
+    <loc>https://any-tools.onrender.com/python-runner.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Binary Code Translator -->
   <url>
-    <loc>https://anytool.io/binary-tools</loc>
+    <loc>https://any-tools.onrender.com/binary-tools</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <!-- Hexadecimal Converter -->
   <url>
-    <loc>https://anytool.io/hex-tools</loc>
+    <loc>https://any-tools.onrender.com/hex-tools</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <!-- Base64 Encoder & Decoder -->
   <url>
-    <loc>https://anytool.io/base64-tools</loc>
+    <loc>https://any-tools.onrender.com/base64-tools</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <!-- Image to PDF Converter -->
   <url>
-    <loc>https://anytool.io/image-to-pdf</loc>
+    <loc>https://any-tools.onrender.com/image-to-pdf</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- IPv4 & IPv6 Subnet Calculator -->
   <url>
-    <loc>https://anytool.io/ip-tools</loc>
+    <loc>https://any-tools.onrender.com/ip-tools</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <!-- Cryptographic Hash & Checksum Generator -->
   <url>
-    <loc>https://anytool.io/hash-generator</loc>
+    <loc>https://any-tools.onrender.com/hash-generator</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <!-- Turtle Graphics Studio -->
   <url>
-    <loc>https://anytool.io/turtle-runner</loc>
+    <loc>https://any-tools.onrender.com/turtle-runner</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Cybersecurity & Cryptography Tools Suite -->
   <url>
-    <loc>https://anytool.io/cyber-tools</loc>
+    <loc>https://any-tools.onrender.com/cyber-tools</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <!-- Developer Tools Suite -->
   <url>
-    <loc>https://anytool.io/developer-tools</loc>
+    <loc>https://any-tools.onrender.com/developer-tools</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <!-- Computer Science Tools Suite -->
   <url>
-    <loc>https://anytool.io/cs-tools</loc>
+    <loc>https://any-tools.onrender.com/cs-tools</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Document & Text Tools Suite -->
   <url>
-    <loc>https://anytool.io/text-tools</loc>
+    <loc>https://any-tools.onrender.com/text-tools</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Daily Calculators Suite -->
   <url>
-    <loc>https://anytool.io/calc-tools</loc>
+    <loc>https://any-tools.onrender.com/calc-tools</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Complete Number System Converter -->
   <url>
-    <loc>https://anytool.io/number-converter</loc>
+    <loc>https://any-tools.onrender.com/number-converter</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Privacy Policy -->
   <url>
-    <loc>https://anytool.io/privacy</loc>
+    <loc>https://any-tools.onrender.com/privacy</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <!-- Terms of Service -->
   <url>
-    <loc>https://anytool.io/terms</loc>
+    <loc>https://any-tools.onrender.com/terms</loc>
     <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
