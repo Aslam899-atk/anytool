@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All-in-One QR Code Studio - Free Generator & Scanner Online | AnyTool</title>
     <meta name="description" content="Complete QR Code Suite: Generate custom branded QR codes with logos and colors, or scan and decode QR codes from camera and image files in real time. 100% free, zero tracking.">
     <meta name="keywords" content="qr code generator, qr scanner online, free qr code maker with logo, scan qr from image, wifi qr code, vcard qr code, anytool qr studio">
-    <link rel="canonical" href="https://anytool.io/qr-tools">
+    <link rel="canonical" href="https://any-tools.onrender.com/qr-tools">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://anytool.io/qr-tools">
+    <meta property="og:url" content="https://any-tools.onrender.com/qr-tools">
     <meta property="og:title" content="All-in-One QR Code Studio - Generator & Scanner | AnyTool">
     <meta property="og:description" content="Generate custom QR codes with logo or scan existing QR codes from image and camera in one place. 100% free.">
 
@@ -20,7 +20,7 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "AnyTool QR Code Studio",
-      "url": "https://anytool.io/qr-tools",
+      "url": "https://any-tools.onrender.com/qr-tools",
       "description": "Complete QR Code Suite to generate branded custom QR codes and scan/decode QR codes in real-time.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "All",
@@ -69,11 +69,12 @@
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
         }
     </style>
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
-<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
 
     <!-- Top Navigation Bar -->
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <a href="/" class="flex items-center space-x-2.5">
@@ -99,7 +100,7 @@
             <div class="inline-flex items-center space-x-2 px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold mb-3 border border-indigo-200">
                 <span>⚡ All-in-One QR Code Studio • Generator & Scanner</span>
             </div>
-            <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-3">
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
                 QR Code <span class="bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">Studio</span>
             </h1>
             <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-6">
@@ -321,7 +322,7 @@
                     </div>
 
                     <!-- Colors -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-800/60 p-4 rounded-2xl border border-slate-700">
                         <div>
                             <span class="block text-xs font-semibold text-slate-600 mb-1">QR Code Color</span>
                             <div class="flex items-center space-x-3">
@@ -433,7 +434,7 @@
 
                     <!-- Canvas Container -->
                     <div class="flex items-center justify-center py-4 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
-                        <div id="qrCanvas" class="p-3 bg-white rounded-2xl shadow-sm border border-slate-200"></div>
+                        <div id="qrCanvas" class="p-3 bg-slate-900/80 rounded-2xl shadow-xl border border-slate-800"></div>
                     </div>
 
                     <!-- Download Options -->
@@ -441,7 +442,7 @@
                         <div class="grid grid-cols-2 gap-3 text-left">
                             <div>
                                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Image Format</label>
-                                <select id="downloadFormat" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-700">
+                                <select id="downloadFormat" class="w-full bg-slate-800 border border-slate-700 text-slate-100 rounded-xl px-3 py-2 text-xs font-bold text-slate-700">
                                     <option value="png" selected>PNG (Recommended)</option>
                                     <option value="svg">SVG (Vector / Print)</option>
                                     <option value="jpeg">JPEG</option>
@@ -450,7 +451,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Resolution Size</label>
-                                <select id="downloadSize" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-700">
+                                <select id="downloadSize" class="w-full bg-slate-800 border border-slate-700 text-slate-100 rounded-xl px-3 py-2 text-xs font-bold text-slate-700">
                                     <option value="500">500 x 500 px</option>
                                     <option value="1000" selected>1000 x 1000 px</option>
                                     <option value="1500">1500 x 1500 px</option>
@@ -472,7 +473,7 @@
 
     <!-- SECTION 2: QR CODE SCANNER & READER VIEW -->
     <main id="scannerSection" class="hidden max-w-4xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full space-y-8">
-        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-8">
+        <div class="bg-slate-900/80 rounded-3xl shadow-2xl border border-slate-800 p-6 sm:p-10 space-y-8">
             
             <!-- Scanner Sub-Tabs: Upload File vs Camera -->
             <div class="flex border-b border-slate-200">
@@ -549,7 +550,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-12 text-slate-500 text-xs sm:text-sm">
+    <footer class="bg-slate-900/80 border-t border-slate-800 py-8 px-4 text-center mt-12 text-slate-500 text-xs sm:text-sm">
         <p>© 2026 AnyTool.io • Unified QR Code Studio • 100% Free Forever</p>
     </footer>
 
@@ -1057,5 +1058,6 @@
         // Initialize history
         renderHistory();
     </script>
+    <script src="/js/core.js"></script>
 </body>
 </html>

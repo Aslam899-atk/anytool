@@ -295,4 +295,18 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+
+  <!-- Smart Remote Offline App -->
+  <url>
+    <loc>https://any-tools.onrender.com/remote.html</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://any-tools.onrender.com/smart-remote.html</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
 </urlset>

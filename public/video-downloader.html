@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +10,11 @@
     <meta name="keywords" content="youtube video downloader, instagram reel downloader, download instagram video, youtube to mp3, instagram photo downloader, free video downloader online">
     <meta name="author" content="AnyTool.io">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://anytool.io/video-downloader" />
+    <link rel="canonical" href="https://any-tools.onrender.com/video-downloader" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://anytool.io/video-downloader">
+    <meta property="og:url" content="https://any-tools.onrender.com/video-downloader">
     <meta property="og:title" content="Free Video & Audio Downloader - YouTube & Instagram | AnyTool">
     <meta property="og:description" content="Download YouTube videos, Instagram Reels, and audio for free in high quality.">
 
@@ -28,11 +28,12 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#4f46e5">
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
-<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col selection:bg-pink-500 selection:text-white">
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
 
     <!-- Top Navigation Bar -->
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80">
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <a href="/" class="flex items-center space-x-2">
@@ -56,7 +57,7 @@
         <div class="inline-flex items-center space-x-2 px-3 py-1 bg-pink-50 text-pink-700 rounded-full text-xs font-bold mb-3 border border-pink-200">
             <span>🎥 YouTube • Instagram Reels • Audio MP3 • Photos</span>
         </div>
-        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
             Video & Audio <span class="bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">Downloader</span>
         </h1>
         <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
@@ -66,7 +67,7 @@
 
     <!-- Main Content -->
     <main class="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex-grow w-full space-y-8">
-        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sm:p-10 space-y-6">
+        <div class="bg-slate-900/80 rounded-3xl shadow-2xl border border-slate-800 p-6 sm:p-10 space-y-6">
             
             <!-- FORM START: ഇത് പൈത്തൺ ബാക്കെൻഡിലേക്ക് (/download) റിക്വസ്റ്റ് അയക്കും -->
             <form id="downloadForm" action="/download" method="POST" class="space-y-6">
@@ -75,7 +76,7 @@
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Paste Link Here</label>
                     <div class="relative">
                         <input type="url" name="url" id="mediaUrl" placeholder="https://www.youtube.com/watch?v=... or https://www.instagram.com/reel/..." required
-                            class="w-full pl-4 pr-12 py-4 bg-slate-50 border border-slate-300 rounded-2xl text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none transition">
+                            class="w-full pl-4 pr-12 py-4 bg-slate-800 border border-slate-700 text-slate-100 rounded-2xl text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none transition">
                         <button type="button" id="pasteBtn" class="absolute right-3 top-3 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 hover:text-pink-600 rounded-xl text-xs font-bold shadow-sm transition">
                             Paste
                         </button>
@@ -134,7 +135,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center mt-20 text-slate-500 text-xs sm:text-sm">
+    <footer class="bg-slate-900/80 border-t border-slate-800 py-8 px-4 text-center mt-20 text-slate-500 text-xs sm:text-sm">
         <p>© 2026 AnyTool.io • Free Media Utilities • 100% Free</p>
     </footer>
 
@@ -165,5 +166,6 @@
             statusArea.classList.remove('hidden');
         });
     </script>
+    <script src="/js/core.js"></script>
 </body>
 </html>

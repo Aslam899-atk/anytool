@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,10 +13,11 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#4f46e5">
+    <link rel="stylesheet" href="/css/theme.css">
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+<body class="bg-[#0a0e17] text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
     <!-- Navbar -->
-    <nav class="bg-white shadow">
+    <nav class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
@@ -38,7 +39,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             
             <!-- Python Runner -->
-            <a href="/python-runner.html" class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition duration-300 flex items-center border-l-4 border-green-500 opacity-70">
+            <a href="/python-runner.html" class="bg-slate-900/80 rounded-xl border border-slate-800 p-6 hover:shadow-md transition duration-300 flex items-center border-l-4 border-green-500 opacity-70">
                 <div class="text-green-500 mr-4">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                 </div>
@@ -50,5 +51,6 @@
             
         </div>
     </div>
+    <script src="/js/core.js"></script>
 </body>
 </html>
