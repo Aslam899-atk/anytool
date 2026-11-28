@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anytool-master-offline-v1';
+const CACHE_NAME = 'anytool-master-offline-v2';
 
 // Every single tool and asset across the entire website
 const ALL_SITE_ASSETS = [
@@ -15,6 +15,7 @@ const ALL_SITE_ASSETS = [
   '/images/app-icon-512.png',
   '/images/anytool-brand.jpg',
   '/images/anytool-banner.png',
+  '/rto-test.html',
 
   // Smart Remote Studio & Standalone
   '/remote.html',
@@ -83,59 +84,13 @@ const ALL_SITE_ASSETS = [
 ];
 
 // Install Event: Pre-cache the entire website for 100% offline access
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      console.log('[AnyTool Master SW] Pre-caching entire website for complete offline use');
-      return Promise.all(
-        ALL_SITE_ASSETS.map(url => {
-          return cache.add(url).catch(err => {
-            console.warn(`[AnyTool Master SW] Skipped pre-caching: ${url}`, err);
-          });
-        })
-      );
-    })
-  );
-  self.skipWaiting();
-});
-
-// Activate Event: Clear older caches
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            console.log('[AnyTool Master SW] Clearing legacy cache:', key);
-            return caches.delete(key);
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim();
-});
-
-// Fetch Event: Cache First, fallback to Network, then Cache on the fly
 self.addEventListener('fetch', event => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
-  const url = new URL(event.request.url);
-
-  // Skip API calls that require dynamic backend answers
-  if (url.pathname.startsWith('/api/feedback') || url.pathname.startsWith('/api/auth/google')) {
-    return;
-  }
-
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      // Fetch from network and save into cache
-      return fetch(event.request).then(networkResponse => {
+  // 1) HTML പേജുകൾക്ക് (/, /rto-test.html മുതലായവ) എപ്പോഴും പുതിയത് സെർവറിൽ നിന്ന് എടുക്കുക (Network-First)
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).then(networkResponse => {
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then(cache => {
@@ -144,10 +99,26 @@ self.addEventListener('fetch', event => {
         }
         return networkResponse;
       }).catch(() => {
-        // Fallback for navigation requests
-        if (event.request.mode === 'navigate') {
-          return caches.match('/index.html') || caches.match('/remote.html');
+        // ഇന്റർനെറ്റ് ഇല്ലാത്തപ്പോൾ മാത്രം കാഷിൽ നിന്ന് എടുക്കുക
+        return caches.match(event.request).then(res => res || caches.match('/'));
+      })
+    );
+    return;
+  }
+
+  // 2) CSS, JS, ഇമേജുകൾക്ക് വേഗത്തിനായി Cache-First
+  event.respondWith(
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) return cachedResponse;
+
+      return fetch(event.request).then(networkResponse => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
         }
+        return networkResponse;
       });
     })
   );
